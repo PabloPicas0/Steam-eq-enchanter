@@ -1,20 +1,32 @@
 import { useState } from "react";
 
-function Form() {
+import steam from "../assets/Steam.webp";
+
+function Form(props: { setSteam64ID: React.Dispatch<React.SetStateAction<string>> }) {
+  const { setSteam64ID } = props;
+
   const [input, setInput] = useState("");
+
+  function handleSubmit(e: React.FormEvent<HTMLInputElement>) {
+    e.preventDefault();
+    setSteam64ID(input.replace(/\D/g, ""));
+  }
 
   return (
     <form className="primary-form">
+      <div className="form-image-wrapper">
+        <img className="form-image" src={steam} />
+      </div>
+
       <input
         className="input-steamID"
         type="text"
-        name="steamID"
         placeholder="Enter profile URL/SteamID"
         value={input}
         onChange={(e) => setInput(e.target.value)}
       />
 
-      <input type="submit" value={"Search"} className="submit-btn" />
+      <input type="submit" value={"Search"} className="submit-btn" onClick={handleSubmit} />
     </form>
   );
 }

@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Form from "./Components/Form";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [steam64ID, setSteam64ID] = useState("");
+  const [items, setItems] = useState([]);
+
 
   return (
-   <>
-    <Form />
-   </>
+    <>
+      <Form setSteam64ID={setSteam64ID} />
+    </>
   );
 }
 

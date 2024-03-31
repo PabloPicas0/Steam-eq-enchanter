@@ -6,14 +6,27 @@
 }
 
 .primary-form {
-  max-width: 475px;
+  max-width: 675px;
   margin: 0 auto;
   background-color: rgba(255, 255, 255, 0.1);
   padding: 40px;
   border-radius: 5px;
 }
 
+.form-image-wrapper {
+  max-width: 320px;
+  height: 120px;
+  margin: 0 auto;
+}
+
+.form-image {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16/9;
+}
+
 .input-steamID {
+  margin-top: 20px;
   padding: 10px 40px 10px 10px;
   width: 100%;
 }
