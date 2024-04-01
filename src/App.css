@@ -6,9 +6,9 @@
 }
 
 .primary-form {
-  max-width: 675px;
+  max-width: var(--form-and-profile-width);
   margin: 0 auto;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--main-background);
   padding: 40px;
   border-radius: 5px;
 }
@@ -35,4 +35,12 @@
   width: 100%;
   margin-top: 10px;
   padding: 5px 0px;
+}
+
+.hero {
+  background-color: var(--main-background);
+  margin: 4rem auto 0rem auto;
+  padding: 2rem;
+  max-width: var(--form-and-profile-width);
+  border-radius: 5px;
 }
