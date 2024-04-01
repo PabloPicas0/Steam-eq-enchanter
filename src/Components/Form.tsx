@@ -15,7 +15,9 @@ function Form(props: { setSteam64ID: React.Dispatch<React.SetStateAction<string>
   return (
     <form className="primary-form">
       <div className="form-image-wrapper">
-        <img className="form-image" src={steam} />
+        <a href="/">
+          <img className="form-image" src={steam} />
+        </a>
       </div>
 
       <input
