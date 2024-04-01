@@ -2,14 +2,19 @@ import { useState } from "react";
 
 import steam from "../assets/Steam.webp";
 
-function Form(props: { setSteam64ID: React.Dispatch<React.SetStateAction<string>> }) {
-  const { setSteam64ID } = props;
+function Form(props: { setItems: React.Dispatch<React.SetStateAction<never[]>> }) {
+  const { setItems } = props;
 
   const [input, setInput] = useState("");
 
-  function handleSubmit(e: React.FormEvent<HTMLInputElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLInputElement>) {
     e.preventDefault();
-    setSteam64ID(input.replace(/\D/g, ""));
+    const steam64ID = input.replace(/\D/g, "");
+
+    const proxyResponse = await fetch("/api");
+    const prxyData = await proxyResponse.json();
+
+    setItems(prxyData);
   }
 
   return (
