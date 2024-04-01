@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+
 import Form from "./Components/Form";
+import Profile from "./Components/Profile";
 
 function App() {
-  const [steam64ID, setSteam64ID] = useState("");
   const [items, setItems] = useState([]);
 
+  useEffect(() => {
+    console.log(items);
+  }, [items]);
 
   return (
     <>
-      <Form setSteam64ID={setSteam64ID} />
+      <Form setItems={setItems} />
+      <Profile profile={items[0]}/>
     </>
   );
 }
