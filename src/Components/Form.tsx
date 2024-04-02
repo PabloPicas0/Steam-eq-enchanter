@@ -2,8 +2,11 @@ import { useState } from "react";
 
 import steam from "../assets/Steam.webp";
 
-function Form(props: { setItems: React.Dispatch<React.SetStateAction<never[]>> }) {
-  const { setItems } = props;
+function Form(props: {
+  setItems: React.Dispatch<React.SetStateAction<never[]>>;
+  setPending: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  const { setItems, setPending } = props;
 
   const [input, setInput] = useState("");
 
@@ -11,10 +14,14 @@ function Form(props: { setItems: React.Dispatch<React.SetStateAction<never[]>> }
     e.preventDefault();
     const steam64ID = input.replace(/\D/g, "");
 
+    setPending(true);
+    setItems([]);
+
     const proxyResponse = await fetch("/api");
     const prxyData = await proxyResponse.json();
 
     setItems(prxyData);
+    setPending(false);
   }
 
   return (
