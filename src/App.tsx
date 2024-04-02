@@ -3,6 +3,7 @@ import "./App.css";
 
 import Form from "./Components/Form";
 import Profile from "./Components/Profile";
+import ProfileSkeleton from "./Components/ProfileSkeleton";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -14,7 +15,7 @@ function App() {
   return (
     <>
       <Form setItems={setItems} />
-      <Profile profile={items[0]}/>
+      {items.length ? <Profile profile={items[0]} /> : <ProfileSkeleton />}
     </>
   );
 }
