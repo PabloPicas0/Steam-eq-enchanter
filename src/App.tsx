@@ -7,6 +7,7 @@ import ProfileSkeleton from "./Components/ProfileSkeleton";
 
 function App() {
   const [items, setItems] = useState([]);
+  const [pending, setPending] = useState(false);
 
   useEffect(() => {
     console.log(items);
@@ -14,8 +15,9 @@ function App() {
 
   return (
     <>
-      <Form setItems={setItems} />
-      {items.length ? <Profile profile={items[0]} /> : <ProfileSkeleton />}
+      <Form setItems={setItems} setPending={setPending} />
+      {pending ? <ProfileSkeleton /> : null}
+      {items.length ? <Profile profile={items[0]} /> : null}
     </>
   );
 }
