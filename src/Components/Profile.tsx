@@ -27,21 +27,20 @@ type PropTypes = {
 
 function Profile(props: PropTypes) {
   const { profile } = props;
+  const { avatarfull, personaname, personastate, profileurl, timecreated } = profile.response.players[0];
 
-  console.log(props);
+  const accountCreated = new Date(timecreated * 1000).toLocaleDateString();
 
   return (
     <main className="hero">
       <div>
-        <a href="/steamProfile">
-          <img alt="Steam avatar" />
+        <a href={profileurl} className="steam-avatar-link">
+          <img src={avatarfull} alt="Steam avatar" className="steam-avatar" style={{border: `2px solid ${personastate > 0 ? "rgb(87, 203, 222)" : "gray"}`}}/>
         </a>
       </div>
-      <h1>Profile Name</h1>
-      <p>country</p>
-      <p>account created</p>
-      <p>last online</p>
-      <p>isOnline</p>
+      <h1>{personaname}</h1>
+      <p>Account Created {accountCreated}</p>
+      <p>{personastate}</p>
     </main>
   );
 }
