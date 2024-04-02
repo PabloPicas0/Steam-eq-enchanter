@@ -40,7 +40,7 @@
 .hero {
   background-color: var(--main-background);
   margin: 8rem auto 0rem auto;
-  padding: 2rem;
+  padding: 2rem 1rem;
   max-width: var(--form-and-profile-width);
   border-radius: 5px;
 }
@@ -50,18 +50,29 @@
   border-radius: 50%;
 }
 
+.person-name {
+  margin: 16px 0px;
+  color: rgb(225, 229, 233);
+  font-size: 2.5rem;
+}
+
+.account-crated {
+  color: rgb(225, 229, 233);
+}
+
 /* Profile Skeleton */
 .skeleton-rounded {
-  margin-top: -60px;
-  height: 60px;
-  width: 60px;
+  margin-top: -7rem;
+  height: 188px;
+  width: 188px;
   border-radius: 50%;
   animation: backgroundColor 0.8s infinite alternate;
 }
 
 .skeleton-rectangle {
   height: 16px;
-  width: 60px;
+  width: 144px;
+  margin: 1rem 0rem;
   border-radius: 0.5rem;
   animation: backgroundColor 0.8s infinite alternate;
 }
