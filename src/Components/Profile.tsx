@@ -35,12 +35,16 @@ function Profile(props: PropTypes) {
     <main className="hero">
       <div>
         <a href={profileurl} className="steam-avatar-link">
-          <img src={avatarfull} alt="Steam avatar" className="steam-avatar" style={{border: `2px solid ${personastate > 0 ? "rgb(87, 203, 222)" : "gray"}`}}/>
+          <img
+            src={avatarfull}
+            alt="Steam avatar"
+            className="steam-avatar"
+            style={{ border: `2px solid ${personastate > 0 ? "rgb(87, 203, 222)" : "gray"}` }}
+          />
         </a>
       </div>
-      <h1>{personaname}</h1>
-      <p>Account Created {accountCreated}</p>
-      <p>{personastate}</p>
+      <h1 className="person-name">{personaname}</h1>
+      <p className="account-crated">Account Created: {accountCreated}</p>
     </main>
   );
 }
