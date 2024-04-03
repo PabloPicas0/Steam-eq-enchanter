@@ -1,10 +1,11 @@
 function ProfileSkeleton() {
   return (
-    <main className="hero" style={{ display: "grid", placeItems: "center" }}>
+    <section className="hero" style={{ display: "grid", placeItems: "center" }}>
       <div className="skeleton-rounded"></div>
       <h1 className="skeleton-rectangle"></h1>
       <p className="skeleton-rectangle"></p>
-    </main>
+      <p className="skeleton-rectangle"></p>
+    </section>
   );
 }
 
