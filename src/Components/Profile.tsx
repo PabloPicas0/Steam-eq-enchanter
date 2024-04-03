@@ -33,7 +33,7 @@ function Profile(props: PropTypes) {
   const accountCreated = new Date(timecreated * 1000).toLocaleDateString();
 
   return (
-    <main className="hero">
+    <section className="hero">
       <div>
         <a href={profileurl} className="steam-avatar-link">
           <img
@@ -57,7 +57,7 @@ function Profile(props: PropTypes) {
           {communityvisibilitystate === 1 ? "Private" : "Public"}
         </span>
       </p>
-    </main>
+    </section>
   );
 }
 
