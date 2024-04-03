@@ -77,6 +77,21 @@
   animation: backgroundColor 0.8s infinite alternate;
 }
 
+.bold-font {
+  font-weight: bold;
+}
+
+.equipment-container {
+  display: grid;
+  place-items: center;
+  gap: 20px;
+  grid-template-columns: repeat(6, 1fr);
+  background-color: var(--main-background);
+  margin-top: 2rem;
+  padding: 2rem;
+  border-radius: 5px;
+}
+
 @keyframes backgroundColor {
   from {
     background: rgba(229, 228, 226);
