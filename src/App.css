@@ -92,6 +92,14 @@
   border-radius: 5px;
 }
 
+.pagination {
+  display: flex;
+  gap: 2rem;
+  grid-column: 1 / -1;
+  color: white;
+  align-items: center;
+}
+
 @keyframes backgroundColor {
   from {
     background: rgba(229, 228, 226);
