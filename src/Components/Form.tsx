@@ -17,7 +17,7 @@ function Form(props: {
     setPending(true);
     setItems([]);
 
-    const proxyResponse = await fetch("/api");
+    const proxyResponse = await fetch(`/api?id=${steam64ID}`);
     const prxyData = await proxyResponse.json();
 
     setItems(prxyData);
