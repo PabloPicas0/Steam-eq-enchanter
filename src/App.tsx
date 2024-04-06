@@ -5,6 +5,7 @@ import Form from "./Components/Form";
 import Profile from "./Components/Profile";
 import ProfileSkeleton from "./Components/ProfileSkeleton";
 import Equipment from "./Components/Equipment";
+import EquipmentSkeleton from "./Components/EquipmentSkeleton";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -17,7 +18,13 @@ function App() {
   return (
     <>
       <Form setItems={setItems} setPending={setPending} />
-      {pending ? <ProfileSkeleton /> : null}
+      {pending ? (
+        <>
+          <ProfileSkeleton />
+          <EquipmentSkeleton />
+        </>
+      ) : null}
+
       {items.length ? (
         <>
           <Profile profile={items[0]} />
