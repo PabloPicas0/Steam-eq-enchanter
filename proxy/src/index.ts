@@ -6,22 +6,19 @@ import { AddressInfo } from "net";
 import getUserInfo from "./utils/getUserInfo.js";
 import getUserInventory from "./utils/getUserInventory.js";
 
-import { UserInfoType } from "./models/UserInfoModel.js";
-import { UserInvenotryType } from "./models/UserInventoryModel.js";
-
-
 const app = express();
 
 app.use(cors());
 
 app.get("/", async (req, res) => {
-  const [userInfo, userInventory]: [UserInfoType, UserInvenotryType] = await Promise.all([
+  const [userInfo, userInventory] = await Promise.all([
     getUserInfo(
       `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${process.env.STEAM_KEY}&steamids=76561198196802546`
     ),
     getUserInventory("76561198196802546"),
   ]);
 
+  // label for each inventory item name and icon
   for (let i = 0; i < userInventory.assets.length; ++i) {
     const item = userInventory.assets[i];
 
