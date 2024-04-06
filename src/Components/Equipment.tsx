@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 type PropTypes = {
   items: {
     assets: {
@@ -7,6 +9,8 @@ type PropTypes = {
       classid: string;
       instanceid: string;
       amount: string;
+      market_name: string;
+      icon_url: string;
     }[];
     descriptions: {
       appid: number;
@@ -53,10 +57,17 @@ type PropTypes = {
 
 function Equipment(props: PropTypes) {
   const { items } = props;
-  
+
+  const [pagination, setPagination] = useState({ start: 0, end: 54 });
+
+  const { start, end } = pagination;
+
   return (
     <section className="equipment-container">
-      {items.descriptions.slice(0, 54).map((item, idx) => {
+      <h2 style={{ gridColumn: "1 / -1", color: "white" }}>
+        Total items in inventory {items.total_inventory_count}
+      </h2>
+      {items.assets.slice(start, end).map((item, idx) => {
         return (
           <div key={idx} style={{ color: "#fafafa" }}>
             <img
@@ -68,6 +79,35 @@ function Equipment(props: PropTypes) {
           </div>
         );
       })}
+
+      <div className="pagination">
+        <button
+          onClick={() => {
+            setPagination((prev) => {
+              if (prev.start - 55 < 0) return prev;
+
+              return { start: prev.start - 55, end: prev.start - 1 };
+            });
+          }}>
+          Back
+        </button>
+
+        {pagination.start + " / " + pagination.end + " of " + items.total_inventory_count}
+
+        <button
+          onClick={() =>
+            setPagination((prev) => {
+              if (prev.end === items.total_inventory_count) return prev;
+
+              if (prev.end + 55 > items.total_inventory_count)
+                return { start: prev.end + 1, end: items.total_inventory_count };
+
+              return { start: prev.end + 1, end: prev.end + 55 };
+            })
+          }>
+          Next
+        </button>
+      </div>
     </section>
   );
 }
