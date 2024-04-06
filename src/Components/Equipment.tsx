@@ -58,15 +58,16 @@ type PropTypes = {
 function Equipment(props: PropTypes) {
   const { items } = props;
 
-  const [pagination, setPagination] = useState({ start: 0, end: 54 });
+  const [pagination, setPagination] = useState({ start: 0, end: items.total_inventory_count < 54 ? items.total_inventory_count : 54 });
 
   const { start, end } = pagination;
 
   return (
     <section className="equipment-container">
       <h2 style={{ gridColumn: "1 / -1", color: "white" }}>
-        Total items in inventory {items.total_inventory_count}
+        Total unique items: {items.total_inventory_count}
       </h2>
+
       {items.assets.slice(start, end).map((item, idx) => {
         return (
           <div key={idx} style={{ color: "#fafafa" }}>
