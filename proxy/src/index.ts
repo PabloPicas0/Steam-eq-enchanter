@@ -11,11 +11,13 @@ const app = express();
 app.use(cors());
 
 app.get("/", async (req, res) => {
+  const { id } = req.query;
+
   const [userInfo, userInventory] = await Promise.all([
     getUserInfo(
-      `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${process.env.STEAM_KEY}&steamids=76561198196802546`
+      `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${process.env.STEAM_KEY}&steamids=${id}`
     ),
-    getUserInventory("76561198196802546"),
+    getUserInventory(`${id}`),
   ]);
 
   // label for each inventory item name and icon
