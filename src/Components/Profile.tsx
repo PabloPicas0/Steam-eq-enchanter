@@ -35,7 +35,7 @@ function Profile(props: PropTypes) {
   return (
     <section className="hero">
       <div>
-        <a href={profileurl} className="steam-avatar-link">
+        <a href={profileurl} className="steam-avatar-link" target="_blank">
           <img
             src={avatarfull}
             alt="Steam avatar"
