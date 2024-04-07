@@ -7,6 +7,8 @@ import ProfileSkeleton from "./Components/ProfileSkeleton";
 import Equipment from "./Components/Equipment";
 import EquipmentSkeleton from "./Components/EquipmentSkeleton";
 
+// TODO: add some form of data validation on server
+// TODO: add parsing different steam urls
 function App() {
   const [items, setItems] = useState([]);
   const [pending, setPending] = useState(false);
