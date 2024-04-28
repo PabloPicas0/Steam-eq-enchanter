@@ -11,7 +11,7 @@ type PropTypes = {
       amount: string;
       name: string;
       icon_url: string;
-      market_name:string;
+      market_name: string;
     }[];
     descriptions: {
       appid: number;
@@ -59,19 +59,29 @@ type PropTypes = {
 function Equipment(props: PropTypes) {
   const { items } = props;
 
-  const [pagination, setPagination] = useState({
-    start: 0,
-    end: items.total_inventory_count < 54 ? items.total_inventory_count : 54,
-  });
   const [filter, setFilter] = useState("");
 
-  const { start, end } = pagination;
   const regex = new RegExp(filter, "gmi");
+  const filteredItems = items.assets.filter((item) => regex.test(item.name));
+
+  const [pagination, setPagination] = useState({
+    start: 0,
+    end: filteredItems.length < 54 ? filteredItems.length : 54,
+  });
+
+  if (
+    pagination.end > filteredItems.length ||
+    (pagination.end < filteredItems.length && pagination.end !== 54)
+  ) {
+    setPagination({ start: 0, end: filteredItems.length < 54 ? filteredItems.length : 54 });
+  }
+
+  const { start, end } = pagination;
 
   return (
     <section className="equipment-container">
       <div style={{ gridColumn: "1 / -1", color: "white" }}>
-        <h2>Total unique items: {items.total_inventory_count}</h2>
+        <h2>Total unique items: {filteredItems.length}</h2>
 
         <input
           className="input-steamID input-filter-equipment"
@@ -110,15 +120,15 @@ function Equipment(props: PropTypes) {
           Back
         </button>
 
-        {pagination.start + " / " + pagination.end + " of " + items.total_inventory_count}
+        {pagination.start + " / " + pagination.end + " of " + filteredItems.length}
 
         <button
           onClick={() =>
             setPagination((prev) => {
-              if (prev.end === items.total_inventory_count) return prev;
+              if (prev.end === filteredItems.length) return prev;
 
-              if (prev.end + 55 > items.total_inventory_count)
-                return { start: prev.end + 1, end: items.total_inventory_count };
+              if (prev.end + 55 > filteredItems.length)
+                return { start: prev.end + 1, end: filteredItems.length };
 
               return { start: prev.end + 1, end: prev.end + 55 };
             })
