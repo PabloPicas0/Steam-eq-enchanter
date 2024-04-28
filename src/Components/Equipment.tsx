@@ -79,8 +79,8 @@ function Equipment(props: PropTypes) {
   const { start, end } = pagination;
 
   return (
-    <section className="equipment-container">
-      <div style={{ gridColumn: "1 / -1", color: "white" }}>
+    <section className="equipment">
+      <div style={{ color: "white" }}>
         <h2>Total unique items: {filteredItems.length}</h2>
 
         <input
@@ -92,21 +92,23 @@ function Equipment(props: PropTypes) {
         />
       </div>
 
-      {items.assets
-        .filter((item) => regex.test(item.name))
-        .slice(start, end)
-        .map((item, idx) => {
-          return (
-            <div key={idx} style={{ color: "#fafafa" }}>
-              <img
-                src={` http://cdn.steamcommunity.com/economy/image/${item.icon_url}`}
-                width={50}
-                height={50}
-              />
-              <p>{item.name}</p>
-            </div>
-          );
-        })}
+      <ul className="items-container">
+        {items.assets
+          .filter((item) => regex.test(item.name))
+          .slice(start, end)
+          .map((item, idx) => {
+            return (
+              <li key={idx} style={{ color: "#fafafa" }}>
+                <img
+                  src={` http://cdn.steamcommunity.com/economy/image/${item.icon_url}`}
+                  width={50}
+                  height={50}
+                />
+                <p>{item.name}</p>
+              </li>
+            );
+          })}
+      </ul>
 
       <div className="pagination">
         <button

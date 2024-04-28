@@ -88,15 +88,26 @@
   font-weight: bold;
 }
 
-.equipment-container {
-  display: grid;
-  place-items: center;
-  gap: 20px;
-  grid-template-columns: repeat(6, 1fr);
+.equipment {
   background-color: var(--main-background);
   margin-top: 2rem;
   padding: 2rem;
   border-radius: 5px;
+}
+
+.input-filter-equipment {
+  width: 280px;
+  margin: 0;
+}
+
+.items-container {
+  display: grid;
+  place-items: center;
+  gap: 20px;
+  grid-template-columns: repeat(6, 1fr);
+  list-style: none;
+  margin: 2.5rem 0rem;
+  padding: 0;
 }
 
 .pagination {
@@ -105,6 +116,7 @@
   grid-column: 1 / -1;
   color: white;
   align-items: center;
+  justify-content: center;
 }
 
 @keyframes backgroundColor {
