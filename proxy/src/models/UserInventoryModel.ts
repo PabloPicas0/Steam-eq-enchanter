@@ -6,6 +6,7 @@ export type UserInvenotryType = {
     classid: string;
     instanceid: string;
     amount: string;
+    name: string;
     market_name: string;
     icon_url: string;
   }[];
