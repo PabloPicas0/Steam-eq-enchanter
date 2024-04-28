@@ -9,8 +9,9 @@ type PropTypes = {
       classid: string;
       instanceid: string;
       amount: string;
-      market_name: string;
+      name: string;
       icon_url: string;
+      market_name:string;
     }[];
     descriptions: {
       appid: number;
@@ -58,28 +59,44 @@ type PropTypes = {
 function Equipment(props: PropTypes) {
   const { items } = props;
 
-  const [pagination, setPagination] = useState({ start: 0, end: items.total_inventory_count < 54 ? items.total_inventory_count : 54 });
+  const [pagination, setPagination] = useState({
+    start: 0,
+    end: items.total_inventory_count < 54 ? items.total_inventory_count : 54,
+  });
+  const [filter, setFilter] = useState("");
 
   const { start, end } = pagination;
+  const regex = new RegExp(filter, "gmi");
 
   return (
     <section className="equipment-container">
-      <h2 style={{ gridColumn: "1 / -1", color: "white" }}>
-        Total unique items: {items.total_inventory_count}
-      </h2>
+      <div style={{ gridColumn: "1 / -1", color: "white" }}>
+        <h2>Total unique items: {items.total_inventory_count}</h2>
 
-      {items.assets.slice(start, end).map((item, idx) => {
-        return (
-          <div key={idx} style={{ color: "#fafafa" }}>
-            <img
-              src={` http://cdn.steamcommunity.com/economy/image/${item.icon_url}`}
-              width={50}
-              height={50}
-            />
-            <p>{item.market_name}</p>
-          </div>
-        );
-      })}
+        <input
+          className="input-steamID input-filter-equipment"
+          type="text"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          placeholder="Search"
+        />
+      </div>
+
+      {items.assets
+        .filter((item) => regex.test(item.name))
+        .slice(start, end)
+        .map((item, idx) => {
+          return (
+            <div key={idx} style={{ color: "#fafafa" }}>
+              <img
+                src={` http://cdn.steamcommunity.com/economy/image/${item.icon_url}`}
+                width={50}
+                height={50}
+              />
+              <p>{item.name}</p>
+            </div>
+          );
+        })}
 
       <div className="pagination">
         <button
