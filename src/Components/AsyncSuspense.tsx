@@ -17,7 +17,7 @@ function AsyncSuspense(props: { error: boolean; pending: boolean; children: Reac
 
   if (error) {
     return (
-      <h1>
+      <h1 style={{ color: "whitesmoke" }}>
         Something went wrong. You either enter wrong url or have not fully public profile. Please check your
         url or steam privacy settings
       </h1>
