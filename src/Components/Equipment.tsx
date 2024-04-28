@@ -98,13 +98,23 @@ function Equipment(props: PropTypes) {
           .slice(start, end)
           .map((item, idx) => {
             return (
-              <li key={idx} style={{ color: "#fafafa" }}>
+              <li className="item" key={idx} style={{ color: "#fafafa" }}>
                 <img
                   src={` http://cdn.steamcommunity.com/economy/image/${item.icon_url}`}
                   width={50}
                   height={50}
                 />
-                <p>{item.name}</p>
+                <div>
+                  <p>{item.name.replace(/\|.*$/g, "")}</p>
+
+                  {/* check if the items are cases and if yes dont display it */}
+                  {item.name.toLowerCase().includes("case") ? null : (
+                    <p>{item.name.replace(/^[^\|]*\|/g, "")}</p>
+                  )}
+                  {item.name.toLowerCase().includes("case") ? null : (
+                    <p>{item.market_name.replace(/^[^()]*()/g, "").replace(/[\\(\\)]/g, "")}</p>
+                  )}
+                </div>
               </li>
             );
           })}
