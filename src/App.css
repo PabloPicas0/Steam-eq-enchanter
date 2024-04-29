@@ -103,7 +103,7 @@
 .items-container {
   display: grid;
   gap: 20px;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   list-style: none;
   margin: 2.5rem 0rem;
   padding: 0;
@@ -112,7 +112,20 @@
 .item {
   border: 1px solid whitesmoke;
   border-radius: 10px;
-  padding: 10px;
+  padding: 10px 20px;
+}
+
+.item-name {
+  font-size: 12px;
+}
+
+.item-skin {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.item-category {
+  font-size: 12px;
 }
 
 .pagination {
