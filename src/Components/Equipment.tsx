@@ -1,5 +1,19 @@
 import { useState } from "react";
 
+type ItemTypes = {
+  appid: number;
+  contextid: string;
+  assetid: string;
+  classid: string;
+  instanceid: string;
+  amount: string;
+  name: string;
+  icon_url: string;
+  market_name: string;
+  type: string;
+  color: string;
+};
+
 type PropTypes = {
   items: {
     assets: {
@@ -62,6 +76,7 @@ function Equipment(props: PropTypes) {
   const { items } = props;
 
   const [filter, setFilter] = useState("");
+  const [pickedItems, setPickeditems] = useState<ItemTypes[]>([]);
 
   const regex = new RegExp(filter, "gmi");
   const filteredItems = items.assets.filter((item) => regex.test(item.name));
@@ -85,6 +100,13 @@ function Equipment(props: PropTypes) {
       <div style={{ color: "white" }}>
         <h2>Total unique items: {filteredItems.length}</h2>
 
+        <ul className="items-container">
+          {pickedItems.map((item) => {
+            const { name } = item;
+            return <li>{name}</li>;
+          })}
+        </ul>
+
         <input
           className="input-steamID input-filter-equipment"
           type="text"
@@ -99,23 +121,42 @@ function Equipment(props: PropTypes) {
           .filter((item) => regex.test(item.name))
           .slice(start, end)
           .map((item, idx) => {
+            const { color, icon_url, name, market_name } = item;
+
             return (
-              <li className="item" key={idx} style={{ color: "#fafafa", borderColor: `#${item.color}` }}>
+              <li
+                className="item"
+                key={idx}
+                style={{ color: "#fafafa", borderColor: `#${color}` }}
+                onClick={() =>
+                  setPickeditems((prev) => {
+                    const pickedItemName = name;
+                    const itemExists = prev.some((item) => item.name === pickedItemName);
+
+                    if (itemExists) return prev;
+
+                    return [...prev, item];
+                  })
+                }>
                 <img
-                  src={` http://cdn.steamcommunity.com/economy/image/${item.icon_url}`}
+                  src={` http://cdn.steamcommunity.com/economy/image/${icon_url}`}
                   width={50}
                   height={50}
                 />
 
                 <div className="item-description">
-                  <p className="item-name" style={{ color: `#${item.color}` }}>{item.name.replace(/\|.*$/g, "")}</p>
+                  <p className="item-name" style={{ color: `#${color}` }}>
+                    {name.replace(/\|.*$/g, "")}
+                  </p>
 
                   {/* check if the items are cases and if yes dont display it */}
-                  {item.name.toLowerCase().includes("case") ? null : (
-                    <p className="item-skin">{item.name.replace(/^[^\|]*\|/g, "")}</p>
+                  {name.toLowerCase().includes("case") ? null : (
+                    <p className="item-skin">{name.replace(/^[^\|]*\|/g, "")}</p>
                   )}
-                  {item.name.toLowerCase().includes("case") ? null : (
-                    <p className="item-category">{item.market_name.replace(/^[^()]*()/g, "").replace(/[\\(\\)]/g, "")}</p>
+                  {name.toLowerCase().includes("case") ? null : (
+                    <p className="item-category">
+                      {market_name.replace(/^[^()]*()/g, "").replace(/[\\(\\)]/g, "")}
+                    </p>
                   )}
                 </div>
               </li>
