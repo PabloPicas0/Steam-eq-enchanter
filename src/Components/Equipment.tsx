@@ -12,6 +12,8 @@ type PropTypes = {
       name: string;
       icon_url: string;
       market_name: string;
+      type: string;
+      color: string;
     }[];
     descriptions: {
       appid: number;
@@ -66,14 +68,14 @@ function Equipment(props: PropTypes) {
 
   const [pagination, setPagination] = useState({
     start: 0,
-    end: filteredItems.length < 54 ? filteredItems.length : 54,
+    end: filteredItems.length < 55 ? filteredItems.length : 55,
   });
 
   if (
     pagination.end > filteredItems.length ||
-    (pagination.end < filteredItems.length && pagination.end !== 54)
+    (pagination.end < filteredItems.length && pagination.end !== 55)
   ) {
-    setPagination({ start: 0, end: filteredItems.length < 54 ? filteredItems.length : 54 });
+    setPagination({ start: 0, end: filteredItems.length < 55 ? filteredItems.length : 55 });
   }
 
   const { start, end } = pagination;
@@ -98,21 +100,22 @@ function Equipment(props: PropTypes) {
           .slice(start, end)
           .map((item, idx) => {
             return (
-              <li className="item" key={idx} style={{ color: "#fafafa" }}>
+              <li className="item" key={idx} style={{ color: "#fafafa", borderColor: `#${item.color}` }}>
                 <img
                   src={` http://cdn.steamcommunity.com/economy/image/${item.icon_url}`}
                   width={50}
                   height={50}
                 />
-                <div>
-                  <p>{item.name.replace(/\|.*$/g, "")}</p>
+
+                <div className="item-description">
+                  <p className="item-name" style={{ color: `#${item.color}` }}>{item.name.replace(/\|.*$/g, "")}</p>
 
                   {/* check if the items are cases and if yes dont display it */}
                   {item.name.toLowerCase().includes("case") ? null : (
-                    <p>{item.name.replace(/^[^\|]*\|/g, "")}</p>
+                    <p className="item-skin">{item.name.replace(/^[^\|]*\|/g, "")}</p>
                   )}
                   {item.name.toLowerCase().includes("case") ? null : (
-                    <p>{item.market_name.replace(/^[^()]*()/g, "").replace(/[\\(\\)]/g, "")}</p>
+                    <p className="item-category">{item.market_name.replace(/^[^()]*()/g, "").replace(/[\\(\\)]/g, "")}</p>
                   )}
                 </div>
               </li>
@@ -124,9 +127,9 @@ function Equipment(props: PropTypes) {
         <button
           onClick={() => {
             setPagination((prev) => {
-              if (prev.start - 55 < 0) return prev;
+              if (prev.start - 56 < 0) return prev;
 
-              return { start: prev.start - 55, end: prev.start - 1 };
+              return { start: prev.start - 56, end: prev.start - 1 };
             });
           }}>
           Back
@@ -139,10 +142,10 @@ function Equipment(props: PropTypes) {
             setPagination((prev) => {
               if (prev.end === filteredItems.length) return prev;
 
-              if (prev.end + 55 > filteredItems.length)
+              if (prev.end + 56 > filteredItems.length)
                 return { start: prev.end + 1, end: filteredItems.length };
 
-              return { start: prev.end + 1, end: prev.end + 55 };
+              return { start: prev.end + 1, end: prev.end + 56 };
             })
           }>
           Next
