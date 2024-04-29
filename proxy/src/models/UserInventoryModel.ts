@@ -9,6 +9,8 @@ export type UserInvenotryType = {
     name: string;
     market_name: string;
     icon_url: string;
+    type: string;
+    color: string;
   }[];
   descriptions: {
     appid: number;
@@ -45,6 +47,7 @@ export type UserInvenotryType = {
       internal_name: string;
       localized_category_name: string;
       localized_tag_name: string;
+      color: string;
     }[];
   }[];
   rwgrsn: number;
