@@ -14,7 +14,8 @@ function UserItem(props: PropTypes) {
     const pickedItemName = market_name;
     const itemExists = prev.some((item) => item.market_name === pickedItemName);
 
-    if (itemExists) return prev;
+    // Max items we want to have picked is 10
+    if (itemExists || prev.length === 10) return prev;
 
     return [...prev, item];
   }
