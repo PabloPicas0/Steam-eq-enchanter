@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import UserItem from "./UserItem";
 
-type ItemTypes = {
+export type ItemTypes = {
   appid: number;
   contextid: string;
   assetid: string;
@@ -76,10 +77,10 @@ function Equipment(props: PropTypes) {
   const { items } = props;
 
   const [filter, setFilter] = useState("");
-  const [pickedItems, setPickeditems] = useState<ItemTypes[]>([]);
+  const [pickedItems, setPickedItems] = useState<ItemTypes[]>([]);
 
   const regex = new RegExp(filter, "gmi");
-  const filteredItems = items.assets.filter((item) => regex.test(item.name));
+  const filteredItems = useMemo(() => items.assets.filter((item) => regex.test(item.name)), [filter]);
 
   const [pagination, setPagination] = useState({
     start: 0,
@@ -97,15 +98,20 @@ function Equipment(props: PropTypes) {
 
   return (
     <section className="equipment">
-      <div style={{ color: "white" }}>
-        <h2>Total unique items: {filteredItems.length}</h2>
+      <div>
+        <h2>Selected items {pickedItems.length}</h2>
 
         <ul className="items-container">
           {pickedItems.map((item) => {
-            const { name } = item;
-            return <li>{name}</li>;
+            return (
+              <UserItem key={item.classid} item={item} setPickedItems={setPickedItems} isSelected={true} />
+            );
           })}
         </ul>
+      </div>
+
+      <div>
+        <h2>Total unique items: {filteredItems.length}</h2>
 
         <input
           className="input-steamID input-filter-equipment"
@@ -118,41 +124,8 @@ function Equipment(props: PropTypes) {
 
       <ul className="items-container">
         {filteredItems.slice(start, end).map((item) => {
-          const { color, icon_url, name, market_name } = item;
-
           return (
-            <li
-              className="item"
-              key={market_name}
-              style={{ color: "#fafafa", borderColor: `#${color}` }}
-              onClick={() =>
-                setPickeditems((prev) => {
-                  const pickedItemName = name;
-                  const itemExists = prev.some((item) => item.name === pickedItemName);
-
-                  if (itemExists) return prev;
-
-                  return [...prev, item];
-                })
-              }>
-              <img src={` http://cdn.steamcommunity.com/economy/image/${icon_url}`} width={50} height={50} />
-
-              <div className="item-description">
-                <p className="item-name" style={{ color: `#${color}` }}>
-                  {name.replace(/\|.*$/g, "")}
-                </p>
-
-                {/* check if the items are cases and if yes dont display it */}
-                {name.toLowerCase().includes("case") ? null : (
-                  <p className="item-skin">{name.replace(/^[^\|]*\|/g, "")}</p>
-                )}
-                {name.toLowerCase().includes("case") ? null : (
-                  <p className="item-category">
-                    {market_name.replace(/^[^()]*()/g, "").replace(/[\\(\\)]/g, "")}
-                  </p>
-                )}
-              </div>
-            </li>
+            <UserItem key={item.market_name} item={item} setPickedItems={setPickedItems} isSelected={false} />
           );
         })}
       </ul>
