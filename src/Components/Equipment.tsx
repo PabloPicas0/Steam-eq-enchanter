@@ -96,18 +96,36 @@ function Equipment(props: PropTypes) {
 
   const { start, end } = pagination;
 
+  function moveBackwards(prev: { start: number; end: number }) {
+    if (prev.start - 56 < 0) return prev;
+
+    return { start: prev.start - 56, end: prev.start - 1 };
+  }
+
+  function moveForeword(prev: { start: number; end: number }) {
+    if (prev.end === filteredItems.length) return prev;
+
+    if (prev.end + 56 > filteredItems.length) return { start: prev.end + 1, end: filteredItems.length };
+
+    return { start: prev.end + 1, end: prev.end + 56 };
+  }
+
   return (
     <section className="equipment">
       <div>
-        <h2>Selected items {pickedItems.length}</h2>
+        <h2>Selected items: {pickedItems.length}</h2>
 
-        <ul className="items-container">
+        <ul className="items-container" style={{ margin: "0 0 20px 0" }}>
           {pickedItems.map((item) => {
             return (
               <UserItem key={item.classid} item={item} setPickedItems={setPickedItems} isSelected={true} />
             );
           })}
         </ul>
+
+        <form method="POST">
+          <button type="submit">Get Market Data</button>
+        </form>
       </div>
 
       <div>
@@ -131,32 +149,11 @@ function Equipment(props: PropTypes) {
       </ul>
 
       <div className="pagination">
-        <button
-          onClick={() => {
-            setPagination((prev) => {
-              if (prev.start - 56 < 0) return prev;
-
-              return { start: prev.start - 56, end: prev.start - 1 };
-            });
-          }}>
-          Back
-        </button>
+        <button onClick={() => setPagination(moveBackwards)}>Back</button>
 
         {pagination.start + " / " + pagination.end + " of " + filteredItems.length}
 
-        <button
-          onClick={() =>
-            setPagination((prev) => {
-              if (prev.end === filteredItems.length) return prev;
-
-              if (prev.end + 56 > filteredItems.length)
-                return { start: prev.end + 1, end: filteredItems.length };
-
-              return { start: prev.end + 1, end: prev.end + 56 };
-            })
-          }>
-          Next
-        </button>
+        <button onClick={() => setPagination(moveForeword)}>Next</button>
       </div>
     </section>
   );
