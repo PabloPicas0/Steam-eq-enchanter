@@ -9,6 +9,7 @@ type PropTypes = {
 function UserItem(props: PropTypes) {
   const { item, isSelected, setPickedItems } = props;
   const { market_name, color, name, icon_url } = item;
+  const isSkin = /case|capsule/gim.test(name);
 
   function addToPickedItems(prev: ItemTypes[]) {
     const pickedItemName = market_name;
@@ -44,10 +45,10 @@ function UserItem(props: PropTypes) {
         </p>
 
         {/* check if the items are cases and if yes don't display it */}
-        {name.toLowerCase().includes("case") ? null : (
+        {isSkin  ? null : (
           <p className="item-skin">{name.replace(/^[^\|]*\|/g, "")}</p>
         )}
-        {name.toLowerCase().includes("case") ? null : (
+        {isSkin ? null : (
           <p className="item-category">{market_name.replace(/^[^()]*()/g, "").replace(/[\\(\\)]/g, "")}</p>
         )}
       </div>
