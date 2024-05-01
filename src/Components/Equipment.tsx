@@ -110,22 +110,48 @@ function Equipment(props: PropTypes) {
     return { start: prev.end + 1, end: prev.end + 56 };
   }
 
+  // TODO: add error handling
+  async function getMarketData(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+
+    const itemsMarketName = pickedItems.map((item) => item.market_name);
+    const response = await fetch("/api", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(itemsMarketName),
+    });
+    const data = await response.json()
+
+    console.log(data)
+  }
+
   return (
     <section className="equipment">
       <div>
         <h2>Selected items: {pickedItems.length}</h2>
 
-        <ul className="items-container" style={{ margin: "0 0 20px 0" }}>
-          {pickedItems.map((item) => {
-            return (
-              <UserItem key={item.classid} item={item} setPickedItems={setPickedItems} isSelected={true} />
-            );
-          })}
-        </ul>
+        {pickedItems.length ? (
+          <>
+            <ul className="items-container" style={{ margin: "0 0 20px 0" }}>
+              {pickedItems.map((item) => {
+                return (
+                  <UserItem
+                    key={item.classid}
+                    item={item}
+                    setPickedItems={setPickedItems}
+                    isSelected={true}
+                  />
+                );
+              })}
+            </ul>
 
-        <form method="POST">
-          <button type="submit">Get Market Data</button>
-        </form>
+            <form method="POST">
+              <button type="submit" onClick={getMarketData}>
+                Get Market Data
+              </button>
+            </form>
+          </>
+        ) : null}
       </div>
 
       <div>
