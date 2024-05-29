@@ -13,6 +13,7 @@ export type ItemTypes = {
   market_name: string;
   type: string;
   color: string;
+  market_price?: undefined | null | string;
 };
 
 type PropTypes = {
@@ -114,15 +115,30 @@ function Equipment(props: PropTypes) {
   async function getMarketData(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
 
+    setPickedItems((prev) => {
+      return prev.map((item) => {
+        item.market_price = null;
+
+        return item;
+      });
+    });
+
     const itemsMarketName = pickedItems.map((item) => item.market_name);
     const response = await fetch("/api", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(itemsMarketName),
     });
-    const data = await response.json()
+    const data = await response.json();
 
-    console.log(data)
+    console.log(data);
+    setPickedItems((prev) => {
+      return prev.map((item, idx) => {
+        item.market_price = data[idx].results[0]?.sell_price_text || "unable to find price";
+
+        return item;
+      });
+    });
   }
 
   return (
