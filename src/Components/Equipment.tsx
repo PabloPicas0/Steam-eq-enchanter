@@ -134,7 +134,7 @@ function Equipment(props: PropTypes) {
     console.log(data);
     setPickedItems((prev) => {
       return prev.map((item, idx) => {
-        item.market_price = data[idx].results[0]?.sell_price_text || "unable to find price";
+        item.market_price = data[idx].results[0]?.sell_price_text || "Unable to find price";
 
         return item;
       });
