@@ -8,8 +8,8 @@ type PropTypes = {
 
 function UserItem(props: PropTypes) {
   const { item, isSelected, setPickedItems } = props;
-  const { market_name, color, name, icon_url } = item;
-  const isSkin = /case|capsule/gim.test(name);
+  const { market_name, color, name, icon_url, market_price } = item;
+  const isntSkin = /case|capsule/gim.test(name);
 
   function addToPickedItems(prev: ItemTypes[]) {
     const pickedItemName = market_name;
@@ -18,7 +18,7 @@ function UserItem(props: PropTypes) {
     // Max items we want to have picked is 10
     if (itemExists || prev.length === 10) return prev;
 
-    return [...prev, item];
+    return [...prev, { ...item }];
   }
 
   function removeFromPickedItems(prev: ItemTypes[]) {
@@ -40,15 +40,21 @@ function UserItem(props: PropTypes) {
       <img src={` http://cdn.steamcommunity.com/economy/image/${icon_url}`} width={50} height={50} />
 
       <div className="item-description">
+        <div className="item-price">
+          {market_price === undefined ? null : market_price === null ? (
+            <div className="skeleton-text" />
+          ) : (
+            market_price
+          )}
+        </div>
+
         <p className="item-name" style={{ color: `#${color}` }}>
           {name.replace(/\|.*$/g, "")}
         </p>
 
         {/* check if the items are cases and if yes don't display it */}
-        {isSkin  ? null : (
-          <p className="item-skin">{name.replace(/^[^\|]*\|/g, "")}</p>
-        )}
-        {isSkin ? null : (
+        {isntSkin ? null : <p className="item-skin">{name.replace(/^[^\|]*\|/g, "")}</p>}
+        {isntSkin ? null : (
           <p className="item-category">{market_name.replace(/^[^()]*()/g, "").replace(/[\\(\\)]/g, "")}</p>
         )}
       </div>
