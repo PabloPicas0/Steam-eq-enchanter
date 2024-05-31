@@ -9,7 +9,7 @@ type PropTypes = {
 function UserItem(props: PropTypes) {
   const { item, isSelected, setPickedItems } = props;
   const { market_name, color, name, icon_url, market_price, volume } = item;
-  const isntSkin = /case|capsule/gim.test(name);
+  const isCase = /case|capsule/gim.test(name);
 
   function addToPickedItems(prev: ItemTypes[]) {
     const pickedItemName = market_name;
@@ -31,39 +31,43 @@ function UserItem(props: PropTypes) {
   return (
     <li
       className="item"
-      key={market_name}
       style={{
         color: "#fafafa",
         borderColor: `#${color}`,
       }}
       onClick={() => setPickedItems(isSelected ? removeFromPickedItems : addToPickedItems)}>
-      <img src={` http://cdn.steamcommunity.com/economy/image/${icon_url}`} width={50} height={50} />
+      <div className="item-image-wrapper">
+        <img src={` http://cdn.steamcommunity.com/economy/image/${icon_url}`} className="item-image" />
+      </div>
 
       <div className="item-description">
+        <p className="item-name">{name.replace(/\|.*$/g, "")}</p>
+
+        {/* check if the items are cases and if yes don't display it */}
+        {isCase ? null : (
+          <p className="item-skin" style={{ color: `#${color}` }}>
+            {name.replace(/^[^\|]*\|/g, "")}
+          </p>
+        )}
+
+        {isCase ? null : (
+          <p className="item-category">{market_name.replace(/^[^()]*()/g, "").replace(/[\\(\\)]/g, "")}</p>
+        )}
+      </div>
+
+      {market_price === undefined ? null : (
         <div className="item-price-wrapper">
-          {market_price === undefined ? null : market_price === null ? (
+          {market_price === null ? (
             <>
-              <div className="skeleton-text" />
               <div className="skeleton-text" />
             </>
           ) : (
             <>
               <p className="item-price">{market_price}</p>
-              <p className="item-price">{volume}</p>
             </>
           )}
         </div>
-
-        <p className="item-name" style={{ color: `#${color}` }}>
-          {name.replace(/\|.*$/g, "")}
-        </p>
-
-        {/* check if the items are cases and if yes don't display it */}
-        {isntSkin ? null : <p className="item-skin">{name.replace(/^[^\|]*\|/g, "")}</p>}
-        {isntSkin ? null : (
-          <p className="item-category">{market_name.replace(/^[^()]*()/g, "").replace(/[\\(\\)]/g, "")}</p>
-        )}
-      </div>
+      )}
     </li>
   );
 }
