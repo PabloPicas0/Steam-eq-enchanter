@@ -5,10 +5,14 @@ import { AddressInfo } from "net";
 
 import getUserInfo from "./utils/getUserInfo.js";
 import getUserInventory from "./utils/getUserInventory.js";
+import sleep from "./utils/sleep.js";
+import { MarketModel } from "./models/MarketModel.js";
+import getPriceOverview from "./utils/getPriceOverview.js";
 
 const app = express();
 
 app.use(cors());
+app.use(express.json());
 
 app.get("/", async (req, res) => {
   const { id } = req.query;
@@ -46,16 +50,28 @@ app.get("/", async (req, res) => {
     userInventory.assets = filteredUserInventory;
     userInventory.total_inventory_count = filteredUserInventory.length;
 
-    const [marketItem] = await Promise.all([
-      fetch(
-        "https://steamcommunity.com/market/search/render?norender=1&start=0&count=1&appid=730&query=P250 | Sand Dune (Battle-Scarred)"
-      ),
-    ]);
+    res.send([userInfo, userInventory]);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(404);
+  }
+});
 
-    const [t] = [await marketItem.json()];
+app.post("/", async (req, res) => {
+  const marketItems: string[] = req.body;
+  console.log(marketItems);
+
+  try {
+    const marketData: MarketModel[] = await Promise.all(
+      marketItems.map((item) => {
+        return getPriceOverview(item);
+      })
+    );
+
+    console.log(marketData);
 
 
-    res.send([userInfo, userInventory, t]);
+    res.send(marketData);
   } catch (error) {
     console.log(error);
     res.sendStatus(404);
