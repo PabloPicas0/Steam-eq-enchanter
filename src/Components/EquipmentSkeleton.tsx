@@ -6,7 +6,6 @@ function EquipmentSkeleton() {
       <div className="skeleton-rect" style={{ placeSelf: "center" }}></div>
       <div className="skeleton-rect" style={{ placeSelf: "center" }}></div>
       <div className="skeleton-rect" style={{ placeSelf: "center" }}></div>
-      <div className="skeleton-rect" style={{ placeSelf: "center" }}></div>
     </section>
   );
 }
