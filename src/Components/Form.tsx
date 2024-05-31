@@ -48,7 +48,7 @@ function Form(props: {
       <input
         className="input-steamID"
         type="text"
-        placeholder="Enter profile URL/SteamID"
+        placeholder="Enter profile URL/SteamID64"
         value={input}
         onChange={(e) => setInput(e.target.value)}
       />
