@@ -8,7 +8,7 @@ type PropTypes = {
 
 function UserItem(props: PropTypes) {
   const { item, isSelected, setPickedItems } = props;
-  const { market_name, color, name, icon_url, market_price } = item;
+  const { market_name, color, name, icon_url, market_price, volume } = item;
   const isntSkin = /case|capsule/gim.test(name);
 
   function addToPickedItems(prev: ItemTypes[]) {
@@ -40,11 +40,17 @@ function UserItem(props: PropTypes) {
       <img src={` http://cdn.steamcommunity.com/economy/image/${icon_url}`} width={50} height={50} />
 
       <div className="item-description">
-        <div className="item-price">
+        <div className="item-price-wrapper">
           {market_price === undefined ? null : market_price === null ? (
-            <div className="skeleton-text" />
+            <>
+              <div className="skeleton-text" />
+              <div className="skeleton-text" />
+            </>
           ) : (
-            market_price
+            <>
+              <p className="item-price">{market_price}</p>
+              <p className="item-price">{volume}</p>
+            </>
           )}
         </div>
 
