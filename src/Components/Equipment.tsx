@@ -119,7 +119,7 @@ function Equipment(props: PropTypes) {
     setPickedItems((prev) => {
       return prev.map((item) => {
         item.market_price = null;
-        item.volume = null
+        item.volume = null;
 
         return item;
       });
@@ -136,7 +136,7 @@ function Equipment(props: PropTypes) {
     console.log(data);
     setPickedItems((prev) => {
       return prev.map((item, idx) => {
-        item.market_price = data[idx]?.success ? data[idx].median_price : "Unable to find price";
+        item.market_price = data[idx]?.success ? data[idx].lowest_price : "Unable to find price";
         item.volume = data[idx]?.success ? data[idx].volume : "Unable to find volume";
 
         return item;
