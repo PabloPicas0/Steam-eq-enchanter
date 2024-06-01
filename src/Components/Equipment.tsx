@@ -112,7 +112,6 @@ function Equipment(props: PropTypes) {
     return { start: prev.end + 1, end: prev.end + 56 };
   }
 
-  // TODO: add error handling
   async function getMarketData(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
 
