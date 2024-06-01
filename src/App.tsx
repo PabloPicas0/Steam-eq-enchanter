@@ -6,7 +6,6 @@ import Profile from "./Components/Profile";
 import Equipment from "./Components/Equipment";
 import AsyncSuspense from "./Components/AsyncSuspense";
 
-// TODO: add some form of data validation on server
 // TODO: add parsing different steam urls
 function App() {
   const [items, setItems] = useState([]);
@@ -25,6 +24,11 @@ function App() {
         <Profile profile={items[0]} />
         <Equipment items={items[1]} />
       </AsyncSuspense>
+
+      <footer>
+        <p>This website is not a part of Valve official sites</p>
+        <p>Created by Pablo</p>
+      </footer>
     </>
   );
 }
