@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import steam from "../assets/Steam.webp";
+import { parseSteamId32, parseSteamId64 } from "../utils/parseSteamID";
 
 function Form(props: {
   setItems: React.Dispatch<React.SetStateAction<never[]>>;
@@ -16,7 +17,7 @@ function Form(props: {
 
     if (input === "") return;
 
-    const steam64ID = input.replace(/\D/g, "");
+    const steam64ID = /STEAM_|:/g.test(input) ? parseSteamId32(input) : parseSteamId64(input);
 
     setPending(true);
     setItems([]);
@@ -27,7 +28,7 @@ function Form(props: {
       setPending(false);
       setError(true);
 
-      return
+      return;
     }
 
     const prxyData = await proxyResponse.json();
@@ -48,7 +49,7 @@ function Form(props: {
       <input
         className="input-steamID"
         type="text"
-        placeholder="Enter profile URL/SteamID64"
+        placeholder="URL / SteamID64 / SteamID32"
         value={input}
         onChange={(e) => setInput(e.target.value)}
       />
