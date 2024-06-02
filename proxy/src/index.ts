@@ -70,6 +70,11 @@ app.post("/", async (req, res) => {
 
     console.log(marketData);
 
+    fetch(
+      "http://steamcommunity.com/market/pricehistory/?country=PT&currency=3&appid=730&market_hash_name=Falchion%20Case", {headers: { "Cookie": `steamLoginSecure=${process.env.COOKIE}`}}
+    )
+      .then((history) => history.json())
+      .then((history) => console.log(history));
 
     res.send(marketData);
   } catch (error) {
