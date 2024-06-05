@@ -61,9 +61,7 @@ app.get("/", async (req, res) => {
 
 app.post("/", async (req, res) => {
   const marketItems: string[] = req.body;
-  console.log(marketItems);
 
-  // TODO: add better types
   try {
     const priceOverview = await Promise.all(
       marketItems.map((item) => {
@@ -77,9 +75,13 @@ app.post("/", async (req, res) => {
       })
     );
 
-    console.log(priceOverview);
+    const finalPrice = priceOverview.map((itemPrice, idx) => {
+      itemPrice.price_history = priceHistory[idx];
 
-    res.send(priceOverview);
+      return itemPrice;
+    });
+
+    res.send(finalPrice);
   } catch (error) {
     console.log(error);
     res.sendStatus(404);
