@@ -8,6 +8,8 @@ import getUserInventory from "./utils/getUserInventory.js";
 import sleep from "./utils/sleep.js";
 import { MarketModel } from "./models/MarketModel.js";
 import getPriceOverview from "./utils/getPriceOverview.js";
+import getPriceHistory from "./utils/getPriceHistory.js";
+import { PriceHistoryModel } from "./models/PriceHistoryModel.js";
 
 const app = express();
 
@@ -61,22 +63,23 @@ app.post("/", async (req, res) => {
   const marketItems: string[] = req.body;
   console.log(marketItems);
 
+  // TODO: add better types
   try {
-    const marketData: MarketModel[] = await Promise.all(
+    const priceOverview = await Promise.all(
       marketItems.map((item) => {
         return getPriceOverview(item);
       })
     );
 
-    console.log(marketData);
+    const priceHistory = await Promise.all(
+      marketItems.map((item) => {
+        return getPriceHistory(item, { headers: { Cookie: `steamLoginSecure=${process.env.COOKIE}` } });
+      })
+    );
 
-    fetch(
-      "http://steamcommunity.com/market/pricehistory/?country=PT&currency=3&appid=730&market_hash_name=Falchion%20Case", {headers: { "Cookie": `steamLoginSecure=${process.env.COOKIE}`}}
-    )
-      .then((history) => history.json())
-      .then((history) => console.log(history));
+    console.log(priceOverview);
 
-    res.send(marketData);
+    res.send(priceOverview);
   } catch (error) {
     console.log(error);
     res.sendStatus(404);
