@@ -1,10 +1,9 @@
 import https, { RequestOptions } from "https";
 
-function getPriceHistory(options?: RequestOptions) {
-  const url =
-    "https://steamcommunity.com/market/pricehistory/?country=PT&currency=3&appid=730&market_hash_name=Falchion%20Case";
+function getPriceHistory(item: string, options?: RequestOptions) {
+  const url = `https://steamcommunity.com/market/pricehistory/?appid=730&market_hash_name=${item}`;
 
-  return new Promise((resolve, reject) => {
+  return new Promise<{ status: number; data: string }>((resolve, reject) => {
     let data = [];
 
     https.get(url, options, (res) => {
@@ -15,7 +14,7 @@ function getPriceHistory(options?: RequestOptions) {
       res.on("end", () => {
         const buffer = Buffer.concat(data).toString("utf8");
 
-        resolve({ data: buffer, headers: res.headers });
+        resolve({ status: res.statusCode, data: buffer });
       });
 
       res.on("error", (err) => {
