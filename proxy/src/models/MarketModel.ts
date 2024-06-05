@@ -5,5 +5,5 @@ export type MarketModel = {
   lowest_price: string;
   volume: string;
   median_price: string;
-  price_history?:  PriceHistoryModel
+  price_history?: { status: number; data: PriceHistoryModel };
 };
