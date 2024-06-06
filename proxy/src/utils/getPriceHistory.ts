@@ -1,28 +1,17 @@
-import https, { RequestOptions } from "https";
 import { PriceHistoryModel } from "../models/PriceHistoryModel.js";
 
-function getPriceHistory(item: string, options?: RequestOptions) {
-  const url = `https://steamcommunity.com/market/pricehistory/?appid=730&market_hash_name=${item}`;
+async function getPriceHistory(market_hash_name: string, options?: RequestInit) {
+  // Some items have "&" which is not accepted by Steam API
+  // Instead it need to be replaced with "%26"
+  const url = `https://steamcommunity.com/market/pricehistory/?appid=730&market_hash_name=${market_hash_name.replace(
+    "&",
+    "%26"
+  )}`;
 
-  return new Promise<{ status: number; data: PriceHistoryModel }>((resolve, reject) => {
-    let data = [];
+  const res = await fetch(url, options);
+  const history: PriceHistoryModel = await res.json();
 
-    https.get(url, options, (res) => {
-      res.on("data", (chunk) => {
-        data.push(chunk);
-      });
-
-      res.on("end", () => {
-        const buffer: PriceHistoryModel = JSON.parse(Buffer.concat(data).toString("utf8"));
-
-        resolve({ status: res.statusCode, data: buffer });
-      });
-
-      res.on("error", (err) => {
-        reject(err);
-      });
-    });
-  });
+  return history;
 }
 
 export default getPriceHistory;
