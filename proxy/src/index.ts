@@ -5,11 +5,10 @@ import { AddressInfo } from "net";
 
 import getUserInfo from "./utils/getUserInfo.js";
 import getUserInventory from "./utils/getUserInventory.js";
-import sleep from "./utils/sleep.js";
-import { MarketModel } from "./models/MarketModel.js";
 import getPriceOverview from "./utils/getPriceOverview.js";
 import getPriceHistory from "./utils/getPriceHistory.js";
-import { PriceHistoryModel } from "./models/PriceHistoryModel.js";
+
+const POLISH_CURRENCY_PRICE = 3.95; //Jun 5 2024, 13:17 UTC
 
 const app = express();
 
@@ -76,6 +75,11 @@ app.post("/", async (req, res) => {
     );
 
     const finalPrice = priceOverview.map((itemPrice, idx) => {
+      if (priceHistory[idx].success) {
+        priceHistory[idx].prices.forEach((price) => (price[1] = Number(price[1] / POLISH_CURRENCY_PRICE))); // convert price history from PLN to USD
+      }
+      
+      priceHistory[idx].price_suffix = "USD";
       itemPrice.price_history = priceHistory[idx];
 
       return itemPrice;
