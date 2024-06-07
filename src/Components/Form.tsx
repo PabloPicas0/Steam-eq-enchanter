@@ -3,8 +3,11 @@ import { useState } from "react";
 import steam from "../assets/Steam.webp";
 import { parseSteamId32, parseSteamId64 } from "../utils/parseSteamID";
 
+import { EquipmentModel } from "../models/EquipmentModel";
+import { UserModel } from "../models/UserModel";
+
 function Form(props: {
-  setItems: React.Dispatch<React.SetStateAction<never[]>>;
+  setItems: React.Dispatch<React.SetStateAction<(UserModel & EquipmentModel)[]>>;
   setPending: React.Dispatch<React.SetStateAction<boolean>>;
   setError: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
@@ -49,7 +52,7 @@ function Form(props: {
       <input
         className="input-steamID"
         type="text"
-        placeholder="URL / SteamID64 / SteamID32"
+        placeholder="SteamID64 / SteamID32"
         value={input}
         onChange={(e) => setInput(e.target.value)}
       />
