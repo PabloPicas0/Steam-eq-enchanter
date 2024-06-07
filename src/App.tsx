@@ -6,11 +6,15 @@ import Profile from "./Components/Profile";
 import Equipment from "./Components/Equipment";
 import AsyncSuspense from "./Components/AsyncSuspense";
 
-// TODO: add parsing different steam urls
+import { UserModel } from "./models/UserModel";
+import { EquipmentModel } from "./models/EquipmentModel";
+
 function App() {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<(UserModel & EquipmentModel)[]>([]);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState(false);
+
+  const [profile, userItems] = items;
 
   useEffect(() => {
     console.log(items);
@@ -21,8 +25,8 @@ function App() {
       <Form setItems={setItems} setPending={setPending} setError={setError} />
 
       <AsyncSuspense pending={pending} error={error} items={items.length}>
-        <Profile profile={items[0]} />
-        <Equipment items={items[1]} />
+        <Profile profile={profile} />
+        <Equipment items={userItems} />
       </AsyncSuspense>
 
       <footer>
