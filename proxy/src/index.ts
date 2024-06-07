@@ -8,7 +8,7 @@ import getUserInventory from "./utils/getUserInventory.js";
 import getPriceOverview from "./utils/getPriceOverview.js";
 import getPriceHistory from "./utils/getPriceHistory.js";
 
-const POLISH_CURRENCY_PRICE = 3.95; //Jun 5 2024, 13:17 UTC
+const POLISH_CURRENCY_PRICE = 3.95; // Jun 5 2024, 13:17 UTC
 
 const app = express();
 
