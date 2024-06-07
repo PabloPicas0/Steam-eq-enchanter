@@ -1,85 +1,20 @@
 import { useMemo, useState } from "react";
+
 import UserItem from "./UserItem";
 
-export type ItemTypes = {
-  appid: number;
-  contextid: string;
-  assetid: string;
-  classid: string;
-  instanceid: string;
-  amount: string;
-  name: string;
-  icon_url: string;
-  market_name: string;
-  type: string;
-  color: string;
-  market_price?: undefined | null | string;
-  volume?: undefined | null | string;
-};
+import { EquipmentModel } from "../models/EquipmentModel";
+import { ItemModel } from "../models/ItemsModel";
+import { MarketModel } from "../models/MarketModel";
 
 type PropTypes = {
-  items: {
-    assets: {
-      appid: number;
-      contextid: string;
-      assetid: string;
-      classid: string;
-      instanceid: string;
-      amount: string;
-      name: string;
-      icon_url: string;
-      market_name: string;
-      type: string;
-      color: string;
-    }[];
-    descriptions: {
-      appid: number;
-      classid: string;
-      instanceid: string;
-      currency: number;
-      background_color: string;
-      icon_url: string;
-      descriptions: {
-        type: string;
-        value: string;
-      }[];
-      tradable: number;
-      actions: {
-        link: string;
-        name: string;
-      }[];
-
-      name: string;
-      name_color: string;
-      type: string;
-      market_name: string;
-      market_hash_name: string;
-      market_actions: {
-        link: string;
-        name: string;
-      }[];
-
-      commodity: number;
-      market_tradable_restriction: number;
-      marketable: number;
-      tags: {
-        category: string;
-        internal_name: string;
-        localized_category_name: string;
-        localized_tag_name: string;
-      }[];
-    }[];
-    rwgrsn: number;
-    success: number;
-    total_inventory_count: number;
-  };
-};
+  items: EquipmentModel
+}
 
 function Equipment(props: PropTypes) {
   const { items } = props;
 
   const [filter, setFilter] = useState("");
-  const [pickedItems, setPickedItems] = useState<ItemTypes[]>([]);
+  const [pickedItems, setPickedItems] = useState<ItemModel[]>([]);
 
   const regex = new RegExp(filter, "gmi");
   const filteredItems = useMemo(() => items.assets.filter((item) => regex.test(item.name)), [filter]);
@@ -119,6 +54,7 @@ function Equipment(props: PropTypes) {
       return prev.map((item) => {
         item.market_price = null;
         item.volume = null;
+        item.price_history = null;
 
         return item;
       });
@@ -130,13 +66,14 @@ function Equipment(props: PropTypes) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(itemsMarketName),
     });
-    const data = await response.json();
+    const data: MarketModel[] = await response.json();
 
     console.log(data);
     setPickedItems((prev) => {
       return prev.map((item, idx) => {
         item.market_price = data[idx]?.success ? data[idx].lowest_price : "Unable to find price";
         item.volume = data[idx]?.success ? data[idx].volume : "Unable to find volume";
+        item.price_history = data[idx].price_history.success ? data[idx].price_history : undefined;
 
         return item;
       });
