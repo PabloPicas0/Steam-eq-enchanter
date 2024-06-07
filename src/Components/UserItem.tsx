@@ -1,17 +1,17 @@
-import { ItemTypes } from "./Equipment";
+import { ItemModel } from "../models/ItemsModel";
 
 type PropTypes = {
-  item: ItemTypes;
-  setPickedItems: React.Dispatch<React.SetStateAction<ItemTypes[]>>;
+  item: ItemModel;
+  setPickedItems: React.Dispatch<React.SetStateAction<ItemModel[]>>;
   isSelected: boolean;
 };
 
 function UserItem(props: PropTypes) {
   const { item, isSelected, setPickedItems } = props;
-  const { market_name, color, name, icon_url, market_price, volume } = item;
+  const { market_name, color, name, icon_url, market_price, volume, price_history } = item;
   const isCase = /case|capsule/gim.test(name);
 
-  function addToPickedItems(prev: ItemTypes[]) {
+  function addToPickedItems(prev: ItemModel[]) {
     const pickedItemName = market_name;
     const itemExists = prev.some((item) => item.market_name === pickedItemName);
 
@@ -21,7 +21,7 @@ function UserItem(props: PropTypes) {
     return [...prev, { ...item }];
   }
 
-  function removeFromPickedItems(prev: ItemTypes[]) {
+  function removeFromPickedItems(prev: ItemModel[]) {
     const pickedItemName = market_name;
     const newItems = prev.filter((item) => item.market_name !== pickedItemName);
 
@@ -68,6 +68,23 @@ function UserItem(props: PropTypes) {
           )}
         </div>
       )}
+
+      {/* {price_history === undefined ? null : (
+        <ul className="item-price-wrapper">
+          {price_history === null ? (
+            <>
+              <li className="skeleton-text" />
+            </>
+          ) : (
+            <>
+              {price_history.prices.map((price) => {
+                const [date, money, vol] = price;
+                return <li>{money.toPrecision(3)}</li>;
+              })}
+            </>
+          )}
+        </ul>
+      )} */}
     </li>
   );
 }
