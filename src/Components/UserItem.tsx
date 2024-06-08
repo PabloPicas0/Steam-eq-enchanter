@@ -1,4 +1,5 @@
 import { ItemModel } from "../models/ItemsModel";
+import Price from "./Price";
 
 type PropTypes = {
   item: ItemModel;
@@ -55,36 +56,22 @@ function UserItem(props: PropTypes) {
         )}
       </div>
 
-      {market_price === undefined ? null : (
-        <div className="item-price-wrapper">
-          {market_price === null ? (
-            <>
-              <div className="skeleton-text" />
-            </>
-          ) : (
-            <>
-              <p className="item-price">{market_price}</p>
-            </>
-          )}
-        </div>
-      )}
+      <Price price={market_price} fallback={<div className="skeleton-text" />}>
+        <p className="item-price">{market_price}</p>
+      </Price>
 
-      {/* {price_history === undefined ? null : (
-        <ul className="item-price-wrapper">
-          {price_history === null ? (
-            <>
-              <li className="skeleton-text" />
-            </>
-          ) : (
-            <>
-              {price_history.prices.map((price) => {
-                const [date, money, vol] = price;
-                return <li>{money.toPrecision(3)}</li>;
-              })}
-            </>
-          )}
-        </ul>
-      )} */}
+      <Price price={price_history} fallback={<div className="skeleton-text" />}>
+        {price_history?.prices.map((price) => {
+          const [date, money, vol] = price;
+          return (
+            <p>
+              {new Date(date).toLocaleDateString()}
+              {" "}
+              {money.toFixed(2)}
+            </p>
+          );
+        })}
+      </Price>
     </li>
   );
 }
