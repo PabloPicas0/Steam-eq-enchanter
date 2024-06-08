@@ -7,8 +7,8 @@ import { ItemModel } from "../models/ItemsModel";
 import { MarketModel } from "../models/MarketModel";
 
 type PropTypes = {
-  items: EquipmentModel
-}
+  items: EquipmentModel;
+};
 
 function Equipment(props: PropTypes) {
   const { items } = props;
@@ -116,7 +116,9 @@ function Equipment(props: PropTypes) {
           className="input-steamID input-filter-equipment"
           type="text"
           value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+          onChange={(e) => {
+            setFilter(e.target.value.replace("\\", ""));
+          }}
           placeholder="Search"
         />
       </div>
