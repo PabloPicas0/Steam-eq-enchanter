@@ -1,4 +1,5 @@
 import { ItemModel } from "../models/ItemsModel";
+import Area from "./Area";
 import Price from "./Price";
 
 type PropTypes = {
@@ -61,17 +62,10 @@ function UserItem(props: PropTypes) {
       </Price>
 
       <Price price={price_history} fallback={<div className="skeleton-text" />}>
-        {price_history?.prices.map((price) => {
-          const [date, money, vol] = price;
-          return (
-            <p>
-              {new Date(date).toLocaleDateString()}
-              {" "}
-              {money.toFixed(2)}
-            </p>
-          );
-        })}
+        <p>its working !</p>
       </Price>
+
+      {price_history ? <Area data={price_history.prices} /> : null}
     </li>
   );
 }
