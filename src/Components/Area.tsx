@@ -1,4 +1,13 @@
-import { area, scaleTime, select, scaleLinear, extent, max, axisBottom, axisLeft, scaleUtc } from "d3";
+import {
+  area,
+  select,
+  scaleLinear,
+  extent,
+  max,
+  axisBottom,
+  axisLeft,
+  scaleUtc,
+} from "d3";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { AreaPropsModel } from "../models/AreaPropsModel";
@@ -33,7 +42,13 @@ function Area({
   useEffect(() => {
     if (!gx.current) return;
 
-    void select(gx.current).call(axisBottom(x).ticks(7, "%Y"));
+    // This var converts each tick to year 
+    // Next is created set to remove duplicate years
+    // After that we take arr length to set custom number of ticks on each axis
+    // DO NOT DELETE MIGHT BE USEFUL IN THE FUTURE 
+    // const ticksNumber = Array.from(new Set(x.ticks().map(x.tickFormat(0, "%Y")))).length;
+
+    void select(gx.current).call(axisBottom(x).ticks(7));
   }, [gx, x]);
 
   useEffect(() => {
@@ -55,5 +70,4 @@ function Area({
   );
 }
 
-
-export default Area
+export default Area;
