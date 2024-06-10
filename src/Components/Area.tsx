@@ -1,4 +1,4 @@
-import { area, select, scaleLinear, extent, max, axisBottom, axisLeft, scaleUtc } from "d3";
+import { area, select, scaleLinear, extent, max, axisBottom, axisLeft, scaleUtc, curveBasis } from "d3";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { AreaPropsModel } from "../models/AreaPropsModel";
@@ -28,7 +28,7 @@ function Area({
     (d) => x(d.date),
     y(0),
     (d) => y(d.price)
-  );
+  ).curve(curveBasis);
 
   useEffect(() => {
     if (!gx.current) return;
@@ -45,7 +45,7 @@ function Area({
   useEffect(() => {
     if (!gy.current) return;
 
-    void select(gy.current).call(axisLeft(y).ticks(5, "$.0f"));
+    void select(gy.current).call(axisLeft(y).ticks(5, "$.2f"));
   }, [gy, y]);
 
   return (
