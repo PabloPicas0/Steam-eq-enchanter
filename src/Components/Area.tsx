@@ -20,6 +20,7 @@ function Area({
 
   const gx = useRef<SVGGElement>(null);
   const gy = useRef<SVGGElement>(null);
+  const hoverPoint = useRef<SVGCircleElement>(null);
 
   const x = scaleUtc(extent(timeScale, (time) => time) as Date[], [marginLeft, width - marginRight]);
   const y = scaleLinear([0, max(data, (d) => d[1]) as number], [height - marginBottom, marginTop]);
@@ -58,6 +59,8 @@ function Area({
         <g ref={gx} transform={`translate(0,${height - marginBottom})`}></g>
         <g ref={gy} transform={`translate(${marginLeft},0)`}></g>
         <path fill="steelblue" stroke="currentColor" strokeWidth="1.5" d={chartArea(areaData) as string} />
+        <circle ref={hoverPoint} />
+        <text />
       </svg>
     </>
   );
