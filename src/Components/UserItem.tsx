@@ -36,33 +36,32 @@ function UserItem(props: PropTypes) {
       style={{
         color: "#fafafa",
         borderColor: `#${color}`,
-      }}
-      onClick={() => setPickedItems(isSelected ? removeFromPickedItems : addToPickedItems)}>
-      <div className="item-image-wrapper">
-        <img src={` http://cdn.steamcommunity.com/economy/image/${icon_url}`} className="item-image" />
-      </div>
+      }}>
+      <div
+        onClick={() => setPickedItems(isSelected ? removeFromPickedItems : addToPickedItems)}
+        style={{ cursor: "pointer" }}>
+        <div className="item-image-wrapper">
+          <img src={` http://cdn.steamcommunity.com/economy/image/${icon_url}`} className="item-image" />
+        </div>
 
-      <div className="item-description">
-        <p className="item-name">{name.replace(/\|.*$/g, "")}</p>
+        <div className="item-description">
+          <p className="item-name">{name.replace(/\|.*$/g, "")}</p>
 
-        {/* check if the items are cases and if yes don't display it */}
-        {isCase ? null : (
-          <p className="item-skin" style={{ color: `#${color}` }}>
-            {name.replace(/^[^\|]*\|/g, "")}
-          </p>
-        )}
+          {/* check if the items are cases and if yes don't display it */}
+          {isCase ? null : (
+            <p className="item-skin" style={{ color: `#${color}` }}>
+              {name.replace(/^[^\|]*\|/g, "")}
+            </p>
+          )}
 
-        {isCase ? null : (
-          <p className="item-category">{market_name.replace(/^[^()]*()/g, "").replace(/[\\(\\)]/g, "")}</p>
-        )}
+          {isCase ? null : (
+            <p className="item-category">{market_name.replace(/^[^()]*()/g, "").replace(/[\\(\\)]/g, "")}</p>
+          )}
+        </div>
       </div>
 
       <Price price={market_price} fallback={<div className="skeleton-text" />}>
         <p className="item-price">{market_price}</p>
-      </Price>
-
-      <Price price={price_history} fallback={<div className="skeleton-text" />}>
-        <p>its working !</p>
       </Price>
 
       {price_history ? <Area data={price_history.prices} /> : null}
