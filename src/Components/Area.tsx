@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import { AreaPropsModel } from "../models/AreaPropsModel";
 
-// TODO: Add switching between time scales
+// FIX: There is something wrong with charts date 
 function Area({
   data,
   width = 800,
@@ -13,17 +13,23 @@ function Area({
   marginBottom = 20,
   marginLeft = 40,
 }: AreaPropsModel) {
-  const [time, setTime] = useState("month");
+  const ONE_WEEK = data.length - 24 * 7;
+  const ONE_MONTH = data.length - 24 * 31;
+  const ALL_TIME = 0;
 
-  const timeScale = useMemo(() => data.map((time) => new Date(time[0])), [time]);
-  const areaData = data.map((vector) => ({ date: new Date(vector[0]), price: vector[1] }));
+  const [someTimeAgo, setSomeTimeAgo] = useState(ALL_TIME);
+
+  // This copies data from 7 days, 31 days or overall
+  const chart = data.slice(someTimeAgo);
+
+  const timeScale = useMemo(() => chart.map((time) => new Date(time[0])), [someTimeAgo]);
+  const areaData = chart.map((vector) => ({ date: new Date(vector[0]), price: vector[1] }));
 
   const gx = useRef<SVGGElement>(null);
   const gy = useRef<SVGGElement>(null);
-  const hoverPoint = useRef<SVGCircleElement>(null);
 
   const x = scaleUtc(extent(timeScale, (time) => time) as Date[], [marginLeft, width - marginRight]);
-  const y = scaleLinear([0, max(data, (d) => d[1]) as number], [height - marginBottom, marginTop]);
+  const y = scaleLinear([0, max(chart, (d) => d[1]) as number], [height - marginBottom, marginTop]);
 
   const chartArea = area<{ date: Date; price: Number }>(
     (d) => x(d.date),
@@ -33,13 +39,13 @@ function Area({
 
   useEffect(() => {
     if (!gx.current) return;
-
     // This var converts each tick to year
     // Next is created set to remove duplicate years
     // After that we take arr length to set custom number of ticks on each axis
     // DO NOT DELETE MIGHT BE USEFUL IN THE FUTURE
+
     // const ticksNumber = Array.from(new Set(x.ticks().map(x.tickFormat(0, "%Y")))).length;
-    console.log(max(data, (d) => d[1]));
+
     void select(gx.current).call(axisBottom(x).ticks(7));
   }, [gx, x]);
 
@@ -59,9 +65,14 @@ function Area({
         <g ref={gx} transform={`translate(0,${height - marginBottom})`}></g>
         <g ref={gy} transform={`translate(${marginLeft},0)`}></g>
         <path fill="steelblue" stroke="currentColor" strokeWidth="1.5" d={chartArea(areaData) as string} />
-        <circle ref={hoverPoint} />
-        <text />
       </svg>
+
+      <div style={{ display: "flex", justifyContent: "end", gap: "20px", zIndex: "20", alignItems: "center" }}>
+        <span>Scope chart:</span>
+        <button onClick={() => setSomeTimeAgo(ONE_WEEK)}>Weekly</button>
+        <button onClick={() => setSomeTimeAgo(ONE_MONTH)}>Monthly</button>
+        <button onClick={() => setSomeTimeAgo(ALL_TIME)}>Overall</button>
+      </div>
     </>
   );
 }
