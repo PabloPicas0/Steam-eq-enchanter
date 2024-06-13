@@ -114,21 +114,11 @@
   border: 1px solid whitesmoke;
   border-radius: 10px;
   padding: 10px 20px;
-  transition: box-shadow 500ms;
-}
-
-.item:hover {
-  box-shadow: 0 6px 22px rgba(133, 227, 255, 0.384);
-  
-  .item-image-wrapper {
-    transform: scale(1.1);
-  }
 }
 
 .item-image-wrapper {
   display: flex;
   justify-content: center;
-  transition: transform 500ms;
 }
 
 .item-image {
