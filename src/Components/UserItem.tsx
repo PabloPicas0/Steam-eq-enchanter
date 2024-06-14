@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { ItemModel } from "../models/ItemsModel";
 import Area from "./Area";
 import Price from "./Price";
@@ -10,8 +11,20 @@ type PropTypes = {
 
 function UserItem(props: PropTypes) {
   const { item, isSelected, setPickedItems } = props;
-  const { market_name, color, name, icon_url, market_price, volume, price_history } = item;
+  const { market_name, color, name, icon_url, market_price, price_history, classid } = item;
   const isCase = /case|capsule/gim.test(name);
+
+  const [isSaved, setIsSaved] = useState(false);
+
+  const savedPrice = useMemo(() => {
+    const storagePrice = localStorage.getItem(`${classid}`);
+
+    if (storagePrice) return parseFloat(storagePrice);
+
+    return 0.01;
+  }, [isSaved]);
+
+  const [targetPrice, setTargetPrice] = useState(savedPrice);
 
   function addToPickedItems(prev: ItemModel[]) {
     const pickedItemName = market_name;
@@ -28,6 +41,24 @@ function UserItem(props: PropTypes) {
     const newItems = prev.filter((item) => item.market_name !== pickedItemName);
 
     return newItems;
+  }
+
+  function changeTargetPrice(e: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = e.target;
+    const selectedPrice = parseFloat(value);
+
+    if (selectedPrice < 0.01) {
+      setTargetPrice(0.01);
+    } else if (selectedPrice > 999) {
+      setTargetPrice(999);
+    } else {
+      setTargetPrice(selectedPrice);
+    }
+  }
+
+  function save() {
+    localStorage.setItem(`${classid}`, `${targetPrice}`);
+    setIsSaved((prev) => !prev);
   }
 
   return (
@@ -61,7 +92,25 @@ function UserItem(props: PropTypes) {
       </div>
 
       <Price price={market_price} fallback={<div className="skeleton-text" />}>
-        <p className="item-price">{market_price}</p>
+        <div>
+          <p className="item-price">Target price: ${savedPrice}</p>
+          <input
+            style={{ padding: "5px" }}
+            type="number"
+            min={0.01}
+            max={999}
+            step={0.01}
+            value={targetPrice}
+            onChange={changeTargetPrice}
+          />
+        </div>
+
+        <p className="item-price">Current price: {market_price}</p>
+        <p className="item-price">Target returns:</p>
+        <p className="item-price">Returns:</p>
+        <button onClick={save} disabled={savedPrice === targetPrice}>
+          Save
+        </button>
       </Price>
 
       {price_history ? <Area data={price_history.prices} /> : null}
