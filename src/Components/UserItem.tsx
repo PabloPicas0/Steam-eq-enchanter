@@ -21,7 +21,7 @@ function UserItem(props: PropTypes) {
 
     if (storagePrice) return parseFloat(storagePrice);
 
-    return 0.01;
+    return 0.03;
   }, [isSaved]);
 
   const [targetPrice, setTargetPrice] = useState(savedPrice);
@@ -47,8 +47,8 @@ function UserItem(props: PropTypes) {
     const { value } = e.target;
     const selectedPrice = parseFloat(value);
 
-    if (selectedPrice < 0.01) {
-      setTargetPrice(0.01);
+    if (selectedPrice < 0.03) {
+      setTargetPrice(0.03);
     } else if (selectedPrice > 999) {
       setTargetPrice(999);
     } else {
@@ -61,6 +61,27 @@ function UserItem(props: PropTypes) {
     setIsSaved((prev) => !prev);
   }
 
+  // const tax = targetPrice * 0.13;
+  // const targetReturnsBrutto = targetPrice + tax;
+  // const targetReturnsNetto = targetPrice - parseFloat(market_price?.replace("$", ""));
+
+  // console.log(targetReturnsNetto, tax, targetReturnsBrutto);
+
+  const tax = targetPrice * 0.13 < 0.01 ? 0.01 : targetPrice * 0.13;
+  const yourReturn = targetPrice - (tax < 0.01 ? 0.01 : tax);
+  const profit = yourReturn - parseFloat(market_price?.replace("$", ""));
+
+  console.log(
+    "customer will pay: ",
+    targetPrice,
+    "i will get: ",
+    yourReturn,
+    "my profit is: ",
+    profit,
+    "tax is: ",
+    tax
+  );
+
   return (
     <li
       className="item"
@@ -72,7 +93,7 @@ function UserItem(props: PropTypes) {
         onClick={() => setPickedItems(isSelected ? removeFromPickedItems : addToPickedItems)}
         style={{ cursor: "pointer" }}>
         <div className="item-image-wrapper">
-          <img src={` http://cdn.steamcommunity.com/economy/image/${icon_url}`} className="item-image" />
+          <img src={`http://cdn.steamcommunity.com/economy/image/${icon_url}`} className="item-image" />
         </div>
 
         <div className="item-description">
@@ -92,12 +113,14 @@ function UserItem(props: PropTypes) {
       </div>
 
       <Price price={market_price} fallback={<div className="skeleton-text" />}>
+        <p className="item-price">Current price: {market_price}</p>
+
         <div>
-          <p className="item-price">Target price: ${savedPrice}</p>
+          Customer pays: $
           <input
             style={{ padding: "5px" }}
             type="number"
-            min={0.01}
+            min={0.03}
             max={999}
             step={0.01}
             value={targetPrice}
@@ -105,9 +128,8 @@ function UserItem(props: PropTypes) {
           />
         </div>
 
-        <p className="item-price">Current price: {market_price}</p>
-        <p className="item-price">Target returns:</p>
-        <p className="item-price">Returns:</p>
+        <p className="item-price">I get: $ {yourReturn.toFixed(2)}</p>
+        <p className="item-price">Profit: $ {profit.toFixed(2)}</p>
         <button onClick={save} disabled={savedPrice === targetPrice}>
           Save
         </button>
