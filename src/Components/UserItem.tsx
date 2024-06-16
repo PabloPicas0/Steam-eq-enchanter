@@ -47,7 +47,7 @@ function UserItem(props: PropTypes) {
     const { value } = e.target;
     const selectedPrice = parseFloat(value);
 
-    if (selectedPrice < 0.03) {
+    if (selectedPrice < 0) {
       setTargetPrice(0.03);
     } else if (selectedPrice > 999) {
       setTargetPrice(999);
@@ -67,20 +67,23 @@ function UserItem(props: PropTypes) {
 
   // console.log(targetReturnsNetto, tax, targetReturnsBrutto);
 
-  const tax = targetPrice * 0.13 < 0.01 ? 0.01 : targetPrice * 0.13;
-  const yourReturn = targetPrice - (tax < 0.01 ? 0.01 : tax);
-  const profit = yourReturn - parseFloat(market_price?.replace("$", ""));
+  const tax = Math.max(0.01, targetPrice * 0.15);
+  const priceOnMarketShouldBe = targetPrice + tax;
+  const profit = parseFloat(market_price?.replace("$", "")) - priceOnMarketShouldBe;
 
-  console.log(
-    "customer will pay: ",
-    targetPrice,
-    "i will get: ",
-    yourReturn,
-    "my profit is: ",
-    profit,
-    "tax is: ",
-    tax
-  );
+  const marketPrice = parseFloat(market_price?.replace("$", ""));
+  const iGetFromCurrentPrice = parseFloat((marketPrice * 0.8696).toFixed(2));
+
+  // console.log(
+  //   "customer will pay: ",
+  //   targetPrice,
+  //   "i will get: ",
+  //   priceOnMarketShouldBe,
+  //   "my profit is: ",
+  //   profit,
+  //   "tax is: ",
+  //   tax
+  // );
 
   return (
     <li
@@ -113,10 +116,10 @@ function UserItem(props: PropTypes) {
       </div>
 
       <Price price={market_price} fallback={<div className="skeleton-text" />}>
-        <p className="item-price">Current price: {market_price}</p>
+        <p className="item-price">Price On Market Should Be: $ {priceOnMarketShouldBe.toFixed(2)}</p>
 
         <div>
-          Customer pays: $
+          From that price on market I get: $
           <input
             style={{ padding: "5px" }}
             type="number"
@@ -128,8 +131,14 @@ function UserItem(props: PropTypes) {
           />
         </div>
 
-        <p className="item-price">I get: $ {yourReturn.toFixed(2)}</p>
-        <p className="item-price">Profit: $ {profit.toFixed(2)}</p>
+        <p className="item-price">Current price on market is: {market_price}</p>
+        <p className="item-price">From that current price I get: $ {iGetFromCurrentPrice}</p>
+
+
+        <p className="item-price">Current market difference is: $ {profit.toFixed(2)}</p>
+        <p className="item-price">
+          Currently I can get more: $ {(iGetFromCurrentPrice - targetPrice).toFixed(2)}
+        </p>
         <button onClick={save} disabled={savedPrice === targetPrice}>
           Save
         </button>
