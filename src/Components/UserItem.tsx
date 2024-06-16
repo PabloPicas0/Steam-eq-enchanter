@@ -1,7 +1,10 @@
-import { useMemo, useState } from "react";
 import { ItemModel } from "../models/ItemsModel";
+
 import Area from "./Area";
 import Price from "./Price";
+
+import useSavedPrice from "../hooks/useSavedPrice";
+import usePrice from "../hooks/usePrice";
 
 type PropTypes = {
   item: ItemModel;
@@ -14,17 +17,11 @@ function UserItem(props: PropTypes) {
   const { market_name, color, name, icon_url, market_price, price_history, classid } = item;
   const isCase = /case|capsule/gim.test(name);
 
-  const [isSaved, setIsSaved] = useState(false);
-
-  const savedPrice = useMemo(() => {
-    const storagePrice = localStorage.getItem(`${classid}`);
-
-    if (storagePrice) return parseFloat(storagePrice);
-
-    return 0.03;
-  }, [isSaved]);
-
-  const [targetPrice, setTargetPrice] = useState(savedPrice);
+  const [savedPrice, setSavedPrice] = useSavedPrice(classid);
+  const { targetPrice, iGetFromCurrentPrice, priceOnMarketShouldBe, profit, setTargetPrice } = usePrice({
+    savedPrice,
+    market_price,
+  });
 
   function addToPickedItems(prev: ItemModel[]) {
     const pickedItemName = market_name;
@@ -58,32 +55,8 @@ function UserItem(props: PropTypes) {
 
   function save() {
     localStorage.setItem(`${classid}`, `${targetPrice}`);
-    setIsSaved((prev) => !prev);
+    setSavedPrice((prev) => !prev);
   }
-
-  // const tax = targetPrice * 0.13;
-  // const targetReturnsBrutto = targetPrice + tax;
-  // const targetReturnsNetto = targetPrice - parseFloat(market_price?.replace("$", ""));
-
-  // console.log(targetReturnsNetto, tax, targetReturnsBrutto);
-
-  const tax = Math.max(0.01, targetPrice * 0.15);
-  const priceOnMarketShouldBe = targetPrice + tax;
-  const profit = parseFloat(market_price?.replace("$", "")) - priceOnMarketShouldBe;
-
-  const marketPrice = parseFloat(market_price?.replace("$", ""));
-  const iGetFromCurrentPrice = parseFloat((marketPrice * 0.8696).toFixed(2));
-
-  // console.log(
-  //   "customer will pay: ",
-  //   targetPrice,
-  //   "i will get: ",
-  //   priceOnMarketShouldBe,
-  //   "my profit is: ",
-  //   profit,
-  //   "tax is: ",
-  //   tax
-  // );
 
   return (
     <li
@@ -116,7 +89,7 @@ function UserItem(props: PropTypes) {
       </div>
 
       <Price price={market_price} fallback={<div className="skeleton-text" />}>
-        <p className="item-price">Price On Market Should Be: $ {priceOnMarketShouldBe.toFixed(2)}</p>
+        <p className="item-price">Price On Market Should Be: $ {priceOnMarketShouldBe}</p>
 
         <div>
           From that price on market I get: $
@@ -134,11 +107,11 @@ function UserItem(props: PropTypes) {
         <p className="item-price">Current price on market is: {market_price}</p>
         <p className="item-price">From that current price I get: $ {iGetFromCurrentPrice}</p>
 
-
-        <p className="item-price">Current market difference is: $ {profit.toFixed(2)}</p>
+        <p className="item-price">Current market difference is: $ {profit}</p>
         <p className="item-price">
-          Currently I can get more: $ {(iGetFromCurrentPrice - targetPrice).toFixed(2)}
+          Currently I can get more: $ {(iGetFromCurrentPrice - targetPrice)}
         </p>
+
         <button onClick={save} disabled={savedPrice === targetPrice}>
           Save
         </button>
