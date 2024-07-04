@@ -18,6 +18,7 @@ function Area({
   const ALL_TIME = useMemo(() => TODAY, []);
 
   const [scope, setScope] = useState(ALL_TIME);
+  const [isMouseClicked, setIsMouseClicked] = useState(false)
   const [rectY, setRectY] = useState(50);
 
   // This copies data from 7 days, 31 days or overall
@@ -64,29 +65,38 @@ function Area({
         width={width}
         height={height}
         viewBox={`0 0 ${width} ${height}`}
-        style={{ maxWidth: "100%", height: "auto" }}>
+        style={{ maxWidth: "100%", height: "auto" }}
+        onMouseDown={(e) => {
+          setIsMouseClicked(true);
+
+           const [ex, ey] = pointer(e);
+           const mouseData = y.invert(ey);
+
+           if (y(mouseData) < marginTop || y(mouseData) > height - (marginBottom + 10)) {
+             return;
+           }
+
+           setRectY(ey);
+        }}
+        onMouseMove={(e) => {
+          if (!isMouseClicked) return
+
+          const [ex, ey] = pointer(e);
+          const mouseData = y.invert(ey);
+
+          if (y(mouseData) < marginTop || y(mouseData) > height - (marginBottom + 10)) {
+            return;
+          }
+
+          setRectY(ey);
+
+          console.log(y(mouseData));
+        }}
+        onMouseUp={() => setIsMouseClicked(false)}
+        onMouseLeave={() => setIsMouseClicked(false)}>
         <g ref={gx} transform={`translate(0,${height - marginBottom})`}></g>
         <g ref={gy} transform={`translate(${marginLeft},0)`}>
-          <rect
-            fill="red"
-            x={0}
-            y={rectY}
-            width={width}
-            height={10}
-            style={{ cursor: "pointer" }}
-            onDragCapture={(e) => {
-              const [ex, ey] = pointer(e);
-              const mouseData = y.invert(ey);
-
-              if (y(mouseData) < marginTop || y(mouseData) > height - (marginBottom + 10)) {
-                return;
-              }
-
-              setRectY(ey);
-
-              console.log(y(mouseData));
-            }}
-          />
+          <rect fill="red" x={0} y={rectY} width={width} height={10} style={{ cursor: "pointer" }} />
         </g>
         <path fill="steelblue" stroke="currentColor" strokeWidth="1.5" d={chartArea(areaData) as string} />
       </svg>
