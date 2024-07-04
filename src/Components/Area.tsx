@@ -59,6 +59,17 @@ function Area({
     void select(gy.current).call(axisLeft(y).ticks(5, "$.2f"));
   }, [gy, y]);
 
+  function changeBarPosition(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
+    const [ex, ey] = pointer(e);
+    const mouseData = y.invert(ey);
+
+    if (y(mouseData) < marginTop || y(mouseData) > height - (marginBottom + 10)) {
+      return;
+    }
+
+    setRectY(ey);
+  }
+
   return (
     <>
       <svg
@@ -68,29 +79,11 @@ function Area({
         style={{ maxWidth: "100%", height: "auto" }}
         onMouseDown={(e) => {
           setIsMouseClicked(true);
-
-           const [ex, ey] = pointer(e);
-           const mouseData = y.invert(ey);
-
-           if (y(mouseData) < marginTop || y(mouseData) > height - (marginBottom + 10)) {
-             return;
-           }
-
-           setRectY(ey);
+          changeBarPosition(e)
         }}
         onMouseMove={(e) => {
           if (!isMouseClicked) return
-
-          const [ex, ey] = pointer(e);
-          const mouseData = y.invert(ey);
-
-          if (y(mouseData) < marginTop || y(mouseData) > height - (marginBottom + 10)) {
-            return;
-          }
-
-          setRectY(ey);
-
-          console.log(y(mouseData));
+          changeBarPosition(e)
         }}
         onMouseUp={() => setIsMouseClicked(false)}
         onMouseLeave={() => setIsMouseClicked(false)}>
