@@ -91,8 +91,7 @@ function Area({
         <path fill="steelblue" stroke="currentColor" strokeWidth="1.5" d={chartArea(areaData) as string} />
       </svg>
 
-      <div
-        style={{ display: "flex", justifyContent: "end", gap: "20px", zIndex: "20", alignItems: "center" }}>
+      <div className="chart-scope-wrapper">
         <span>Chart scope:</span>
         <button onClick={() => setScope(ONE_WEEK)}>Weekly</button>
         <button onClick={() => setScope(ONE_MONTH)}>Monthly</button>

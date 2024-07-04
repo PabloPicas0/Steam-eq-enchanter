@@ -83,6 +83,7 @@
   animation: backgroundColor 0.8s infinite alternate;
 }
 /* Skeleton */
+
 .bold-font {
   font-weight: bold;
 }
@@ -156,6 +157,14 @@
 
 .item-category {
   font-size: 12px;
+}
+
+.chart-scope-wrapper {
+  display: flex;
+  justify-content: end; 
+  gap: 20px; 
+  z-Index: 20; 
+  align-items: center;
 }
 
 .pagination {
