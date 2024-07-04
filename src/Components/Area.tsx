@@ -79,19 +79,18 @@ function Area({
         style={{ maxWidth: "100%", height: "auto" }}
         onMouseDown={(e) => {
           setIsMouseClicked(true);
-          changeBarPosition(e)
+          changeBarPosition(e);
         }}
         onMouseMove={(e) => {
-          if (!isMouseClicked) return
-          changeBarPosition(e)
+          if (!isMouseClicked) return;
+          changeBarPosition(e);
         }}
         onMouseUp={() => setIsMouseClicked(false)}
         onMouseLeave={() => setIsMouseClicked(false)}>
         <g ref={gx} transform={`translate(0,${height - marginBottom})`}></g>
-        <g ref={gy} transform={`translate(${marginLeft},0)`}>
-          <rect fill="red" x={0} y={rectY} width={width} height={10} style={{ cursor: "pointer" }} />
-        </g>
+        <g ref={gy} transform={`translate(${marginLeft},0)`}></g>
         <path fill="steelblue" stroke="currentColor" strokeWidth="1.5" d={chartArea(areaData) as string} />
+        <rect fill="red" x={0} y={rectY} width={width} height={5} style={{ cursor: "pointer" }} transform={`translate(${marginLeft}, 0)`} />
       </svg>
 
       <div className="chart-scope-wrapper">
