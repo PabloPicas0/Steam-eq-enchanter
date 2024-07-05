@@ -20,7 +20,8 @@ function Area({
   const ALL_TIME = useMemo(() => TODAY, []);
 
   const [scope, setScope] = useState(ALL_TIME);
-  const [isMouseClicked, setIsMouseClicked] = useState(false)
+  const [isMouseClicked, setIsMouseClicked] = useState(false);
+  const [rectY, setRectY] = useState(targetPrice);
 
   // This copies data from 7 days, 31 days or overall
   const timestamp = TODAY - scope * 24 * 60 * 60 * 1000;
@@ -35,8 +36,6 @@ function Area({
 
   const x = scaleUtc(extent(timeScale, (time) => time) as Date[], [marginLeft, width - marginRight]);
   const y = scaleLinear([0, max(chart, (d) => d[1]) as number], [height - marginBottom, marginTop]);
-
-  const [rectY, setRectY] = useState(y(targetPrice));
 
   const chartArea = area<{ date: Date; price: Number }>(
     (d) => x(d.date),
@@ -71,7 +70,7 @@ function Area({
     }
 
     changeTargetPrice(parseFloat(mouseData.toFixed(2)));
-    setRectY(ey);
+    setRectY(mouseData);
   }
 
   return (
@@ -94,12 +93,20 @@ function Area({
         <g ref={gx} transform={`translate(0,${height - marginBottom})`}></g>
         <g ref={gy} transform={`translate(${marginLeft},0)`}></g>
         <path fill="steelblue" stroke="currentColor" strokeWidth="1.5" d={chartArea(areaData) as string} />
-        <rect fill="red" x={0} y={rectY} width={width} height={5} style={{ cursor: "pointer" }} transform={`translate(${marginLeft}, 0)`} />
+        <rect
+          fill="red"
+          x={0}
+          y={y(rectY)}
+          width={width}
+          height={5}
+          style={{ cursor: "pointer" }}
+          transform={`translate(${marginLeft}, 0)`}
+        />
       </svg>
 
       <div className="chart-scope-wrapper">
         <span>Chart scope:</span>
-        <button onClick={() => {setScope(ONE_WEEK)}}>Weekly</button>
+        <button onClick={() => setScope(ONE_WEEK)}>Weekly</button>
         <button onClick={() => setScope(ONE_MONTH)}>Monthly</button>
         <button onClick={() => setScope(ALL_TIME)}>Overall</button>
       </div>
