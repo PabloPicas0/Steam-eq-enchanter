@@ -5,6 +5,7 @@ import { AreaPropsModel } from "../models/AreaPropsModel";
 
 function Area({
   data,
+  targetPrice,
   changeTargetPrice,
   width = 800,
   height = 400,
@@ -20,7 +21,6 @@ function Area({
 
   const [scope, setScope] = useState(ALL_TIME);
   const [isMouseClicked, setIsMouseClicked] = useState(false)
-  const [rectY, setRectY] = useState(50);
 
   // This copies data from 7 days, 31 days or overall
   const timestamp = TODAY - scope * 24 * 60 * 60 * 1000;
@@ -35,6 +35,8 @@ function Area({
 
   const x = scaleUtc(extent(timeScale, (time) => time) as Date[], [marginLeft, width - marginRight]);
   const y = scaleLinear([0, max(chart, (d) => d[1]) as number], [height - marginBottom, marginTop]);
+
+  const [rectY, setRectY] = useState(y(targetPrice));
 
   const chartArea = area<{ date: Date; price: Number }>(
     (d) => x(d.date),
@@ -64,7 +66,7 @@ function Area({
     const [_, ey] = pointer(e);
     const mouseData = y.invert(ey);
 
-    if (y(mouseData) < marginTop || y(mouseData) > height - (marginBottom + 5)) {
+    if (ey < marginTop || ey > height - (marginBottom + 5)) {
       return;
     }
 
@@ -97,7 +99,7 @@ function Area({
 
       <div className="chart-scope-wrapper">
         <span>Chart scope:</span>
-        <button onClick={() => setScope(ONE_WEEK)}>Weekly</button>
+        <button onClick={() => {setScope(ONE_WEEK)}}>Weekly</button>
         <button onClick={() => setScope(ONE_MONTH)}>Monthly</button>
         <button onClick={() => setScope(ALL_TIME)}>Overall</button>
       </div>
