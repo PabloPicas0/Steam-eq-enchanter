@@ -97,7 +97,7 @@ function Area({
           fill="red"
           x={0}
           y={y(rectY)}
-          width={width}
+          width={width - (marginRight + marginLeft)}
           height={5}
           style={{ cursor: "pointer" }}
           transform={`translate(${marginLeft}, 0)`}
