@@ -5,6 +5,7 @@ import { AreaPropsModel } from "../models/AreaPropsModel";
 
 function Area({
   data,
+  changeTargetPrice,
   width = 800,
   height = 400,
   marginTop = 20,
@@ -63,10 +64,11 @@ function Area({
     const [ex, ey] = pointer(e);
     const mouseData = y.invert(ey);
 
-    if (y(mouseData) < marginTop || y(mouseData) > height - (marginBottom + 10)) {
+    if (y(mouseData) < marginTop || y(mouseData) > height - (marginBottom + 5)) {
       return;
     }
 
+    changeTargetPrice(parseFloat(mouseData.toFixed(2)));
     setRectY(ey);
   }
 
