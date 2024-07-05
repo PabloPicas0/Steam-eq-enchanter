@@ -129,9 +129,7 @@ function UserItem(props: PropTypes) {
         </button> */}
       </Price>
 
-      {price_history ? (
-        <Area data={price_history.prices} changeTargetPrice={changeTargetPrice} targetPrice={targetPrice} />
-      ) : null}
+      <Area data={price_history?.prices} changeTargetPrice={changeTargetPrice} targetPrice={targetPrice} />
     </li>
   );
 }
