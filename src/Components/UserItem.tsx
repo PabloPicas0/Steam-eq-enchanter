@@ -1,9 +1,10 @@
+import { useMemo } from "react";
+
 import { ItemModel } from "../models/ItemsModel";
 
 import Area from "./Area";
 import Price from "./Price";
 
-import useSavedPrice from "../hooks/useSavedPrice";
 import usePrice from "../hooks/usePrice";
 
 type PropTypes = {
@@ -17,7 +18,15 @@ function UserItem(props: PropTypes) {
   const { market_name, color, name, icon_url, market_price, price_history, classid } = item;
   const isCase = /case|capsule/gim.test(name);
 
-  const [savedPrice, setSavedPrice] = useSavedPrice(classid);
+  // const [savedPrice, setSavedPrice] = useSavedPrice(classid);
+  const savedPrice = useMemo(() => {
+    const storagePrice = localStorage.getItem(`${classid}`);
+
+    if (storagePrice) return parseFloat(storagePrice);
+
+    return 0.03;
+  }, []);
+
   const { targetPrice, sellProfit, buyProfit, setTargetPrice } = usePrice({
     savedPrice,
     market_price,
@@ -48,11 +57,12 @@ function UserItem(props: PropTypes) {
     } else {
       setTargetPrice(e);
     }
+
+    save();
   }
 
   function save() {
     localStorage.setItem(`${classid}`, `${targetPrice}`);
-    setSavedPrice((prev) => !prev);
   }
 
   return (
@@ -119,7 +129,9 @@ function UserItem(props: PropTypes) {
         </button> */}
       </Price>
 
-      {price_history ? <Area data={price_history.prices} changeTargetPrice={changeTargetPrice} /> : null}
+      {price_history ? (
+        <Area data={price_history.prices} changeTargetPrice={changeTargetPrice} targetPrice={targetPrice} />
+      ) : null}
     </li>
   );
 }
