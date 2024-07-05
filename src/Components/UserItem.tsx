@@ -18,7 +18,7 @@ function UserItem(props: PropTypes) {
   const isCase = /case|capsule/gim.test(name);
 
   const [savedPrice, setSavedPrice] = useSavedPrice(classid);
-  const { targetPrice, iGetFromCurrentPrice, priceOnMarketShouldBe, profit, setTargetPrice } = usePrice({
+  const { targetPrice, sellProfit, buyProfit, setTargetPrice } = usePrice({
     savedPrice,
     market_price,
   });
@@ -40,16 +40,13 @@ function UserItem(props: PropTypes) {
     return newItems;
   }
 
-  function changeTargetPrice(e: React.ChangeEvent<HTMLInputElement>) {
-    const { value } = e.target;
-    const selectedPrice = parseFloat(value);
-
-    if (selectedPrice < 0) {
+  function changeTargetPrice(e: number) {
+    if (e < 0) {
       setTargetPrice(0.03);
-    } else if (selectedPrice > 999) {
+    } else if (e > 999) {
       setTargetPrice(999);
     } else {
-      setTargetPrice(selectedPrice);
+      setTargetPrice(e);
     }
   }
 
@@ -89,10 +86,11 @@ function UserItem(props: PropTypes) {
       </div>
 
       <Price price={market_price} fallback={<div className="skeleton-text" />}>
-        <p className="item-price">Price On Market Should Be: $ {priceOnMarketShouldBe}</p>
+        <p>Current price: {market_price}</p>
+        {/* <p className="item-price">Item price on market should be: {priceOnMarketShouldBe}</p> */}
 
-        <div>
-          From that price on market I get: $
+        {/* <div>
+          I get:
           <input
             style={{ padding: "5px" }}
             type="number"
@@ -102,22 +100,26 @@ function UserItem(props: PropTypes) {
             value={targetPrice}
             onChange={changeTargetPrice}
           />
-        </div>
+        </div> */}
 
+        <p>Sell profit: {sellProfit}</p>
+        <p>Buy Profit: {buyProfit}</p>
+
+        {/* 
         <p className="item-price">Current price on market is: {market_price}</p>
         <p className="item-price">From that current price I get: $ {iGetFromCurrentPrice}</p>
 
         <p className="item-price">Current market difference is: $ {profit}</p>
         <p className="item-price">
           Currently I can get more: $ {(iGetFromCurrentPrice - targetPrice)}
-        </p>
+        </p> */}
 
-        <button onClick={save} disabled={savedPrice === targetPrice}>
+        {/* <button onClick={save} disabled={savedPrice === targetPrice}>
           Save
-        </button>
+        </button> */}
       </Price>
 
-      {price_history ? <Area data={price_history.prices} /> : null}
+      {price_history ? <Area data={price_history.prices} changeTargetPrice={changeTargetPrice} /> : null}
     </li>
   );
 }
