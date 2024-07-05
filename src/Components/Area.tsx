@@ -61,7 +61,7 @@ function Area({
   }, [gy, y]);
 
   function changeBarPosition(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
-    const [ex, ey] = pointer(e);
+    const [_, ey] = pointer(e);
     const mouseData = y.invert(ey);
 
     if (y(mouseData) < marginTop || y(mouseData) > height - (marginBottom + 5)) {
