@@ -97,36 +97,8 @@ function UserItem(props: PropTypes) {
 
       <Price price={market_price} fallback={<div className="skeleton-text" />}>
         <p>Current price: {market_price}</p>
-        {/* <p className="item-price">Item price on market should be: {priceOnMarketShouldBe}</p> */}
-
-        {/* <div>
-          I get:
-          <input
-            style={{ padding: "5px" }}
-            type="number"
-            min={0.03}
-            max={999}
-            step={0.01}
-            value={targetPrice}
-            onChange={changeTargetPrice}
-          />
-        </div> */}
-
         <p>Sell profit: {sellProfit}</p>
         <p>Buy Profit: {buyProfit}</p>
-
-        {/* 
-        <p className="item-price">Current price on market is: {market_price}</p>
-        <p className="item-price">From that current price I get: $ {iGetFromCurrentPrice}</p>
-
-        <p className="item-price">Current market difference is: $ {profit}</p>
-        <p className="item-price">
-          Currently I can get more: $ {(iGetFromCurrentPrice - targetPrice)}
-        </p> */}
-
-        {/* <button onClick={save} disabled={savedPrice === targetPrice}>
-          Save
-        </button> */}
       </Price>
 
       {price_history ? (
