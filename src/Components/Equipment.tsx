@@ -87,7 +87,9 @@ function Equipment(props: PropTypes) {
 
         {pickedItems.length ? (
           <>
-            <ul className="items-container" style={{ margin: "0 0 20px 0" }}>
+            <ul
+              className="items-container"
+              style={{ margin: "0 0 20px 0", gridTemplateColumns: "repeat(2, 1fr)" }}>
               {pickedItems.map((item) => {
                 return (
                   <UserItem
@@ -134,7 +136,7 @@ function Equipment(props: PropTypes) {
       <div className="pagination">
         <button onClick={() => setPagination(moveBackwards)}>Back</button>
 
-        {pagination.start + " / " + pagination.end + " of " + filteredItems.length}
+        {`${pagination.start} / ${pagination.end} of ${filteredItems.length}`}
 
         <button onClick={() => setPagination(moveForeword)}>Next</button>
       </div>
