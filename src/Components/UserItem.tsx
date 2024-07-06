@@ -18,7 +18,6 @@ function UserItem(props: PropTypes) {
   const { market_name, color, name, icon_url, market_price, price_history, classid } = item;
   const isCase = /case|capsule/gim.test(name);
 
-  // const [savedPrice, setSavedPrice] = useSavedPrice(classid);
   const savedPrice = useMemo(() => {
     const storagePrice = localStorage.getItem(`${classid}`);
 
