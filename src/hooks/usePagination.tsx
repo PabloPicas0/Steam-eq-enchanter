@@ -1,14 +1,19 @@
 import { useState } from "react";
 
 function usePagination(length: number) {
+  const [prevLength, setPrevLength] = useState(length);
   const [pagination, setPagination] = useState({
     start: 0,
     end: length < 55 ? length : 55,
   });
 
-    if (pagination.end > length || (pagination.end < length && pagination.end !== 55)) {
-      setPagination({ start: 0, end: length < 55 ? length : 55 });
-    }
+  if (prevLength !== length) {
+    setPagination({
+      start: 0,
+      end: length < 55 ? length : 55,
+    });
+    setPrevLength(length)
+  }
 
   function moveBackwards(prev: { start: number; end: number }) {
     if (prev.start - 56 < 0) return prev;
