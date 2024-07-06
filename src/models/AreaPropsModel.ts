@@ -1,7 +1,7 @@
 export type AreaPropsModel = {
-  data?: [string, number, string][] | null;
+  data: [string, number, string][];
   targetPrice: number;
-  changeTargetPrice(e: number): void
+  changeTargetPrice(e: number): void;
   width?: number;
   height?: number;
   marginTop?: number;

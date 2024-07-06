@@ -14,8 +14,6 @@ function Area({
   marginBottom = 20,
   marginLeft = 45,
 }: AreaPropsModel) {
-  if (!data) return null;
-
   const TODAY = useMemo(() => Date.now(), []);
   const ONE_MONTH = 31;
   const ONE_WEEK = 7;
