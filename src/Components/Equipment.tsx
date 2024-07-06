@@ -5,6 +5,7 @@ import UserItem from "./UserItem";
 import { EquipmentModel } from "../models/EquipmentModel";
 import { ItemModel } from "../models/ItemsModel";
 import { MarketModel } from "../models/MarketModel";
+import usePagination from "../hooks/usePagination";
 
 type PropTypes = {
   items: EquipmentModel;
@@ -19,33 +20,8 @@ function Equipment(props: PropTypes) {
   const regex = new RegExp(filter, "gmi");
   const filteredItems = useMemo(() => items.assets.filter((item) => regex.test(item.name)), [filter]);
 
-  const [pagination, setPagination] = useState({
-    start: 0,
-    end: filteredItems.length < 55 ? filteredItems.length : 55,
-  });
-
-  if (
-    pagination.end > filteredItems.length ||
-    (pagination.end < filteredItems.length && pagination.end !== 55)
-  ) {
-    setPagination({ start: 0, end: filteredItems.length < 55 ? filteredItems.length : 55 });
-  }
-
-  const { start, end } = pagination;
-
-  function moveBackwards(prev: { start: number; end: number }) {
-    if (prev.start - 56 < 0) return prev;
-
-    return { start: prev.start - 56, end: prev.start - 1 };
-  }
-
-  function moveForeword(prev: { start: number; end: number }) {
-    if (prev.end === filteredItems.length) return prev;
-
-    if (prev.end + 56 > filteredItems.length) return { start: prev.end + 1, end: filteredItems.length };
-
-    return { start: prev.end + 1, end: prev.end + 56 };
-  }
+  const { pagination, setPagination, moveBackwards, moveForeword } = usePagination(filteredItems.length);
+  const {start, end} = pagination
 
   async function getMarketData(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
@@ -136,7 +112,7 @@ function Equipment(props: PropTypes) {
       <div className="pagination">
         <button onClick={() => setPagination(moveBackwards)}>Back</button>
 
-        {`${pagination.start} / ${pagination.end} of ${filteredItems.length}`}
+        {`${start} / ${end} of ${filteredItems.length}`}
 
         <button onClick={() => setPagination(moveForeword)}>Next</button>
       </div>
