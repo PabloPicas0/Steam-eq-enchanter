@@ -1,7 +1,32 @@
 .chart-scope-wrapper {
   display: flex;
   justify-content: end; 
+  flex-wrap: wrap;
   gap: 20px; 
   z-Index: 20; 
   align-items: center;
+}
+
+@media (min-width: 320px) {
+  .chart-scope-wrapper {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 570px) {
+  .chart-scope-wrapper {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 700px) {
+  .chart-scope-wrapper {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 1085px) {
+  .chart-scope-wrapper {
+    flex-direction: row;
+  }
 }

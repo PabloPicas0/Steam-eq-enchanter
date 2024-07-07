@@ -66,7 +66,7 @@ function Equipment(props: PropTypes) {
           <>
             <ul
               className="items-container"
-              style={{ margin: "0 0 20px 0", gridTemplateColumns: "repeat(2, 1fr)" }}>
+              style={{ margin: "0 0 20px 0" }}>
               {pickedItems.map((item) => {
                 return (
                   <UserItem
