@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import "../styles/Profile.css"
 
 import EquipmentSkeleton from "./EquipmentSkeleton";
 import ProfileSkeleton from "./ProfileSkeleton";

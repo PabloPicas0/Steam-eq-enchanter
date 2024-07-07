@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../styles/Form.css"
 
 import steam from "../assets/Steam.webp";
 import { parseSteamId32, parseSteamId64 } from "../utils/parseSteamID";
@@ -13,7 +14,7 @@ function Form(props: {
 }) {
   const { setItems, setPending, setError } = props;
 
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState("76561198323329181");
 
   async function handleSubmit(e: React.FormEvent<HTMLInputElement>) {
     e.preventDefault();

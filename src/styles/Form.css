@@ -1,0 +1,31 @@
+.primary-form {
+  max-width: var(--form-and-profile-width);
+  margin: 0 auto;
+  background-color: var(--main-background);
+  padding: 40px;
+  border-radius: 5px;
+}
+
+.form-image-wrapper {
+  max-width: 320px;
+  height: 120px;
+  margin: 0 auto;
+}
+
+.form-image {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16/9;
+}
+
+.input-steamID {
+  margin-top: 20px;
+  padding: 10px 40px 10px 10px;
+  width: 100%;
+}
+
+.submit-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 5px 0px;
+}

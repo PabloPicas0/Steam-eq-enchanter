@@ -1,0 +1,22 @@
+.hero {
+  background-color: var(--main-background);
+  margin: 8rem auto 0rem auto;
+  padding: 2rem 1rem;
+  max-width: var(--form-and-profile-width);
+  border-radius: 5px;
+}
+
+.steam-avatar {
+  margin-top: -7rem;
+  border-radius: 50%;
+}
+
+.person-name {
+  margin: 16px 0px;
+  color: rgb(225, 229, 233);
+  font-size: 2.5rem;
+}
+
+.account-crated {
+  color: rgb(225, 229, 233);
+}

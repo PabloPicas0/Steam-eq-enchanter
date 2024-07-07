@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import "../styles/Equipment.css"
 
 import UserItem from "./UserItem";
 
@@ -21,7 +22,7 @@ function Equipment(props: PropTypes) {
   const filteredItems = useMemo(() => items.assets.filter((item) => regex.test(item.name)), [filter]);
 
   const { pagination, setPagination, moveBackwards, moveForeword } = usePagination(filteredItems.length);
-  const {start, end} = pagination
+  const { start, end } = pagination;
 
   async function getMarketData(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();

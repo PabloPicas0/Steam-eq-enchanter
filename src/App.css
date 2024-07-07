@@ -1,65 +1,17 @@
-#root {
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.bold-font {
+  font-weight: bold;
 }
 
-.primary-form {
-  max-width: var(--form-and-profile-width);
-  margin: 0 auto;
-  background-color: var(--main-background);
-  padding: 40px;
-  border-radius: 5px;
+.items-skeleton-container {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  list-style: none;
+  margin: 2.5rem 0rem;
+  padding: 0;
+  text-align: start;
 }
 
-.form-image-wrapper {
-  max-width: 320px;
-  height: 120px;
-  margin: 0 auto;
-}
-
-.form-image {
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 16/9;
-}
-
-.input-steamID {
-  margin-top: 20px;
-  padding: 10px 40px 10px 10px;
-  width: 100%;
-}
-
-.submit-btn {
-  width: 100%;
-  margin-top: 10px;
-  padding: 5px 0px;
-}
-
-.hero {
-  background-color: var(--main-background);
-  margin: 8rem auto 0rem auto;
-  padding: 2rem 1rem;
-  max-width: var(--form-and-profile-width);
-  border-radius: 5px;
-}
-
-.steam-avatar {
-  margin-top: -7rem;
-  border-radius: 50%;
-}
-
-.person-name {
-  margin: 16px 0px;
-  color: rgb(225, 229, 233);
-  font-size: 2.5rem;
-}
-
-.account-crated {
-  color: rgb(225, 229, 233);
-}
-
-/* Skeleton */
 .skeleton-rounded {
   margin-top: -7rem;
   height: 188px;
@@ -82,99 +34,6 @@
   height: 50px;
   animation: backgroundColor 0.8s infinite alternate;
 }
-/* Skeleton */
-
-.bold-font {
-  font-weight: bold;
-}
-
-.equipment {
-  background-color: var(--main-background);
-  margin-top: 2rem;
-  padding: 2rem;
-  border-radius: 5px;
-  color: whitesmoke;
-}
-
-.input-filter-equipment {
-  width: 280px;
-  margin: 0;
-}
-
-.items-container {
-  display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  list-style: none;
-  margin: 2.5rem 0rem;
-  padding: 0;
-  text-align: start;
-}
-
-.item {
-  border: 1px solid whitesmoke;
-  border-radius: 10px;
-  padding: 10px 20px;
-}
-
-.item-image-wrapper {
-  display: flex;
-  justify-content: center;
-}
-
-.item-image {
-  width: 100%;
-  max-width: 180px;
-  max-height: 135px;
-}
-
-.item-description {
-  min-height: 104px;
-}
-
-.item-name {
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.item-price-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: end;
-  border-top: 1px solid seashell;
-}
-
-.item-price {
-  margin: 0.5rem;
-  font-weight: bold;
-}
-
-.item-skin {
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.item-category {
-  font-size: 12px;
-}
-
-.chart-scope-wrapper {
-  display: flex;
-  justify-content: end; 
-  gap: 20px; 
-  z-Index: 20; 
-  align-items: center;
-}
-
-.pagination {
-  display: flex;
-  gap: 2rem;
-  grid-column: 1 / -1;
-  color: white;
-  align-items: center;
-  justify-content: center;
-}
 
 @keyframes backgroundColor {
   from {
@@ -184,4 +43,4 @@
     background: rgb(161, 160, 159);
   }
 }
-/* Profile Skeleton */
+

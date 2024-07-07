@@ -1,5 +1,6 @@
 import { area, select, scaleLinear, extent, max, axisBottom, axisLeft, scaleUtc, pointer } from "d3";
 import { useEffect, useMemo, useRef, useState } from "react";
+import "../styles/Area.css"
 
 import { AreaPropsModel } from "../models/AreaPropsModel";
 

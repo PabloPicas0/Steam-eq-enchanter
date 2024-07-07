@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
-import { PriceHistoryModel } from "../models/PriceHistoryModel";
 
-function Price(props: { price?: null | string | PriceHistoryModel; children: ReactNode; fallback: ReactNode }) {
+function Price(props: { price?: null | string; children: ReactNode; fallback: ReactNode }) {
   const { price, children, fallback } = props;
 
   if (price === undefined) return null;
