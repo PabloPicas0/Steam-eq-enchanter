@@ -18,12 +18,12 @@ function EquipmentSkeleton() {
         className="skeleton-text"
         style={{ gridColumn: "1 / -1", placeSelf: "center", height: "36px", width: "230px" }}></h2>
 
-      {[...new Array(4)].map((_, idx) => {
+      {[...new Array(5)].map((_, idx) => {
         return (
           <div
             key={idx * 429 * Math.random()}
             className="skeleton-rect"
-            style={{ placeSelf: "center", height: "273px", width: "429px" }}></div>
+            style={{ placeSelf: "center", height: "273px", width: "100%", maxWidth: "430px" }}></div>
         );
       })}
     </section>
