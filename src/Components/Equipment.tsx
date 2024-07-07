@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import "../styles/Equipment.css"
+import "../styles/Equipment.css";
 
 import UserItem from "./UserItem";
 
@@ -64,9 +64,7 @@ function Equipment(props: PropTypes) {
 
         {pickedItems.length ? (
           <>
-            <ul
-              className="items-container"
-              style={{ margin: "0 0 20px 0" }}>
+            <ul className="items-container selected-items-container">
               {pickedItems.map((item) => {
                 return (
                   <UserItem

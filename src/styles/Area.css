@@ -13,7 +13,7 @@
   }
 }
 
-@media (min-width: 570px) {
+@media (min-width: 575px) {
   .chart-scope-wrapper {
     flex-direction: row;
   }

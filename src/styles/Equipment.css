@@ -20,6 +20,11 @@
   text-align: start;
 }
 
+.selected-items-container {
+  margin: 0 0 20px 0;
+  grid-template-columns: 1fr 1fr
+}
+
 .item {
   border: 1px solid whitesmoke;
   border-radius: 10px;
@@ -80,5 +85,11 @@
 @media (max-width: 380px) {
   .equipment {
     padding: 2rem 0rem;
+  }
+}
+
+@media (max-width: 699px) {
+  .selected-items-container {
+    grid-template-columns: 1fr;
   }
 }
