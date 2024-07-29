@@ -1,6 +1,6 @@
 import { area, select, scaleLinear, extent, max, axisBottom, axisLeft, scaleUtc, pointer } from "d3";
 import { useEffect, useMemo, useRef, useState } from "react";
-import "../styles/Area.css"
+import "../styles/Area.css";
 
 import { AreaPropsModel } from "../models/AreaPropsModel";
 
@@ -75,7 +75,7 @@ function Area({
   }
 
   return (
-    <>
+    <div className="area-container">
       <svg
         width={width}
         height={height}
@@ -111,7 +111,11 @@ function Area({
         <button onClick={() => setScope(ONE_MONTH)}>Monthly</button>
         <button onClick={() => setScope(ALL_TIME)}>Overall</button>
       </div>
-    </>
+
+      <div className="tooltip" style={{ top: y(rectY) - 8, opacity: isMouseClicked ? 1 : 0 }}>
+        {rectY.toFixed(2)}
+      </div>
+    </div>
   );
 }
 

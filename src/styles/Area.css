@@ -1,3 +1,13 @@
+.area-container {
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  transition: opacity 250ms;
+}
+
 .chart-scope-wrapper {
   display: flex;
   justify-content: end; 
