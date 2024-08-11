@@ -3,10 +3,12 @@ import cors from "cors";
 
 import { AddressInfo } from "net";
 
+import SteamUser from "steam-user"
 import getUserInfo from "./utils/getUserInfo.js";
 import getUserInventory from "./utils/getUserInventory.js";
 import getPriceOverview from "./utils/getPriceOverview.js";
 import getPriceHistory from "./utils/getPriceHistory.js";
+import addItemDescriptions from "./utils/addItemDescriptions.js";
 
 const POLISH_CURRENCY_PRICE = 3.95; // Jun 5 2024, 13:17 UTC
 
@@ -14,6 +16,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+const user = new SteamUser();
 
 app.get("/", async (req, res) => {
   const { id } = req.query;
@@ -25,24 +29,7 @@ app.get("/", async (req, res) => {
     ]);
 
     // label for each inventory item name and icon
-    for (let i = 0; i < userInventory.assets.length; ++i) {
-      const item = userInventory.assets[i];
-
-      for (let j = 0; j < userInventory.descriptions.length; ++j) {
-        const description = userInventory.descriptions[j];
-
-        if (item.classid === description.classid) {
-          const color = description.tags.find((tag) => tag.color).color;
-
-          item.name = description.name;
-          item.market_name = description.market_name;
-          item.icon_url = description.icon_url;
-          item.type = description.type;
-          item.color = color;
-          break;
-        }
-      }
-    }
+    addItemDescriptions(userInventory)
 
     const filteredUserInventory = userInventory.assets.filter(
       (item) => !item.type.includes("Collectible") && !item.type.includes("Music")
@@ -94,6 +81,6 @@ app.post("/", async (req, res) => {
 
 const listener = app.listen(process.env.PORT || 3001, () => {
   const { port } = listener.address() as AddressInfo;
-  console.log(`Your app is listening to localhost:${port}`);
+  console.log(`Your app is listening to http://localhost:${port}?id=76561198323329181`);
   console.log("Press ctrl + c to exit");
 });
