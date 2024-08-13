@@ -10,8 +10,7 @@ import getUserInventory from "./utils/getUserInventory.js";
 import getPriceOverview from "./utils/getPriceOverview.js";
 import getPriceHistory from "./utils/getPriceHistory.js";
 import addItemDescriptions from "./utils/addItemDescriptions.js";
-
-const POLISH_CURRENCY_PRICE = 3.95; // Jun 5 2024, 13:17 UTC
+import getCurrency from "./utils/getCurrency.js";
 
 const app = express();
 
@@ -22,6 +21,7 @@ const session = new LoginSession(EAuthTokenPlatformType.WebBrowser);
 session.refreshToken = process.env.REFRESH_TOKEN;
 
 const webCookies = await session.getWebCookies();
+const ONE_DOLLAR_IN_POLISH_CURRENCY = await getCurrency("usd");
 
 app.get("/", async (req, res) => {
   const { id } = req.query;
@@ -51,14 +51,14 @@ app.get("/", async (req, res) => {
 
 app.post("/", async (req, res) => {
   const marketItems: string[] = req.body;
-  const cookie = webCookies[2]
+  const cookie = webCookies[2];
 
-  if (!webCookies) res.sendStatus(404)
+  if (!webCookies) res.sendStatus(404);
 
   // get steam cookie value needed for price history
-  const start = cookie.indexOf("=") + 1
-  const end = cookie.indexOf(";")
-  const cookieValue = cookie.slice(start, end)
+  const start = cookie.indexOf("=") + 1;
+  const end = cookie.indexOf(";");
+  const cookieValue = cookie.slice(start, end);
 
   try {
     const priceOverview = await Promise.all(
@@ -74,8 +74,10 @@ app.post("/", async (req, res) => {
     );
 
     const finalPrice = priceOverview.map((itemPrice, idx) => {
-      if (priceHistory[idx].success) {
-        priceHistory[idx].prices.forEach((price) => (price[1] = Number(price[1] / POLISH_CURRENCY_PRICE))); // convert price history from PLN to USD
+      const { success, prices } = priceHistory[idx];
+
+      if (success) {
+        prices.forEach((price) => (price[1] = Number(price[1] / ONE_DOLLAR_IN_POLISH_CURRENCY))); // convert price history from PLN to USD
       }
 
       priceHistory[idx].price_suffix = "USD";
