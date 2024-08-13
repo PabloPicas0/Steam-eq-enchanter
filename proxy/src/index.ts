@@ -3,7 +3,6 @@ import cors from "cors";
 
 import { AddressInfo } from "net";
 
-import SteamUser from "steam-user";
 import { LoginSession, EAuthTokenPlatformType } from "steam-session";
 
 import getUserInfo from "./utils/getUserInfo.js";
@@ -20,21 +19,9 @@ app.use(cors());
 app.use(express.json());
 
 const session = new LoginSession(EAuthTokenPlatformType.WebBrowser);
-try {
-  await session.startWithCredentials({
-    accountName: process.env.STEAM_ACCOUNT_NAME,
-    password: process.env.STEAM_PASS,
-  });
-  await session.submitSteamGuardCode(process.env.CODE);
+session.refreshToken = process.env.REFRESH_TOKEN;
 
-  console.log("successfully logged to steam with ID", session.steamID);
-} catch (error) {
-  console.error(error);
-}
-
-const user = new SteamUser();
-
-// user.logOn({ refreshToken: session.refreshToken });
+const webCookies = await session.getWebCookies();
 
 app.get("/", async (req, res) => {
   const { id } = req.query;
@@ -64,6 +51,14 @@ app.get("/", async (req, res) => {
 
 app.post("/", async (req, res) => {
   const marketItems: string[] = req.body;
+  const cookie = webCookies[2]
+
+  if (!webCookies) res.sendStatus(404)
+
+  // get steam cookie value needed for price history
+  const start = cookie.indexOf("=") + 1
+  const end = cookie.indexOf(";")
+  const cookieValue = cookie.slice(start, end)
 
   try {
     const priceOverview = await Promise.all(
@@ -74,7 +69,7 @@ app.post("/", async (req, res) => {
 
     const priceHistory = await Promise.all(
       marketItems.map((item) => {
-        return getPriceHistory(item, { headers: { Cookie: `steamLoginSecure=${process.env.COOKIE}` } });
+        return getPriceHistory(item, { headers: { Cookie: `steamLoginSecure=${cookieValue}` } });
       })
     );
 
