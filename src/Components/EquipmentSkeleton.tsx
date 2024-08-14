@@ -1,4 +1,3 @@
-// TODO: Adjust later skeleton to be more responsive
 function EquipmentSkeleton() {
   return (
     <section className="items-skeleton-container">
