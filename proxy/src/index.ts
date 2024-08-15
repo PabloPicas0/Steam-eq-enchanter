@@ -23,6 +23,13 @@ session.refreshToken = process.env.REFRESH_TOKEN;
 const webCookies = await session.getWebCookies();
 const ONE_DOLLAR_IN_POLISH_CURRENCY = await getCurrency("usd");
 
+const steamCommunityCookie = webCookies[2];
+
+// get steam cookie value needed for price history
+const start = steamCommunityCookie.indexOf("=") + 1;
+const end = steamCommunityCookie.indexOf(";");
+const cookieValue = steamCommunityCookie.slice(start, end);
+
 app.get("/", async (req, res) => {
   const { id } = req.query;
 
@@ -51,14 +58,8 @@ app.get("/", async (req, res) => {
 
 app.post("/", async (req, res) => {
   const marketItems: string[] = req.body;
-  const cookie = webCookies[2];
 
   if (!webCookies) res.sendStatus(404);
-
-  // get steam cookie value needed for price history
-  const start = cookie.indexOf("=") + 1;
-  const end = cookie.indexOf(";");
-  const cookieValue = cookie.slice(start, end);
 
   try {
     const priceOverview = await Promise.all(
