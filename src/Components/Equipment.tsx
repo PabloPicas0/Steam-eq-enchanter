@@ -45,7 +45,6 @@ function Equipment(props: PropTypes) {
     });
     const data: MarketModel[] = await response.json();
 
-    console.log(data);
     setPickedItems((prev) => {
       return prev.map((item, idx) => {
         item.market_price = data[idx]?.success ? data[idx].lowest_price : "Unable to find price";

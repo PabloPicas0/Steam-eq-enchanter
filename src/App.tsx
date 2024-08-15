@@ -16,10 +16,6 @@ function App() {
 
   const [profile, userItems] = items;
 
-  useEffect(() => {
-    console.log(items);
-  }, [items]);
-
   return (
     <>
       <Form setItems={setItems} setPending={setPending} setError={setError} />
