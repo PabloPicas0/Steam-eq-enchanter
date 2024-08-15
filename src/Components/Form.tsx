@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../styles/Form.css"
+import "../styles/Form.css";
 
 import steam from "../assets/Steam.webp";
 import { parseSteamId32, parseSteamId64 } from "../utils/parseSteamID";
@@ -21,7 +21,7 @@ function Form(props: {
 
     if (input === "") return;
 
-    const steam64ID = /STEAM_|:/g.test(input) ? parseSteamId32(input) : parseSteamId64(input);
+    const steam64ID = /STEAM_/g.test(input) ? parseSteamId32(input) : parseSteamId64(input);
 
     setPending(true);
     setItems([]);
