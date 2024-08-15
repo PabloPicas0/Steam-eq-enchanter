@@ -17,11 +17,11 @@ function usePrice(props: PropTypes): UsePriceProperties {
 
   const [targetPrice, setTargetPrice] = useState(savedPrice);
 
-  if (!market_price)
+  if (!market_price || market_price === "Unable to find price")
     return {
       targetPrice,
-      sellProfit: null,
-      buyProfit: null,
+      sellProfit: "0",
+      buyProfit: "0",
       setTargetPrice,
     };
 
