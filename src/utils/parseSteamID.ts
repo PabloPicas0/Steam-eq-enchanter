@@ -13,5 +13,5 @@ export function parseSteamId32(id: string) {
 
   const w = z * 2n + v + y;
 
-  return w;
+  return w.toString();
 }
