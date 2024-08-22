@@ -99,8 +99,8 @@ function UserItem(props: PropTypes) {
 
       <Price price={market_price} fallback={<div className="skeleton-text" />}>
         <p>Current price: {market_price}</p>
-        <p>Sell profit: {sellProfit}</p>
-        <p>Buy Profit: {buyProfit}</p>
+        <p>Sell profit: ${sellProfit}</p>
+        <p>Buy Profit: ${buyProfit}</p>
       </Price>
 
       {price_history ? (
