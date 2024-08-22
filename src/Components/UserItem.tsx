@@ -75,7 +75,10 @@ function UserItem(props: PropTypes) {
         onClick={() => setPickedItems(isSelected ? removeFromPickedItems : addToPickedItems)}
         style={{ cursor: "pointer" }}>
         <div className="item-image-wrapper">
-          <img src={`http://cdn.steamcommunity.com/economy/image/${icon_url}`} className="item-image" />
+          <img
+            src={`https://steamcommunity-a.akamaihd.net/economy/image//${icon_url}`}
+            className="item-image"
+          />
         </div>
 
         <div className="item-description">
