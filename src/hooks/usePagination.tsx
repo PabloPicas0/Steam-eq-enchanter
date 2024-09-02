@@ -1,32 +1,35 @@
 import { useState } from "react";
 
+const ITEMS_START_AMMOUNT = 24
+const NEXT_ITEMS_AMMOUNT = 25;
+
 function usePagination(length: number) {
   const [prevLength, setPrevLength] = useState(length);
   const [pagination, setPagination] = useState({
     start: 0,
-    end: length < 55 ? length : 55,
+    end: length < ITEMS_START_AMMOUNT ? length : ITEMS_START_AMMOUNT,
   });
 
   if (prevLength !== length) {
     setPagination({
       start: 0,
-      end: length < 55 ? length : 55,
+      end: length < ITEMS_START_AMMOUNT ? length : ITEMS_START_AMMOUNT,
     });
-    setPrevLength(length)
+    setPrevLength(length);
   }
 
   function moveBackwards(prev: { start: number; end: number }) {
-    if (prev.start - 56 < 0) return prev;
+    if (prev.start - NEXT_ITEMS_AMMOUNT < 0) return prev;
 
-    return { start: prev.start - 56, end: prev.start - 1 };
+    return { start: prev.start - NEXT_ITEMS_AMMOUNT, end: prev.start - 1 };
   }
 
   function moveForeword(prev: { start: number; end: number }) {
     if (prev.end === length) return prev;
 
-    if (prev.end + 56 > length) return { start: prev.end + 1, end: length };
+    if (prev.end + NEXT_ITEMS_AMMOUNT > length) return { start: prev.end + 1, end: length };
 
-    return { start: prev.end + 1, end: prev.end + 56 };
+    return { start: prev.end + 1, end: prev.end + NEXT_ITEMS_AMMOUNT };
   }
 
   return { pagination, setPagination, moveBackwards, moveForeword };
