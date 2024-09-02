@@ -38,7 +38,7 @@ function Equipment(props: PropTypes) {
     });
 
     const itemsMarketName = pickedItems.map((item) => item.market_name);
-    const response = await fetch("/api", {
+    const response = await fetch("https://steam-eq-ench-serv.glitch.me", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(itemsMarketName),
