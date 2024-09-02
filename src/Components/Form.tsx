@@ -14,7 +14,7 @@ function Form(props: {
 }) {
   const { setItems, setPending, setError } = props;
 
-  const [input, setInput] = useState("76561198323329181");
+  const [input, setInput] = useState("76561198199821373");
 
   async function handleSubmit(e: React.FormEvent<HTMLInputElement>) {
     e.preventDefault();
@@ -26,7 +26,7 @@ function Form(props: {
     setPending(true);
     setItems([]);
 
-    const proxyResponse = await fetch(`/api?id=${steam64ID}`);
+    const proxyResponse = await fetch(`https://steam-eq-ench-serv.glitch.me?id=${steam64ID}`);
 
     if (!proxyResponse.ok) {
       setPending(false);
