@@ -112,7 +112,7 @@ function Area({
         <button onClick={() => setScope(ALL_TIME)}>Overall</button>
       </div>
 
-      <div className="tooltip" style={{ top: y(rectY) - 8, opacity: isMouseClicked ? 1 : 0 }}>
+      <div className="tooltip" style={{ top: y(rectY) - 10, opacity: isMouseClicked ? 1 : 0 }}>
         {rectY.toFixed(2)}
       </div>
     </div>

@@ -4,6 +4,7 @@
 
 .tooltip {
   position: absolute;
+  right: 10px;
   pointer-events: none;
   transition: opacity 250ms;
 }
