@@ -11,6 +11,7 @@ export type UserInvenotryType = {
     icon_url: string;
     type: string;
     color: string;
+    quality: number;
   }[];
   descriptions: {
     appid: number;
