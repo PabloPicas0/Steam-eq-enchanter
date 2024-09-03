@@ -52,7 +52,6 @@ function Area({
     // DO NOT DELETE MIGHT BE USEFUL IN THE FUTURE
 
     // const ticksNumber = Array.from(new Set(x.ticks().map(x.tickFormat(0, "%Y")))).length;
-
     void select(gx.current).call(axisBottom(x).ticks(7));
   }, [gx, x]);
 
@@ -66,7 +65,7 @@ function Area({
     const [_, ey] = pointer(e);
     const mouseData = y.invert(ey);
 
-    if (ey < marginTop || ey > height - (marginBottom + 5)) {
+    if (ey < marginTop + 4 || ey > height - (marginBottom + 5)) {
       return;
     }
 
@@ -77,8 +76,6 @@ function Area({
   return (
     <div className="area-container">
       <svg
-        width={width}
-        height={height}
         viewBox={`0 0 ${width} ${height}`}
         style={{ maxWidth: "100%", height: "auto" }}
         onMouseDown={(e) => {
@@ -93,16 +90,27 @@ function Area({
         onMouseLeave={() => setIsMouseClicked(false)}>
         <g ref={gx} transform={`translate(0,${height - marginBottom})`}></g>
         <g ref={gy} transform={`translate(${marginLeft},0)`}></g>
-        <path fill="steelblue" stroke="currentColor" strokeWidth="1.5" d={chartArea(areaData) as string} />
+
+        <path fill="steelblue" stroke="currentColor" strokeWidth="0.5" d={chartArea(areaData) as string} />
+
         <rect
           fill="red"
           x={0}
           y={y(rectY)}
           width={width - (marginRight + marginLeft)}
-          height={5}
+          height={3}
           style={{ cursor: "pointer" }}
           transform={`translate(${marginLeft}, 0)`}
         />
+
+        <text
+          x={width - 55}
+          y={y(rectY) - 10}
+          className="tooltip"
+          fill="white"
+          style={{ opacity: isMouseClicked ? 1 : 0 }}>
+          {rectY.toFixed(2)}
+        </text>
       </svg>
 
       <div className="chart-scope-wrapper">
@@ -110,10 +118,6 @@ function Area({
         <button onClick={() => setScope(ONE_WEEK)}>Weekly</button>
         <button onClick={() => setScope(ONE_MONTH)}>Monthly</button>
         <button onClick={() => setScope(ALL_TIME)}>Overall</button>
-      </div>
-
-      <div className="tooltip" style={{ top: y(rectY) - 10, opacity: isMouseClicked ? 1 : 0 }}>
-        {rectY.toFixed(2)}
       </div>
     </div>
   );
