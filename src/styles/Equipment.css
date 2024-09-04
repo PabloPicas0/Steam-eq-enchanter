@@ -5,9 +5,32 @@
   color: whitesmoke;
 }
 
+.inputs-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
 .input-filter-equipment {
   max-width: 280px;
   margin: 0;
+}
+
+.sort-btn {
+  border-radius: 0;
+  padding: 0.6em 1.2em;
+  border: none;
+}
+
+.filter-btn {
+  padding: 0.6em 1.2em;
+  display: flex;
+  justify-content: center;  
+  align-items: center;
+  border-radius: 0;
+  border: 0;
+  gap: 5px;
 }
 
 .items-container {
@@ -22,7 +45,7 @@
 
 .selected-items-container {
   margin: 0 0 20px 0;
-  grid-template-columns: 1fr 1fr
+  grid-template-columns: 1fr 1fr;
 }
 
 .item {
