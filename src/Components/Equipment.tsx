@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import "../styles/Equipment.css";
 
 import UserItem from "./UserItem";
@@ -6,7 +6,10 @@ import UserItem from "./UserItem";
 import { EquipmentModel } from "../models/EquipmentModel";
 import { ItemModel } from "../models/ItemsModel";
 import { MarketModel } from "../models/MarketModel";
+
 import usePagination from "../hooks/usePagination";
+import useFiter from "../hooks/useFilter";
+import Filter from "./Filter";
 
 type PropTypes = {
   items: EquipmentModel;
@@ -15,12 +18,9 @@ type PropTypes = {
 function Equipment(props: PropTypes) {
   const { items } = props;
 
-  const [filter, setFilter] = useState("");
   const [pickedItems, setPickedItems] = useState<ItemModel[]>([]);
 
-  const regex = new RegExp(filter, "gmi");
-  const filteredItems = useMemo(() => items.assets.filter((item) => regex.test(item.name)), [filter]);
-
+  const { filteredItems, regexFilter, sortAscending, setRegexFilter, setSortAscending } = useFiter(items);
   const { pagination, setPagination, moveBackwards, moveForeword } = usePagination(filteredItems.length);
   const { start, end } = pagination;
 
@@ -38,7 +38,7 @@ function Equipment(props: PropTypes) {
     });
 
     const itemsMarketName = pickedItems.map((item) => item.market_name);
-    const response = await fetch("https://steam-eq-ench-serv.glitch.me", {
+    const response = await fetch("/api", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(itemsMarketName),
@@ -88,15 +88,26 @@ function Equipment(props: PropTypes) {
       <div>
         <h2>Total unique items: {filteredItems.length}</h2>
 
-        <input
-          className="input-steamID input-filter-equipment"
-          type="text"
-          value={filter}
-          onChange={(e) => {
-            setFilter(e.target.value.replace("\\", ""));
-          }}
-          placeholder="Search"
-        />
+        <div className="inputs-wrapper">
+          <input
+            className="input-steamID input-filter-equipment"
+            type="text"
+            value={regexFilter}
+            onChange={(e) => {
+              setRegexFilter(e.target.value.replace("\\", ""));
+            }}
+            placeholder="Search"
+          />
+
+          <button
+            title={`Sorted ${sortAscending ? "ascending" : " descending"}`}
+            className="sort-btn"
+            onClick={() => setSortAscending((prev) => !prev)}>
+            Sort {sortAscending ? "\u2191" : "\u2193"}
+          </button>
+
+          <Filter className="filter-btn"/>
+        </div>
       </div>
 
       <ul className="items-container">
