@@ -7,6 +7,7 @@
 
 .inputs-wrapper {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 20px;
@@ -21,16 +22,6 @@
   border-radius: 0;
   padding: 0.6em 1.2em;
   border: none;
-}
-
-.filter-btn {
-  padding: 0.6em 1.2em;
-  display: flex;
-  justify-content: center;  
-  align-items: center;
-  border-radius: 0;
-  border: 0;
-  gap: 5px;
 }
 
 .items-container {
