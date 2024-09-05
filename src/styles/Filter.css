@@ -1,0 +1,29 @@
+.filter {
+  position: relative;
+}
+
+.filter-btn {
+  padding: 0.6em 1.2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0;
+  border: 0;
+  gap: 5px;
+}
+
+.filter-options-wrapper {
+  position: absolute;
+  background: #2e2e2e;
+  padding: 0.5rem;
+  left: -15px;
+  top: 45px;
+  border-radius: 8px;
+  transition: visibility 100ms linear, opacity 100ms linear;
+}
+
+.filter-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
