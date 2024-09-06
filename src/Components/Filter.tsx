@@ -15,8 +15,24 @@ const itemQualityTypes = [
   ["Contraband", "rgb(228, 174, 57)"],
 ];
 
-function Filter() {
+function Filter(props: {
+  setQualityFilter: React.Dispatch<React.SetStateAction<string>>;
+  qualityFilter: string;
+}) {
+  const { qualityFilter, setQualityFilter } = props;
+
   const [isClicked, setIsClicked] = useState(false);
+
+  const visibilityState = isClicked ? "visible" : "hidden";
+  const opacityState = isClicked ? 1 : 0;
+
+  function addQuality(prevState: string, currentQualityType: string) {
+    return prevState + currentQualityType;
+  }
+
+  function deleteQuality(prevState: string, currentQualityType: string) {
+    return prevState.replace(currentQualityType, "");
+  }
 
   return (
     <div className="filter">
@@ -24,15 +40,21 @@ function Filter() {
         Filter <FilterIcon width={15} height={15} />
       </button>
 
-      <div
-        className="filter-options-wrapper"
-        style={{ visibility: isClicked ? "visible" : "hidden", opacity: isClicked ? 1 : 0 }}>
-        {itemQualityTypes.map((type) => {
+      <div className="filter-options-wrapper" style={{ visibility: visibilityState, opacity: opacityState }}>
+        {itemQualityTypes.map((type, idx) => {
           const [name, color] = type;
+          const qualityType = (idx + 1).toString();
+          const isSelected = qualityFilter.includes(qualityType);
+          const handleQuality = isSelected ? deleteQuality : addQuality;
 
           return (
-            <div className="filter-item" style={{ color: color }}>
-              <input type="checkbox" id={name} />
+            <div key={name} className="filter-item" style={{ color: color }}>
+              <input
+                type="checkbox"
+                id={name}
+                checked={isSelected}
+                onChange={() => setQualityFilter((prev) => handleQuality(prev, qualityType))}
+              />
               <label htmlFor={name}>{name}</label>
             </div>
           );
