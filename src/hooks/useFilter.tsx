@@ -3,16 +3,27 @@ import { useState } from "react";
 import { EquipmentModel } from "../models/EquipmentModel";
 
 function useFiter(items: EquipmentModel) {
-  const [regexFilter, setRegexFilter] = useState("");
+  const [nameFilter, setNameFilter] = useState("");
+  const [qualityFilter, setQualityFilter] = useState("12345678");
   const [sortAscending, setSortAscending] = useState(true);
 
-  const regex = new RegExp(regexFilter, "gmi");
-  
+  const nameRegex = new RegExp(nameFilter, "gmi");
+  const qualityRegex = new RegExp(`[${qualityFilter}]`);
+
   const filteredItems = items.assets
-    .filter((item) => regex.test(item.name))
+    .filter((item) => nameRegex.test(item.name))
+    .filter((item) => qualityRegex.test(item.quality.toString()))
     .sort((a, b) => (sortAscending ? a.quality - b.quality : b.quality - a.quality));
 
-  return { filteredItems, regexFilter, sortAscending, setRegexFilter, setSortAscending };
+  return {
+    filteredItems,
+    nameFilter,
+    sortAscending,
+    qualityFilter,
+    setNameFilter,
+    setSortAscending,
+    setQualityFilter,
+  };
 }
 
 export default useFiter;
