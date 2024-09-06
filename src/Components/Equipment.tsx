@@ -20,7 +20,15 @@ function Equipment(props: PropTypes) {
 
   const [pickedItems, setPickedItems] = useState<ItemModel[]>([]);
 
-  const { filteredItems, regexFilter, sortAscending, setRegexFilter, setSortAscending } = useFiter(items);
+  const {
+    filteredItems,
+    nameFilter,
+    sortAscending,
+    qualityFilter,
+    setNameFilter,
+    setSortAscending,
+    setQualityFilter,
+  } = useFiter(items);
   const { pagination, setPagination, moveBackwards, moveForeword } = usePagination(filteredItems.length);
   const { start, end } = pagination;
 
@@ -92,9 +100,9 @@ function Equipment(props: PropTypes) {
           <input
             className="input-steamID input-filter-equipment"
             type="text"
-            value={regexFilter}
+            value={nameFilter}
             onChange={(e) => {
-              setRegexFilter(e.target.value.replace("\\", ""));
+              setNameFilter(e.target.value.replace("\\", ""));
             }}
             placeholder="Search"
           />
@@ -106,7 +114,7 @@ function Equipment(props: PropTypes) {
             Sort {sortAscending ? "\u2191" : "\u2193"}
           </button>
 
-          <Filter className="filter-btn"/>
+          <Filter qualityFilter={qualityFilter} setQualityFilter={setQualityFilter} />
         </div>
       </div>
 
