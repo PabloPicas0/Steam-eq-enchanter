@@ -1,7 +1,7 @@
 import { Quality } from "../models/ItemQualityModel.js";
-import { UserInvenotryType } from "../models/UserInventoryModel.js";
+import { UserInventoryType } from "../models/UserInventoryModel.js";
 
-function addItemDescriptions(userInventory: UserInvenotryType) {
+function addItemDescriptions(userInventory: UserInventoryType) {
   for (let i = 0; i < userInventory.assets.length; ++i) {
     const item = userInventory.assets[i];
 
