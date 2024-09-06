@@ -1,4 +1,4 @@
-export type UserInvenotryType = {
+export type UserInventoryType = {
   assets: {
     appid: number;
     contextid: string;
