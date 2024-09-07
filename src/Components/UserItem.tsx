@@ -6,6 +6,7 @@ import Area from "./Area";
 import Price from "./Price";
 
 import usePrice from "../hooks/usePrice";
+import AmmountIcon from "../Icons/AmmountIcon";
 
 type PropTypes = {
   item: ItemModel;
@@ -15,7 +16,7 @@ type PropTypes = {
 
 function UserItem(props: PropTypes) {
   const { item, isSelected, setPickedItems } = props;
-  const { market_name, color, name, icon_url, market_price, price_history, classid } = item;
+  const { market_name, color, name, icon_url, market_price, price_history, classid, amount } = item;
   const isCase = /case|capsule/gim.test(name);
 
   const savedPrice = useMemo(() => {
@@ -65,15 +66,15 @@ function UserItem(props: PropTypes) {
   }
 
   return (
-    <li
-      className="item"
-      style={{
-        color: "#fafafa",
-        borderColor: `#${color}`,
-      }}>
+    <li className="item" style={{ borderColor: `#${color}` }}>
       <div
         onClick={() => setPickedItems(isSelected ? removeFromPickedItems : addToPickedItems)}
         style={{ cursor: "pointer" }}>
+        <div className="item-ammount">
+          <AmmountIcon width={20} height={20}/>
+          {amount}
+        </div>
+
         <div className="item-image-wrapper">
           <img
             src={`https://steamcommunity-a.akamaihd.net/economy/image//${icon_url}`}
