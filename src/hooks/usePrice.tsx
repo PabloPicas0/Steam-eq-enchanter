@@ -17,7 +17,7 @@ function usePrice(props: PropTypes): UsePriceProperties {
 
   const [targetPrice, setTargetPrice] = useState(savedPrice);
 
-  if (!market_price || market_price === "Unable to find price")
+  if (!market_price || market_price === "Not marketable")
     return {
       targetPrice,
       sellProfit: "0",

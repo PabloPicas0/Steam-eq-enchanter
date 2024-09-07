@@ -55,8 +55,8 @@ function Equipment(props: PropTypes) {
 
     setPickedItems((prev) => {
       return prev.map((item, idx) => {
-        item.market_price = data[idx]?.success ? data[idx].lowest_price : "Unable to find price";
-        item.volume = data[idx]?.success ? data[idx].volume : "Unable to find volume";
+        item.market_price = data[idx]?.success ? data[idx].lowest_price : "Not marketable";
+        item.volume = data[idx]?.success ? data[idx].volume : "Not marketable";
         item.price_history = data[idx].price_history.success ? data[idx].price_history : undefined;
 
         return item;
@@ -67,7 +67,7 @@ function Equipment(props: PropTypes) {
   return (
     <section className="equipment">
       <div>
-        <h2>Selected items: {pickedItems.length}</h2>
+        <h2>Selected items: {pickedItems.length}/10</h2>
 
         {pickedItems.length ? (
           <>
