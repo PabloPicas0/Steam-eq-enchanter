@@ -6,13 +6,15 @@ import { parseSteamId32, parseSteamId64 } from "../utils/parseSteamID";
 
 import { EquipmentModel } from "../models/EquipmentModel";
 import { UserModel } from "../models/UserModel";
+import { CurrencyTableModel } from "../models/CurrencyModel";
 
 function Form(props: {
   setItems: React.Dispatch<React.SetStateAction<(UserModel & EquipmentModel)[]>>;
   setPending: React.Dispatch<React.SetStateAction<boolean>>;
   setError: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrencies: React.Dispatch<React.SetStateAction<CurrencyTableModel>>;
 }) {
-  const { setItems, setPending, setError } = props;
+  const { setItems, setPending, setError, setCurrencies } = props;
 
   const [input, setInput] = useState("76561198199821373");
 
@@ -22,22 +24,32 @@ function Form(props: {
     if (input === "") return;
 
     const steam64ID = /STEAM_/g.test(input) ? parseSteamId32(input) : parseSteamId64(input);
+    const url = "https://api.nbp.pl/api/exchangerates/tables/a/";
+    const headers = {
+      headers: { Accept: "application/json" },
+    };
 
     setPending(true);
     setItems([]);
+    setCurrencies([])
 
-    const proxyResponse = await fetch(`https://steam-eq-ench-serv.glitch.me?id=${steam64ID}`);
+    const [proxyResponse, currenciesResponse] = await Promise.all([
+      fetch(`/api?id=${steam64ID}`),
+      fetch(url, headers),
+    ]);
 
-    if (!proxyResponse.ok) {
+    if (!proxyResponse.ok || !currenciesResponse.ok) {
       setPending(false);
       setError(true);
 
       return;
     }
 
-    const prxyData = await proxyResponse.json();
+    const [proxyData, currenciesData]: [(UserModel & EquipmentModel)[], CurrencyTableModel] =
+      await Promise.all([proxyResponse.json(), currenciesResponse.json()]);
 
-    setItems(prxyData);
+    setItems(proxyData);
+    setCurrencies(currenciesData);
     setPending(false);
     setError(false);
   }
