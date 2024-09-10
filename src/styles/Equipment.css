@@ -24,6 +24,27 @@
   border: none;
 }
 
+.currency-select {
+  background-color: #fafafa;
+  padding: 0.6rem;
+}
+
+.currency-select::-webkit-scrollbar {
+  width: 5px;
+} 
+
+.currency-select::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+.currency-select::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+.currency-select::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
 .items-container {
   display: grid;
   gap: 20px;
@@ -39,40 +60,6 @@
   grid-template-columns: 1fr 1fr;
 }
 
-.item {
-  color: #fafafa;
-  border: 1px solid whitesmoke;
-  border-radius: 10px;
-  padding: 10px 20px;
-}
-
-.item-ammount {
-  display: flex;
-  align-items: center;
-  justify-content: end;
-  gap: 10px;
-}
-
-.item-image-wrapper {
-  display: flex;
-  justify-content: center;
-  margin: 1rem 0;
-}
-
-.item-image {
-  max-width: 120px;
-  max-height: 125px;
-}
-
-.item-description {
-  min-height: 104px;
-}
-
-.item-name {
-  font-size: 12px;
-  font-weight: bold;
-}
-
 .item-price-wrapper {
   display: flex;
   flex-direction: column;
@@ -84,15 +71,6 @@
 .item-price {
   margin: 0.5rem;
   font-weight: bold;
-}
-
-.item-skin {
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.item-category {
-  font-size: 12px;
 }
 
 .pagination {
