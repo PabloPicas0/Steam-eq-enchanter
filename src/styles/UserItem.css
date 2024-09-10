@@ -1,0 +1,41 @@
+.item {
+  color: #fafafa;
+  border: 1px solid whitesmoke;
+  border-radius: 10px;
+  padding: 10px 20px;
+}
+.item-ammount {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 10px;
+}
+
+.item-image-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.item-image {
+  max-width: 120px;
+  max-height: 125px;
+}
+
+.item-description {
+  min-height: 104px;
+}
+
+.item-name {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.item-skin {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.item-category {
+  font-size: 12px;
+}
