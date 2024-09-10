@@ -24,7 +24,7 @@ function App() {
 
       <AsyncSuspense pending={pending} error={error} items={items.length}>
         <Profile profile={profile} />
-        <Equipment items={userItems} />
+        <Equipment items={userItems} currencies={currencies} />
       </AsyncSuspense>
 
       <footer>
