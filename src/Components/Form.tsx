@@ -31,7 +31,7 @@ function Form(props: {
 
     setPending(true);
     setItems([]);
-    setCurrencies([])
+    setCurrencies([]);
 
     const [proxyResponse, currenciesResponse] = await Promise.all([
       fetch(`/api?id=${steam64ID}`),
@@ -45,8 +45,10 @@ function Form(props: {
       return;
     }
 
-    const [proxyData, currenciesData]: [(UserModel & EquipmentModel)[], CurrencyTableModel] =
-      await Promise.all([proxyResponse.json(), currenciesResponse.json()]);
+    const [proxyData, currenciesData] = (await Promise.all([
+      proxyResponse.json(),
+      currenciesResponse.json(),
+    ])) as [(UserModel & EquipmentModel)[], CurrencyTableModel];
 
     setItems(proxyData);
     setCurrencies(currenciesData);
