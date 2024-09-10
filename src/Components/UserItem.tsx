@@ -1,5 +1,7 @@
 import { useMemo } from "react";
 
+import "../styles/UserItem.css";
+
 import { ItemModel } from "../models/ItemsModel";
 
 import Area from "./Area";
@@ -7,6 +9,7 @@ import Price from "./Price";
 
 import usePrice from "../hooks/usePrice";
 import AmmountIcon from "../Icons/AmmountIcon";
+import getSavedPrice from "../utils/getSavedPrice";
 
 type PropTypes = {
   item: ItemModel;
@@ -18,15 +21,9 @@ function UserItem(props: PropTypes) {
   const { item, isSelected, setPickedItems } = props;
   const { market_name, color, name, icon_url, market_price, price_history, classid, amount } = item;
   const isCase = /case|capsule/gim.test(name);
+  const priceSuffix = price_history?.price_suffix;
 
-  const savedPrice = useMemo(() => {
-    const storagePrice = localStorage.getItem(`${classid}`);
-
-    if (storagePrice) return parseFloat(storagePrice);
-
-    return 0.03;
-  }, []);
-
+  const savedPrice = useMemo(() => getSavedPrice(classid), []);
   const { targetPrice, sellProfit, buyProfit, setTargetPrice } = usePrice({
     savedPrice,
     market_price,
@@ -71,7 +68,7 @@ function UserItem(props: PropTypes) {
         onClick={() => setPickedItems(isSelected ? removeFromPickedItems : addToPickedItems)}
         style={{ cursor: "pointer" }}>
         <div className="item-ammount">
-          <AmmountIcon width={20} height={20}/>
+          <AmmountIcon width={20} height={20} />
           {amount}
         </div>
 
@@ -99,7 +96,9 @@ function UserItem(props: PropTypes) {
       </div>
 
       <Price price={market_price} fallback={<div className="skeleton-text" />}>
-        <p>Current price: {market_price}</p>
+        <p>
+          Current price: {market_price} {priceSuffix}
+        </p>
         <p>Sell profit: ${sellProfit}</p>
         <p>Buy Profit: ${buyProfit}</p>
       </Price>
