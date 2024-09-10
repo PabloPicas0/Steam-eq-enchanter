@@ -75,13 +75,6 @@ app.post("/", async (req, res) => {
     );
 
     const finalPrice = priceOverview.map((itemPrice, idx) => {
-      const { success, prices } = priceHistory[idx];
-
-      if (success) {
-        prices.forEach((price) => (price[1] = Number(price[1] / ONE_DOLLAR_IN_POLISH_CURRENCY))); // convert price history from PLN to USD
-      }
-
-      priceHistory[idx].price_suffix = "USD";
       itemPrice.price_history = priceHistory[idx];
 
       return itemPrice;
