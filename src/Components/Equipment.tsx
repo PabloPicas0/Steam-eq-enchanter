@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import "../styles/Equipment.css";
 
 import UserItem from "./UserItem";
@@ -6,20 +6,24 @@ import UserItem from "./UserItem";
 import { EquipmentModel } from "../models/EquipmentModel";
 import { ItemModel } from "../models/ItemsModel";
 import { MarketModel } from "../models/MarketModel";
+import { CurrencyTableModel } from "../models/CurrencyModel";
 
 import usePagination from "../hooks/usePagination";
 import useFiter from "../hooks/useFilter";
 import Filter from "./Filter";
 
+import getCorrectItemCurrency from "../utils/getCorrectItemCurrency";
+
 type PropTypes = {
   items: EquipmentModel;
+  currencies: CurrencyTableModel;
 };
 
 function Equipment(props: PropTypes) {
-  const { items } = props;
+  const { items, currencies } = props;
 
   const [pickedItems, setPickedItems] = useState<ItemModel[]>([]);
-
+  const [currencyCode, setCurrencyCode] = useState("USD");
   const {
     filteredItems,
     nameFilter,
@@ -30,6 +34,13 @@ function Equipment(props: PropTypes) {
     setQualityFilter,
   } = useFiter(items);
   const { pagination, setPagination, moveBackwards, moveForeword } = usePagination(filteredItems.length);
+
+  const currenciesCodes = currencies[0].rates.map((rate) => rate.code);
+  const pickedCurrencyData = currencies[0].rates.find((rate) => rate.code === currencyCode);
+  const itemsWithCorrecetedCurrency = useMemo(
+    () => getCorrectItemCurrency(pickedItems, pickedCurrencyData),
+    [pickedItems, currencyCode]
+  );
   const { start, end } = pagination;
 
   async function getMarketData(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
@@ -51,12 +62,14 @@ function Equipment(props: PropTypes) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(itemsMarketName),
     });
-    const data: MarketModel[] = await response.json();
+    const data = (await response.json()) as MarketModel[];
 
     setPickedItems((prev) => {
       return prev.map((item, idx) => {
-        item.market_price = data[idx]?.success ? data[idx].lowest_price : "Not marketable";
-        item.volume = data[idx]?.success ? data[idx].volume : "Not marketable";
+        const isSuccess = data[idx]?.success;
+
+        item.market_price = isSuccess ? data[idx].lowest_price : "Not marketable";
+        item.volume = isSuccess ? data[idx].volume : "Not marketable";
         item.price_history = data[idx].price_history.success ? data[idx].price_history : undefined;
 
         return item;
@@ -72,7 +85,7 @@ function Equipment(props: PropTypes) {
         {pickedItems.length ? (
           <>
             <ul className="items-container selected-items-container">
-              {pickedItems.map((item) => {
+              {itemsWithCorrecetedCurrency.map((item) => {
                 return (
                   <UserItem
                     key={item.classid}
@@ -115,6 +128,20 @@ function Equipment(props: PropTypes) {
           </button>
 
           <Filter qualityFilter={qualityFilter} setQualityFilter={setQualityFilter} />
+
+          <select
+            value={currencyCode}
+            onChange={(e) => setCurrencyCode(e.target.value)}
+            className="currency-select">
+            <option value={"PLN"}>PLN</option>
+            {currenciesCodes.map((currCode) => {
+              return (
+                <option key={currCode} value={currCode}>
+                  {currCode}
+                </option>
+              );
+            })}
+          </select>
         </div>
       </div>
 
