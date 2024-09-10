@@ -25,7 +25,7 @@ function usePrice(props: PropTypes): UsePriceProperties {
       setTargetPrice,
     };
 
-  const marketPrice = parseFloat(market_price.replace("$", ""));
+  const marketPrice = parseFloat(market_price.replace(",", "."));
 
   // const tax = Math.max(0.01, targetPrice * 0.15);
   // const priceOnMarketShouldBe = targetPrice + tax;
