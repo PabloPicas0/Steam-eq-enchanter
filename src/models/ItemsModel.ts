@@ -12,6 +12,7 @@ export type ItemModel = {
   market_name: string;
   type: string;
   color: string;
+  quality: number;
   market_price?: null | string;
   volume?: null | string;
   price_history?: null | PriceHistoryModel;
