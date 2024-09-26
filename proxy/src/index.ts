@@ -75,7 +75,11 @@ app.post("/", async (req, res) => {
     );
 
     const finalPrice = priceOverview.map((itemPrice, idx) => {
+      const { lowest_price, median_price } = itemPrice;
+
       itemPrice.price_history = priceHistory[idx];
+      itemPrice.lowest_price = lowest_price.replace("zł", "");
+      itemPrice.median_price = median_price.replace("zł", "");
 
       return itemPrice;
     });
