@@ -6,11 +6,11 @@ import { ItemModel } from "../models/ItemsModel";
 import { CurrencyTableModel } from "../models/CurrencyModel";
 
 import useFiter from "../hooks/useFilter";
-import Filter from "./Filter";
 
 import getCorrectItemCurrency from "../utils/getCorrectItemCurrency";
 import EquipmentItems from "./EquipmentItems";
 import EquipmentPickedItems from "./EquipmentPickedItems";
+import EquipmentFilter from "./EqupimentFilter";
 
 type PropTypes = {
   items: EquipmentModel;
@@ -20,6 +20,7 @@ type PropTypes = {
 function Equipment(props: PropTypes) {
   const { items, currencies } = props;
 
+  const [fItems, setFItems] = useState<EquipmentModel["assets"]>([])
   const [pickedItems, setPickedItems] = useState<ItemModel[]>([]);
   const [currencyCode, setCurrencyCode] = useState("USD");
   const {
@@ -34,6 +35,7 @@ function Equipment(props: PropTypes) {
 
   const currenciesCodes = currencies[0].rates.map((rate) => rate.code);
   const pickedCurrencyData = currencies[0].rates.find((rate) => rate.code === currencyCode);
+
   const itemsWithCorrecetedCurrency = useMemo(
     () => getCorrectItemCurrency(pickedItems, pickedCurrencyData),
     [pickedItems, currencyCode]
@@ -50,40 +52,17 @@ function Equipment(props: PropTypes) {
       <div>
         <h2>Total unique items: {filteredItems.length}</h2>
 
-        <div className="inputs-wrapper">
-          <input
-            className="input-steamID input-filter-equipment"
-            type="text"
-            value={nameFilter}
-            onChange={(e) => {
-              setNameFilter(e.target.value.replace("\\", ""));
-            }}
-            placeholder="Search"
-          />
-
-          <button
-            title={`Sorted ${sortAscending ? "ascending" : " descending"}`}
-            className="sort-btn"
-            onClick={() => setSortAscending((prev) => !prev)}>
-            Sort {sortAscending ? "\u2191" : "\u2193"}
-          </button>
-
-          <Filter qualityFilter={qualityFilter} setQualityFilter={setQualityFilter} />
-
-          <select
-            value={currencyCode}
-            onChange={(e) => setCurrencyCode(e.target.value)}
-            className="currency-select">
-            <option value={"PLN"}>PLN</option>
-            {currenciesCodes.map((currCode) => {
-              return (
-                <option key={currCode} value={currCode}>
-                  {currCode}
-                </option>
-              );
-            })}
-          </select>
-        </div>
+        <EquipmentFilter
+          currenciesCodes={currenciesCodes}
+          currencyCode={currencyCode}
+          nameFilter={nameFilter}
+          qualityFilter={qualityFilter}
+          sortAscending={sortAscending}
+          setCurrencyCode={setCurrencyCode}
+          setNameFilter={setNameFilter}
+          setQualityFilter={setQualityFilter}
+          setSortAscending={setSortAscending}
+        />
       </div>
 
       <EquipmentItems filteredItems={filteredItems} setPickedItems={setPickedItems} />
