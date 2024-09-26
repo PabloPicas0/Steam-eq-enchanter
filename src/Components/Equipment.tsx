@@ -8,11 +8,11 @@ import { ItemModel } from "../models/ItemsModel";
 import { MarketModel } from "../models/MarketModel";
 import { CurrencyTableModel } from "../models/CurrencyModel";
 
-import usePagination from "../hooks/usePagination";
 import useFiter from "../hooks/useFilter";
 import Filter from "./Filter";
 
 import getCorrectItemCurrency from "../utils/getCorrectItemCurrency";
+import EquipmentItems from "./EquipmentItems";
 
 type PropTypes = {
   items: EquipmentModel;
@@ -33,7 +33,6 @@ function Equipment(props: PropTypes) {
     setSortAscending,
     setQualityFilter,
   } = useFiter(items);
-  const { pagination, setPagination, moveBackwards, moveForeword } = usePagination(filteredItems.length);
 
   const currenciesCodes = currencies[0].rates.map((rate) => rate.code);
   const pickedCurrencyData = currencies[0].rates.find((rate) => rate.code === currencyCode);
@@ -41,7 +40,6 @@ function Equipment(props: PropTypes) {
     () => getCorrectItemCurrency(pickedItems, pickedCurrencyData),
     [pickedItems, currencyCode]
   );
-  const { start, end } = pagination;
 
   async function getMarketData(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
@@ -145,21 +143,7 @@ function Equipment(props: PropTypes) {
         </div>
       </div>
 
-      <ul className="items-container">
-        {filteredItems.slice(start, end).map((item) => {
-          return (
-            <UserItem key={item.market_name} item={item} setPickedItems={setPickedItems} isSelected={false} />
-          );
-        })}
-      </ul>
-
-      <div className="pagination">
-        <button onClick={() => setPagination(moveBackwards)}>Back</button>
-
-        {`${start} / ${end} of ${filteredItems.length}`}
-
-        <button onClick={() => setPagination(moveForeword)}>Next</button>
-      </div>
+      <EquipmentItems filteredItems={filteredItems} setPickedItems={setPickedItems} />
     </section>
   );
 }
