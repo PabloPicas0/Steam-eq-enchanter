@@ -39,3 +39,17 @@
 .item-category {
   font-size: 12px;
 }
+
+.item-favourite {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem;
+  border-radius: 50%;
+  background-color: transparent;
+  border: none;
+}
+
+.item-favourite:focus {
+  outline: none;
+}
