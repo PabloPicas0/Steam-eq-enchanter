@@ -5,7 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node --no-deprecation --env-file=.env dist/index.js",
+    "start": "node --no-deprecation --env-file=.env dist/index.js",
+    "restart": "tsc && node --no-deprecation --env-file=.env dist/index.js",
     "build": "tsc"
   },
   "keywords": [],
