@@ -10,6 +10,8 @@ import Price from "./Price";
 import usePrice from "../hooks/usePrice";
 import AmmountIcon from "../Icons/AmmountIcon";
 import getSavedPrice from "../utils/getSavedPrice";
+import HeartIcon from "../Icons/Heartcon";
+import Favourite from "./Favourite";
 
 type PropTypes = {
   item: ItemModel;
@@ -64,34 +66,42 @@ function UserItem(props: PropTypes) {
 
   return (
     <li className="item" style={{ borderColor: `#${color}` }}>
-      <div
-        onClick={() => setPickedItems(isSelected ? removeFromPickedItems : addToPickedItems)}
-        style={{ cursor: "pointer" }}>
+      <div>
         <div className="item-ammount">
+          <Favourite className="item-favourite">
+            <HeartIcon width="20px" height="20px" color="#ff0000"/>
+          </Favourite>
+
           <AmmountIcon width={20} height={20} />
           {amount}
         </div>
 
-        <div className="item-image-wrapper">
-          <img
-            src={`https://steamcommunity-a.akamaihd.net/economy/image//${icon_url}`}
-            className="item-image"
-          />
-        </div>
+        <div
+          style={{ cursor: "pointer" }}
+          onClick={() => setPickedItems(isSelected ? removeFromPickedItems : addToPickedItems)}>
+          <div className="item-image-wrapper">
+            <img
+              src={`https://steamcommunity-a.akamaihd.net/economy/image//${icon_url}`}
+              className="item-image"
+            />
+          </div>
 
-        <div className="item-description">
-          <p className="item-name">{name.replace(/\|.*$/g, "")}</p>
+          <div className="item-description">
+            <p className="item-name">{name.replace(/\|.*$/g, "")}</p>
 
-          {/* check if the items are cases and if yes don't display it */}
-          {isCase ? null : (
-            <p className="item-skin" style={{ color: `#${color}` }}>
-              {name.replace(/^[^\|]*\|/g, "")}
-            </p>
-          )}
+            {/* check if the items are cases and if yes don't display it */}
+            {isCase ? null : (
+              <p className="item-skin" style={{ color: `#${color}` }}>
+                {name.replace(/^[^\|]*\|/g, "")}
+              </p>
+            )}
 
-          {isCase ? null : (
-            <p className="item-category">{market_name.replace(/^[^()]*()/g, "").replace(/[\\(\\)]/g, "")}</p>
-          )}
+            {isCase ? null : (
+              <p className="item-category">
+                {market_name.replace(/^[^()]*()/g, "").replace(/[\\(\\)]/g, "")}
+              </p>
+            )}
+          </div>
         </div>
       </div>
 
