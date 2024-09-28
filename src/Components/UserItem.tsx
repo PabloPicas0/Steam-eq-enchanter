@@ -6,12 +6,11 @@ import { ItemModel } from "../models/ItemsModel";
 
 import Area from "./Area";
 import Price from "./Price";
+import Favourite from "./Favourite";
 
 import usePrice from "../hooks/usePrice";
 import AmmountIcon from "../Icons/AmmountIcon";
-import getSavedPrice from "../utils/getSavedPrice";
-import HeartIcon from "../Icons/Heartcon";
-import Favourite from "./Favourite";
+import getSavedItemProps from "../utils/getSavedItemProps";
 
 type PropTypes = {
   item: ItemModel;
@@ -25,7 +24,7 @@ function UserItem(props: PropTypes) {
   const isCase = /case|capsule/gim.test(name);
   const priceSuffix = price_history?.price_suffix;
 
-  const savedPrice = useMemo(() => getSavedPrice(classid), []);
+  const savedPrice = useMemo(() => getSavedItemProps(classid), []);
   const { targetPrice, sellProfit, buyProfit, setTargetPrice } = usePrice({
     savedPrice,
     market_price,
@@ -68,10 +67,7 @@ function UserItem(props: PropTypes) {
     <li className="item" style={{ borderColor: `#${color}` }}>
       <div>
         <div className="item-ammount">
-          <Favourite className="item-favourite">
-            <HeartIcon width="20px" height="20px" color="#ff0000"/>
-          </Favourite>
-
+          <Favourite className="item-favourite" />
           <AmmountIcon width={20} height={20} />
           {amount}
         </div>
