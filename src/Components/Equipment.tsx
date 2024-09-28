@@ -11,6 +11,7 @@ import getCorrectItemCurrency from "../utils/getCorrectItemCurrency";
 import EquipmentItems from "./EquipmentItems";
 import EquipmentPickedItems from "./EquipmentPickedItems";
 import Filter from "./Filter";
+import HeartIcon from "../Icons/Heartcon";
 
 type PropTypes = {
   items: EquipmentModel;
@@ -70,6 +71,11 @@ function Equipment(props: PropTypes) {
           </button>
 
           <Filter qualityFilter={qualityFilter} setQualityFilter={setQualityFilter} />
+
+          <button title="Favourite" className="favourite-items filter-btn">
+            Favourite
+            <HeartIcon  />
+          </button>
 
           <select
             value={currencyCode}
