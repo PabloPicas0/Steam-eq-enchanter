@@ -5,17 +5,13 @@ import Profile from "./Components/Profile";
 import Equipment from "./Components/Equipment";
 import AsyncSuspense from "./Components/AsyncSuspense";
 
-import { useAppSelector } from "./hooks/useAppSelector ";
-
 // TODO: Add correct sufix on other prices
 function App() {
-  const { items, error, pending } = useAppSelector((state) => state.profile);
-
   return (
     <>
       <Form />
 
-      <AsyncSuspense pending={pending} error={error} items={items.length}>
+      <AsyncSuspense>
         <Profile />
         <Equipment />
       </AsyncSuspense>

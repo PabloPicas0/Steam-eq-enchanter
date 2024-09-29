@@ -1,11 +1,17 @@
 import { ReactNode } from "react";
-import "../styles/Profile.css"
+import "../styles/Profile.css";
 
 import EquipmentSkeleton from "./EquipmentSkeleton";
 import ProfileSkeleton from "./ProfileSkeleton";
 
-function AsyncSuspense(props: { error: boolean; pending: boolean; children: ReactNode; items: Number }) {
-  const { children, error, pending, items } = props;
+import { useAppSelector } from "../hooks/useAppSelector ";
+
+function AsyncSuspense(props: { children: ReactNode }) {
+  const { children } = props;
+
+  const items = useAppSelector((state) => state.profile.items);
+  const error = useAppSelector((state) => state.profile.error);
+  const pending = useAppSelector((state) => state.profile.pending);
 
   if (pending) {
     return (
@@ -25,7 +31,7 @@ function AsyncSuspense(props: { error: boolean; pending: boolean; children: Reac
     );
   }
 
-  return items ? children : null;
+  return items.length ? children : null;
 }
 
 export default AsyncSuspense;
