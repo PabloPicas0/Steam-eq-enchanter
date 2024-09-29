@@ -8,6 +8,8 @@ import { ItemModel } from "../../models/ItemsModel";
 import { MarketModel } from "../../models/MarketModel";
 import { AppDispatch, RootState } from "../store";
 
+const savedFavouriteItems = JSON.parse(localStorage.getItem("favourite") || "[]") as string[];
+
 export const loadProfile = createAsyncThunk(
   "profile/loadProfile",
   async (input: string, { rejectWithValue }) => {
@@ -63,6 +65,7 @@ export const profileSlice = createSlice({
   initialState: {
     items: [] as (UserModel & EquipmentModel)[],
     pickedItems: [] as ItemModel[],
+    favouriteItems: savedFavouriteItems,
     currencies: [] as CurrencyTableModel,
     error: false,
     pending: false,
@@ -82,10 +85,25 @@ export const profileSlice = createSlice({
     removeFromPickedItems: (state, action: PayloadAction<string>) => {
       state.pickedItems = state.pickedItems.filter((item) => item.market_name !== action.payload);
     },
+    addToFavouriteItems: (state, action: PayloadAction<string>) => {
+      const newState = [...state.favouriteItems, action.payload];
+
+      if (newState.length === 10) return;
+
+      localStorage.setItem("favourite", JSON.stringify(newState));
+      state.favouriteItems = newState;
+    },
+    removeFromFavouriteItems: (state, action: PayloadAction<string>) => {
+      const newState = state.favouriteItems.filter((item) => item !== action.payload);
+
+      localStorage.setItem("favourite", JSON.stringify(newState));
+      state.favouriteItems = newState;
+    },
   },
   extraReducers(builder) {
     builder.addCase(loadProfile.pending, (state) => {
       state.items = [];
+      state.pickedItems = [];
       state.pending = true;
     });
 
@@ -100,6 +118,8 @@ export const profileSlice = createSlice({
     });
 
     builder.addCase(loadProfile.rejected, (state) => {
+      state.items = [];
+      state.pickedItems = [];
       state.error = true;
     });
 
@@ -139,5 +159,6 @@ export const profileSlice = createSlice({
   },
 });
 
-export const { addToPickedItems, removeFromPickedItems } = profileSlice.actions;
+export const { addToPickedItems, removeFromPickedItems, addToFavouriteItems, removeFromFavouriteItems } =
+  profileSlice.actions;
 export default profileSlice.reducer;
