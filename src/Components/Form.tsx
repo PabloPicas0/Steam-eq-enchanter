@@ -2,58 +2,21 @@ import { useState } from "react";
 import "../styles/Form.css";
 
 import steam from "../assets/Steam.webp";
-import { parseSteamId32, parseSteamId64 } from "../utils/parseSteamID";
 
-import { EquipmentModel } from "../models/EquipmentModel";
-import { UserModel } from "../models/UserModel";
-import { CurrencyTableModel } from "../models/CurrencyModel";
+import { loadProfile } from "../Store/Slices/profileSlice";
+import { useAppDispatch } from "../hooks/useAppDispatch";
 
-function Form(props: {
-  setItems: React.Dispatch<React.SetStateAction<(UserModel & EquipmentModel)[]>>;
-  setPending: React.Dispatch<React.SetStateAction<boolean>>;
-  setError: React.Dispatch<React.SetStateAction<boolean>>;
-  setCurrencies: React.Dispatch<React.SetStateAction<CurrencyTableModel>>;
-}) {
-  const { setItems, setPending, setError, setCurrencies } = props;
-
+function Form() {
   const [input, setInput] = useState("76561198199821373");
+
+  const dispatch = useAppDispatch();
 
   async function handleSubmit(e: React.FormEvent<HTMLInputElement>) {
     e.preventDefault();
 
     if (input === "") return;
 
-    const steam64ID = /STEAM_/g.test(input) ? parseSteamId32(input) : parseSteamId64(input);
-    const url = "https://api.nbp.pl/api/exchangerates/tables/a/";
-    const headers = {
-      headers: { Accept: "application/json" },
-    };
-
-    setPending(true);
-    setItems([]);
-    setCurrencies([]);
-
-    const [proxyResponse, currenciesResponse] = await Promise.all([
-      fetch(`/api?id=${steam64ID}`),
-      fetch(url, headers),
-    ]);
-
-    if (!proxyResponse.ok || !currenciesResponse.ok) {
-      setPending(false);
-      setError(true);
-
-      return;
-    }
-
-    const [proxyData, currenciesData] = (await Promise.all([
-      proxyResponse.json(),
-      currenciesResponse.json(),
-    ])) as [(UserModel & EquipmentModel)[], CurrencyTableModel];
-
-    setItems(proxyData);
-    setCurrencies(currenciesData);
-    setPending(false);
-    setError(false);
+    dispatch(loadProfile(input));
   }
 
   return (

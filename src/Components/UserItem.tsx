@@ -11,15 +11,16 @@ import Favourite from "./Favourite";
 import usePrice from "../hooks/usePrice";
 import AmmountIcon from "../Icons/AmmountIcon";
 import getSavedItemProps from "../utils/getSavedItemProps";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { addToPickedItems, removeFromPickedItems } from "../Store/Slices/profileSlice";
 
 type PropTypes = {
   item: ItemModel;
-  setPickedItems: React.Dispatch<React.SetStateAction<ItemModel[]>>;
   isSelected: boolean;
 };
 
 function UserItem(props: PropTypes) {
-  const { item, isSelected, setPickedItems } = props;
+  const { item, isSelected } = props;
   const { market_name, color, name, icon_url, market_price, price_history, classid, amount } = item;
   const isCase = /case|capsule/gim.test(name);
   const priceSuffix = price_history?.price_suffix;
@@ -30,23 +31,8 @@ function UserItem(props: PropTypes) {
     market_price,
   });
 
-  function addToPickedItems(prev: ItemModel[]) {
-    const pickedItemName = market_name;
-    const itemExists = prev.some((item) => item.market_name === pickedItemName);
-
-    // Max items we want to have picked is 10
-    if (itemExists || prev.length === 10) return prev;
-
-    return [...prev, { ...item }];
-  }
-
-  function removeFromPickedItems(prev: ItemModel[]) {
-    const pickedItemName = market_name;
-    const newItems = prev.filter((item) => item.market_name !== pickedItemName);
-
-    return newItems;
-  }
-
+  const dispatch = useAppDispatch();
+  
   function changeTargetPrice(e: number) {
     if (e < 0) {
       setTargetPrice(0.03);
@@ -74,7 +60,11 @@ function UserItem(props: PropTypes) {
 
         <div
           style={{ cursor: "pointer" }}
-          onClick={() => setPickedItems(isSelected ? removeFromPickedItems : addToPickedItems)}>
+          onClick={() =>
+            dispatch(
+              isSelected ? removeFromPickedItems(market_name) : addToPickedItems({ market_name, item })
+            )
+          }>
           <div className="item-image-wrapper">
             <img
               src={`https://steamcommunity-a.akamaihd.net/economy/image//${icon_url}`}

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./App.css";
 
 import Form from "./Components/Form";
@@ -6,25 +5,19 @@ import Profile from "./Components/Profile";
 import Equipment from "./Components/Equipment";
 import AsyncSuspense from "./Components/AsyncSuspense";
 
-import { UserModel } from "./models/UserModel";
-import { EquipmentModel } from "./models/EquipmentModel";
-import { CurrencyTableModel } from "./models/CurrencyModel";
+import { useAppSelector } from "./hooks/useAppSelector ";
 
+// TODO: Add correct sufix on other prices
 function App() {
-  const [items, setItems] = useState<(UserModel & EquipmentModel)[]>([]);
-  const [currencies, setCurrencies] = useState<CurrencyTableModel>([]);
-  const [pending, setPending] = useState(false);
-  const [error, setError] = useState(false);
-
-  const [profile, userItems] = items;
+  const { items, error, pending } = useAppSelector((state) => state.profile);
 
   return (
     <>
-      <Form setItems={setItems} setPending={setPending} setError={setError} setCurrencies={setCurrencies} />
+      <Form />
 
       <AsyncSuspense pending={pending} error={error} items={items.length}>
-        <Profile profile={profile} />
-        <Equipment items={userItems} currencies={currencies} />
+        <Profile />
+        <Equipment />
       </AsyncSuspense>
 
       <footer>

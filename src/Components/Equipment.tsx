@@ -1,10 +1,6 @@
 import { useMemo, useState } from "react";
 import "../styles/Equipment.css";
 
-import { EquipmentModel } from "../models/EquipmentModel";
-import { ItemModel } from "../models/ItemsModel";
-import { CurrencyTableModel } from "../models/CurrencyModel";
-
 import useFiter from "../hooks/useFilter";
 
 import getCorrectItemCurrency from "../utils/getCorrectItemCurrency";
@@ -12,16 +8,13 @@ import EquipmentItems from "./EquipmentItems";
 import EquipmentPickedItems from "./EquipmentPickedItems";
 import Filter from "./Filter";
 import HeartIcon from "../Icons/Heartcon";
+import { useAppSelector } from "../hooks/useAppSelector ";
 
-type PropTypes = {
-  items: EquipmentModel;
-  currencies: CurrencyTableModel;
-};
+function Equipment() {
+  const items = useAppSelector((state) => state.profile.items[1]);
+  const currencies = useAppSelector((state) => state.profile.currencies);
+  const pickedItems = useAppSelector((state) => state.profile.pickedItems);
 
-function Equipment(props: PropTypes) {
-  const { items, currencies } = props;
-
-  const [pickedItems, setPickedItems] = useState<ItemModel[]>([]);
   const [currencyCode, setCurrencyCode] = useState("USD");
   const {
     filteredItems,
@@ -43,11 +36,7 @@ function Equipment(props: PropTypes) {
 
   return (
     <section className="equipment">
-      <EquipmentPickedItems
-        pickedItems={pickedItems}
-        itemsWithCorrecetedCurrency={itemsWithCorrecetedCurrency}
-        setPickedItems={setPickedItems}
-      />
+      <EquipmentPickedItems itemsWithCorrecetedCurrency={itemsWithCorrecetedCurrency} />
 
       <div>
         <h2>Total unique items: {filteredItems.length}</h2>
@@ -74,7 +63,7 @@ function Equipment(props: PropTypes) {
 
           <button title="Favourite" className="favourite-items filter-btn">
             Favourite
-            <HeartIcon  />
+            <HeartIcon />
           </button>
 
           <select
@@ -93,7 +82,7 @@ function Equipment(props: PropTypes) {
         </div>
       </div>
 
-      <EquipmentItems filteredItems={filteredItems} setPickedItems={setPickedItems} />
+      <EquipmentItems filteredItems={filteredItems} />
     </section>
   );
 }

@@ -1,11 +1,8 @@
-import { UserModel } from "../models/UserModel";
+import { useAppSelector } from "../hooks/useAppSelector ";
 
-type PropTypes = {
-  profile: UserModel
-};
-
-function Profile(props: PropTypes) {
-  const { profile } = props;
+function Profile() {
+  const profile = useAppSelector(state => state.profile.items[0])
+  
   const { avatarfull, personaname, personastate, profileurl, timecreated, communityvisibilitystate } =
     profile.response.players[0];
 

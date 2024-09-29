@@ -1,10 +1,9 @@
 function getSavedItemProps(classid: string) {
-  const storageProps = localStorage.getItem(`${classid}`);
+  const storagePrice = localStorage.getItem(`${classid}`);
 
-  if (storageProps) return JSON.parse(storageProps);
+  if (storagePrice) return parseFloat(storagePrice);
 
   return 0.03;
 }
-
 
 export default getSavedItemProps;
