@@ -22,6 +22,7 @@ type PropTypes = {
 function UserItem(props: PropTypes) {
   const { item, isSelected } = props;
   const { market_name, color, name, icon_url, market_price, price_history, classid, amount } = item;
+  
   const isCase = /case|capsule/gim.test(name);
   const priceSuffix = price_history?.price_suffix;
 
@@ -32,7 +33,7 @@ function UserItem(props: PropTypes) {
   });
 
   const dispatch = useAppDispatch();
-  
+
   function changeTargetPrice(e: number) {
     if (e < 0) {
       setTargetPrice(0.03);
@@ -46,14 +47,14 @@ function UserItem(props: PropTypes) {
   }
 
   function save() {
-    localStorage.setItem(`${classid}`, `${targetPrice}`);
+    localStorage.setItem(classid, `${targetPrice}`);
   }
 
   return (
     <li className="item" style={{ borderColor: `#${color}` }}>
       <div>
         <div className="item-ammount">
-          <Favourite className="item-favourite" />
+          <Favourite className="item-favourite" itemID={classid}/>
           <AmmountIcon width={20} height={20} />
           {amount}
         </div>
