@@ -9,12 +9,14 @@ import EquipmentPickedItems from "./EquipmentPickedItems";
 import Filter from "./Filter";
 import HeartIcon from "../Icons/Heartcon";
 import { useAppSelector } from "../hooks/useAppSelector ";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { loadFavouriteItems } from "../Store/Slices/profileSlice";
 
 function Equipment() {
   const items = useAppSelector((state) => state.profile.items[1]);
   const currencies = useAppSelector((state) => state.profile.currencies);
   const pickedItems = useAppSelector((state) => state.profile.pickedItems);
-
+  
   const [currencyCode, setCurrencyCode] = useState("USD");
   const {
     filteredItems,
@@ -25,6 +27,8 @@ function Equipment() {
     setSortAscending,
     setQualityFilter,
   } = useFiter(items);
+
+  const dispatch = useAppDispatch()
 
   const currenciesCodes = currencies[0].rates.map((rate) => rate.code);
   const pickedCurrencyData = currencies[0].rates.find((rate) => rate.code === currencyCode);
@@ -61,7 +65,7 @@ function Equipment() {
 
           <Filter qualityFilter={qualityFilter} setQualityFilter={setQualityFilter} />
 
-          <button title="Favourite" className="favourite-items filter-btn">
+          <button title="Favourite" className="favourite-items filter-btn" onClick={() => dispatch(loadFavouriteItems())}>
             Favourite
             <HeartIcon />
           </button>

@@ -86,9 +86,9 @@ export const profileSlice = createSlice({
       state.pickedItems = state.pickedItems.filter((item) => item.market_name !== action.payload);
     },
     addToFavouriteItems: (state, action: PayloadAction<string>) => {
-      const newState = [...state.favouriteItems, action.payload];
+      if (state.favouriteItems.length === 10) return;
 
-      if (newState.length === 10) return;
+      const newState = [...state.favouriteItems, action.payload];
 
       localStorage.setItem("favourite", JSON.stringify(newState));
       state.favouriteItems = newState;
@@ -98,6 +98,20 @@ export const profileSlice = createSlice({
 
       localStorage.setItem("favourite", JSON.stringify(newState));
       state.favouriteItems = newState;
+    },
+    loadFavouriteItems: (state) => {
+      const { items, favouriteItems } = state;
+      const fav = favouriteItems.reduce((acc, favItem) => {
+        const favItemIsInEq = items[1].assets.find((item) => item.classid === favItem);
+
+        if (favItemIsInEq) {
+          acc.push(favItemIsInEq);
+        }
+
+        return acc;
+      }, [] as EquipmentModel["assets"]);
+
+      state.pickedItems = fav;
     },
   },
   extraReducers(builder) {
@@ -159,6 +173,11 @@ export const profileSlice = createSlice({
   },
 });
 
-export const { addToPickedItems, removeFromPickedItems, addToFavouriteItems, removeFromFavouriteItems } =
-  profileSlice.actions;
+export const {
+  addToPickedItems,
+  removeFromPickedItems,
+  addToFavouriteItems,
+  removeFromFavouriteItems,
+  loadFavouriteItems,
+} = profileSlice.actions;
 export default profileSlice.reducer;
