@@ -80,8 +80,8 @@ app.post("/", async (req, res) => {
       itemPrice.price_history = priceHistory[idx];
 
       if (success) {
-        itemPrice.lowest_price = lowest_price.replace("zł", "");
-        itemPrice.median_price = median_price.replace("zł", "");
+        itemPrice.lowest_price = lowest_price.replace("zł", "").replace(",", ".");
+        itemPrice.median_price = median_price.replace("zł", "").replace(",", ".");
       }
 
       return itemPrice;
