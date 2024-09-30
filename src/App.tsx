@@ -5,7 +5,7 @@ import Profile from "./Components/Profile";
 import Equipment from "./Components/Equipment";
 import AsyncSuspense from "./Components/AsyncSuspense";
 
-// TODO: Add correct sufix on other prices
+// TODO: Red line on Area component should respect currency change
 function App() {
   return (
     <>

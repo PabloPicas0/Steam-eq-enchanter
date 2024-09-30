@@ -54,7 +54,7 @@ function UserItem(props: PropTypes) {
     <li className="item" style={{ borderColor: `#${color}` }}>
       <div>
         <div className="item-ammount">
-          <Favourite className="item-favourite" itemID={classid}/>
+          <Favourite className="item-favourite" itemID={classid} />
           <AmmountIcon width={20} height={20} />
           {amount}
         </div>
@@ -96,8 +96,12 @@ function UserItem(props: PropTypes) {
         <p>
           Current price: {market_price} {priceSuffix}
         </p>
-        <p>Sell profit: ${sellProfit}</p>
-        <p>Buy Profit: ${buyProfit}</p>
+        <p>
+          Sell profit: {sellProfit} {priceSuffix}
+        </p>
+        <p>
+          Buy Profit: {buyProfit} {priceSuffix}
+        </p>
       </Price>
 
       {price_history ? (
