@@ -6,12 +6,13 @@ import useFiter from "../hooks/useFilter";
 import EquipmentItems from "./EquipmentItems";
 import EquipmentPickedItems from "./EquipmentPickedItems";
 
-import Filter from "./Filter";
+import FilterQuality from "./FilterQuality";
 import HeartIcon from "../Icons/Heartcon";
 
 import { useAppSelector } from "../hooks/useAppSelector ";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { loadFavouriteItems } from "../Store/Slices/profileSlice";
+import FilterFavourite from "./FilterFavourite";
 
 function Equipment() {
   const items = useAppSelector((state) => state.profile.items[1]);
@@ -58,15 +59,8 @@ function Equipment() {
             Sort {sortAscending ? "\u2191" : "\u2193"}
           </button>
 
-          <Filter qualityFilter={qualityFilter} setQualityFilter={setQualityFilter} />
-
-          <button
-            title="Favourite"
-            className="favourite-items filter-btn"
-            onClick={() => dispatch(loadFavouriteItems())}>
-            Favourite
-            <HeartIcon />
-          </button>
+          <FilterQuality qualityFilter={qualityFilter} setQualityFilter={setQualityFilter} />
+          <FilterFavourite />
 
           <select
             value={currencyCode}

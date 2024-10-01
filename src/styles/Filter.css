@@ -1,8 +1,8 @@
-.filter {
+.filter-quality {
   position: relative;
 }
 
-.filter-btn {
+.filter-quality-btn {
   padding: 0.6em 1.2em;
   display: flex;
   justify-content: center;
@@ -12,7 +12,7 @@
   gap: 5px;
 }
 
-.filter-options-wrapper {
+.filter-quality-options-wrapper {
   position: absolute;
   background: #2e2e2e;
   padding: 0.5rem;
@@ -22,7 +22,7 @@
   transition: visibility 100ms linear, opacity 100ms linear;
 }
 
-.filter-item {
+.filter-quality-item {
   display: flex;
   justify-content: space-between;
   gap: 20px;
