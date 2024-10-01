@@ -101,8 +101,8 @@ export const profileSlice = createSlice({
     },
     loadFavouriteItems: (state) => {
       const { items, favouriteItems } = state;
-      const fav = favouriteItems.reduce((acc, favItem) => {
-        const favItemIsInEq = items[1].assets.find((item) => item.classid === favItem);
+      const fav = favouriteItems.reduce((acc, favItemName) => {
+        const favItemIsInEq = items[1].assets.find((item) => item.market_name === favItemName);
 
         if (favItemIsInEq) {
           acc.push(favItemIsInEq);
