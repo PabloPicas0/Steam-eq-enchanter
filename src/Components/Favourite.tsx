@@ -7,8 +7,8 @@ import { useAppSelector } from "../hooks/useAppSelector ";
 function Favourite(props: { className?: string; itemID: string }) {
   const { className, itemID } = props;
 
-  const favourite = useAppSelector((state) => state.profile.favouriteItems);
-  const isFavourite = favourite.includes(itemID);
+  const isFavourite = useAppSelector((state) => state.profile.favouriteItems.includes(itemID));
+  
   const handleFavourite = isFavourite ? removeFromFavouriteItems : addToFavouriteItems;
 
   const dispatch = useAppDispatch();
