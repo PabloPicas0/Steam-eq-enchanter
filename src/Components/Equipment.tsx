@@ -7,11 +7,8 @@ import EquipmentItems from "./EquipmentItems";
 import EquipmentPickedItems from "./EquipmentPickedItems";
 
 import FilterQuality from "./FilterQuality";
-import HeartIcon from "../Icons/Heartcon";
 
 import { useAppSelector } from "../hooks/useAppSelector ";
-import { useAppDispatch } from "../hooks/useAppDispatch";
-import { loadFavouriteItems } from "../Store/Slices/profileSlice";
 import FilterFavourite from "./FilterFavourite";
 
 function Equipment() {
@@ -28,8 +25,6 @@ function Equipment() {
     setSortAscending,
     setQualityFilter,
   } = useFiter(items);
-
-  const dispatch = useAppDispatch();
 
   const currenciesCodes = currencies[0].rates.map((rate) => rate.code);
   const pickedCurrencyData = currencies[0].rates.find((rate) => rate.code === currencyCode);
