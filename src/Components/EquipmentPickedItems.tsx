@@ -1,14 +1,25 @@
+import { useMemo } from "react";
 import { useAppDispatch } from "../hooks/useAppDispatch";
-import { ItemModel } from "../models/ItemsModel";
+import { useAppSelector } from "../hooks/useAppSelector ";
 import { loadMarketData } from "../Store/Slices/profileSlice";
+import { CurrencyTableModel } from "../models/CurrencyModel";
+
+import getCorrectItemCurrency from "../utils/getCorrectItemCurrency";
 import UserItem from "./UserItem";
 
 type PropTypes = {
-  itemsWithCorrecetedCurrency: ItemModel[];
+  currencyCode: string;
+  pickedCurrencyData: CurrencyTableModel[0]["rates"][0] | undefined;
 };
 
 function EquipmentPickedItems(props: PropTypes) {
-  const { itemsWithCorrecetedCurrency } = props;
+  const { currencyCode, pickedCurrencyData } = props;
+
+  const pickedItems = useAppSelector((state) => state.profile.pickedItems);
+  const itemsWithCorrecetedCurrency = useMemo(
+    () => getCorrectItemCurrency(pickedItems, pickedCurrencyData),
+    [pickedItems, currencyCode]
+  );
 
   const dispatch = useAppDispatch();
 
