@@ -5,8 +5,11 @@ import HeartIcon from "../Icons/Heartcon";
 import { loadFavouriteItems, removeFromFavouriteItems } from "../Store/Slices/profileSlice";
 import { useAppSelector } from "../hooks/useAppSelector ";
 import BinIcon from "../Icons/BinIcon";
+import { EquipmentModel } from "../models/EquipmentModel";
 
-function FilterFavourite() {
+function FilterFavourite(props: { items: EquipmentModel }) {
+  const { items } = props;
+
   const favItems = useAppSelector((state) => state.profile.favouriteItems);
   const [isClicked, setIsClicked] = useState(false);
 
@@ -31,9 +34,12 @@ function FilterFavourite() {
           style={{ visibility: visibilityState, opacity: opacityState }}>
           <div className="fav-items">
             {favItems.map((favItem) => {
+              const isInEq = items.assets.some((asset) => asset.market_name === favItem);
+              const color = isInEq ? "green" : "red";
+              
               return (
                 <div className="fav-item">
-                  <p>{favItem}</p>
+                  <p style={{ color: color }}>{favItem}</p>
 
                   <button
                     className="fav-item-btn"
