@@ -1,4 +1,4 @@
-.filter-quality {
+.filter {
   position: relative;
 }
 
@@ -20,6 +20,35 @@
   top: 45px;
   border-radius: 8px;
   transition: visibility 100ms linear, opacity 100ms linear;
+}
+
+.filter-favourite-options-wrapper {
+  text-align: start;
+  left: 0;
+  width: max-content;
+}
+
+.fav-items {
+  overflow-y: auto;
+  max-height: 300px;
+  scrollbar-width: thin;
+  padding: 0 5px;
+  scrollbar-color: lightgray transparent;
+}
+
+.fav-item {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fav-item-btn {
+  background-color: transparent;
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  border-radius: 50%;
 }
 
 .filter-quality-item {
