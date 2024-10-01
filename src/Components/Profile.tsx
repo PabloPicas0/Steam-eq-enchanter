@@ -1,8 +1,8 @@
 import { useAppSelector } from "../hooks/useAppSelector ";
 
 function Profile() {
-  const profile = useAppSelector(state => state.profile.items[0])
-  
+  const profile = useAppSelector((state) => state.profile.items[0]);
+
   const { avatarfull, personaname, personastate, profileurl, timecreated, communityvisibilitystate } =
     profile.response.players[0];
 
