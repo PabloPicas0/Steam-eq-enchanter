@@ -35,7 +35,7 @@ function FilterQuality(props: {
   }
 
   return (
-    <div className="filter-quality">
+    <div className="filter">
       <button className="filter-quality-btn" onClick={() => setIsClicked((prev) => !prev)}>
         Filter <FilterIcon width={15} height={15} />
       </button>
