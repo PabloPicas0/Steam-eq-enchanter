@@ -55,7 +55,7 @@ function Equipment() {
           </button>
 
           <FilterQuality qualityFilter={qualityFilter} setQualityFilter={setQualityFilter} />
-          <FilterFavourite />
+          <FilterFavourite items={items}/>
 
           <select
             value={currencyCode}
