@@ -33,12 +33,12 @@ function FilterFavourite(props: { items: EquipmentModel }) {
           className="filter-quality-options-wrapper filter-favourite-options-wrapper"
           style={{ visibility: visibilityState, opacity: opacityState }}>
           <div className="fav-items">
-            {favItems.map((favItem) => {
+            {favItems.map((favItem, idx) => {
               const isInEq = items.assets.some((asset) => asset.market_name === favItem);
               const color = isInEq ? "green" : "red";
-              
+
               return (
-                <div className="fav-item">
+                <div key={favItem + idx} className="fav-item">
                   <p style={{ color: color }}>{favItem}</p>
 
                   <button
