@@ -3,8 +3,8 @@ import "../styles/Equipment.css";
 
 import useFiter from "../hooks/useFilter";
 
-import EquipmentItems from "./EquipmentItems";
-import EquipmentPickedItems from "./EquipmentPickedItems";
+import Items from "./Items";
+import PickedItems from "./PickedItems";
 
 import FilterQuality from "./FilterQuality";
 
@@ -31,7 +31,7 @@ function Equipment() {
 
   return (
     <section className="equipment">
-      <EquipmentPickedItems currencyCode={currencyCode} pickedCurrencyData={pickedCurrencyData} />
+      <PickedItems currencyCode={currencyCode} pickedCurrencyData={pickedCurrencyData} />
 
       <div>
         <h2>Total unique items: {filteredItems.length}</h2>
@@ -73,7 +73,7 @@ function Equipment() {
         </div>
       </div>
 
-      <EquipmentItems filteredItems={filteredItems} />
+      <Items filteredItems={filteredItems} />
     </section>
   );
 }
