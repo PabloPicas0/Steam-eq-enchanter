@@ -22,7 +22,7 @@ type PropTypes = {
 function UserItem(props: PropTypes) {
   const { item, isSelected } = props;
   const { market_name, color, name, icon_url, market_price, price_history, classid, amount } = item;
-  
+
   const isCase = /case|capsule/gim.test(name);
   const priceSuffix = price_history?.price_suffix;
 
@@ -34,7 +34,7 @@ function UserItem(props: PropTypes) {
 
   const dispatch = useAppDispatch();
 
-  function changeTargetPrice(e: number) {
+  function setNewPrice(e: number) {
     if (e < 0) {
       setTargetPrice(0.03);
     } else if (e > 999) {
@@ -47,7 +47,11 @@ function UserItem(props: PropTypes) {
   }
 
   function save() {
-    localStorage.setItem(classid, `${targetPrice}`);
+    const prices = JSON.parse(localStorage.getItem("prices") || "{}") as { [key: string]: number };
+
+    prices[classid] = targetPrice;
+
+    localStorage.setItem("prices", JSON.stringify(prices));
   }
 
   return (
@@ -105,7 +109,7 @@ function UserItem(props: PropTypes) {
       </Price>
 
       {price_history ? (
-        <Area data={price_history.prices} changeTargetPrice={changeTargetPrice} targetPrice={targetPrice} />
+        <Area data={price_history.prices} setNewPrice={setNewPrice} targetPrice={targetPrice} />
       ) : null}
     </li>
   );
