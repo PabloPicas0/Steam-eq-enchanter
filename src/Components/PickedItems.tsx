@@ -12,7 +12,7 @@ type PropTypes = {
   pickedCurrencyData: CurrencyTableModel[0]["rates"][0] | undefined;
 };
 
-function EquipmentPickedItems(props: PropTypes) {
+function PickedItems(props: PropTypes) {
   const { currencyCode, pickedCurrencyData } = props;
 
   const pickedItems = useAppSelector((state) => state.profile.pickedItems);
@@ -52,4 +52,4 @@ function EquipmentPickedItems(props: PropTypes) {
   );
 }
 
-export default EquipmentPickedItems;
+export default PickedItems;

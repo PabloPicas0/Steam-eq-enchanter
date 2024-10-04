@@ -6,7 +6,7 @@ type PropTypes = {
   filteredItems: EquipmentModel["assets"];
 }
 
-function EquipmentItems(props: PropTypes) {
+function Items(props: PropTypes) {
   const { filteredItems } = props;
 
   const { pagination, setPagination, moveBackwards, moveForeword } = usePagination(filteredItems.length);
@@ -33,4 +33,4 @@ function EquipmentItems(props: PropTypes) {
   );
 }
 
-export default EquipmentItems;
+export default Items;
