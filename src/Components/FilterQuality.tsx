@@ -25,6 +25,7 @@ function FilterQuality(props: {
 
   const visibilityState = isClicked ? "visible" : "hidden";
   const opacityState = isClicked ? 1 : 0;
+  const zIndexState = isClicked ? 2 : "auto";
 
   function addQuality(prevState: string, currentQualityType: string) {
     return prevState + currentQualityType;
@@ -36,13 +37,16 @@ function FilterQuality(props: {
 
   return (
     <div className="filter">
-      <button className="filter-quality-btn" onClick={() => setIsClicked((prev) => !prev)}>
+      <button
+        className="filter-quality-btn"
+        style={{ zIndex: zIndexState }}
+        onClick={() => setIsClicked((prev) => !prev)}>
         Filter <FilterIcon width={15} height={15} />
       </button>
 
       <div
         className="filter-quality-options-wrapper"
-        style={{ visibility: visibilityState, opacity: opacityState }}>
+        style={{ visibility: visibilityState, opacity: opacityState, zIndex: zIndexState }}>
         {itemQualityTypes.map((type, idx) => {
           const [name, color] = type;
           const qualityType = (idx + 1).toString();
@@ -62,6 +66,8 @@ function FilterQuality(props: {
           );
         })}
       </div>
+
+      {isClicked && <div className="filter-unclick-area" onClick={() => setIsClicked(false)}></div>}
     </div>
   );
 }

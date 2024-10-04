@@ -17,50 +17,63 @@ function FilterFavourite(props: { items: EquipmentModel }) {
 
   const visibilityState = isClicked ? "visible" : "hidden";
   const opacityState = isClicked ? 1 : 0;
+  const zIndexState = isClicked ? 2 : "auto";
+
+  // Readjust state if user deleted all fav items and isClcked state is still true
+  if (isClicked && !favItems.length) setIsClicked(false);
+
+  if (!favItems.length)
+    return (
+      <div className="filter">
+        <button title="Favourite" className="favourite-items filter-quality-btn">
+          Favourites
+          <HeartIcon />
+        </button>
+      </div>
+    );
 
   return (
     <div className="filter">
       <button
         title="Favourite"
         className="favourite-items filter-quality-btn"
+        style={{ zIndex: zIndexState }}
         onClick={() => setIsClicked((prev) => !prev)}>
         Favourites
         <HeartIcon />
       </button>
 
-      {favItems.length ? (
-        <div
-          className="filter-quality-options-wrapper filter-favourite-options-wrapper"
-          style={{ visibility: visibilityState, opacity: opacityState }}>
-          <div className="fav-items">
-            {favItems.map((favItem, idx) => {
-              const isInEq = items.assets.some((asset) => asset.market_name === favItem);
-              const color = isInEq ? "green" : "red";
+      <div
+        className="filter-quality-options-wrapper filter-favourite-options-wrapper"
+        style={{ visibility: visibilityState, opacity: opacityState, zIndex: zIndexState }}>
+        <div className="fav-items">
+          {favItems.map((favItem, idx) => {
+            const isInEq = items.assets.some((asset) => asset.market_name === favItem);
+            const color = isInEq ? "green" : "red";
 
-              return (
-                <div key={favItem + idx} className="fav-item">
-                  <p style={{ color: color }}>{favItem}</p>
+            return (
+              <div key={favItem + idx} className="fav-item">
+                <p style={{ color: color }}>{favItem}</p>
 
-                  <button
-                    className="fav-item-btn"
-                    onClick={() => dispatch(removeFromFavouriteItems(favItem))}>
-                    <BinIcon fill="lightgray" />
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-
-          <button
-            style={{ width: "100%" }}
-            onClick={() => {
-              dispatch(loadFavouriteItems());
-              setIsClicked(false);
-            }}>
-            Show
-          </button>
+                <button className="fav-item-btn" onClick={() => dispatch(removeFromFavouriteItems(favItem))}>
+                  <BinIcon fill="lightgray" />
+                </button>
+              </div>
+            );
+          })}
         </div>
-      ) : null}
+
+        <button
+          style={{ width: "100%" }}
+          onClick={() => {
+            dispatch(loadFavouriteItems());
+            setIsClicked(false);
+          }}>
+          Show
+        </button>
+      </div>
+
+      {isClicked && <div className="filter-unclick-area" onClick={() => setIsClicked(false)}></div>}
     </div>
   );
 }

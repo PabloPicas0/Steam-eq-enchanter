@@ -3,6 +3,7 @@
 }
 
 .filter-quality-btn {
+  position: relative;
   padding: 0.6em 1.2em;
   display: flex;
   justify-content: center;
@@ -55,4 +56,10 @@
   display: flex;
   justify-content: space-between;
   gap: 20px;
+}
+
+.filter-unclick-area {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
 }
