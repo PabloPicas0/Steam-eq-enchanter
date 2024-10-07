@@ -63,3 +63,24 @@
   inset: 0;
   z-index: 1;
 }
+
+@media (width < 1250px) {
+  .filter-favourite-options-wrapper {
+    left: unset;
+    right: 0;
+  }
+}
+
+@media (width < 744px) {
+  .filter-favourite-options-wrapper {
+    width: auto;
+    right: -130px;
+  }
+}
+
+@media (width = 380px) or (444px <= width < 470px)  {
+   .filter-favourite-options-wrapper {
+    right: 0;
+    left: -130px;
+  }
+}
