@@ -7,7 +7,7 @@ import { AreaPropsModel } from "../models/AreaPropsModel";
 function Area({
   data,
   targetPrice,
-  changeTargetPrice,
+  setNewPrice,
   width = 800,
   height = 400,
   marginTop = 20,
@@ -22,7 +22,6 @@ function Area({
 
   const [scope, setScope] = useState(ALL_TIME);
   const [isMouseClicked, setIsMouseClicked] = useState(false);
-  const [rectY, setRectY] = useState(targetPrice);
 
   // This copies data from 7 days, 31 days or overall
   const timestamp = TODAY - scope * 24 * 60 * 60 * 1000;
@@ -61,7 +60,7 @@ function Area({
     void select(gy.current).call(axisLeft(y).ticks(5, "$.2f"));
   }, [gy, y]);
 
-  function changeBarPosition(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
+  function updatePosition(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
     const [_, ey] = pointer(e);
     const mouseData = y.invert(ey);
 
@@ -69,8 +68,7 @@ function Area({
       return;
     }
 
-    changeTargetPrice(parseFloat(mouseData.toFixed(2)));
-    setRectY(mouseData);
+    setNewPrice(parseFloat(mouseData.toFixed(2)));
   }
 
   return (
@@ -80,11 +78,11 @@ function Area({
         style={{ maxWidth: "100%", height: "auto" }}
         onMouseDown={(e) => {
           setIsMouseClicked(true);
-          changeBarPosition(e);
+          updatePosition(e);
         }}
         onMouseMove={(e) => {
           if (!isMouseClicked) return;
-          changeBarPosition(e);
+          updatePosition(e);
         }}
         onMouseUp={() => setIsMouseClicked(false)}
         onMouseLeave={() => setIsMouseClicked(false)}>
@@ -96,7 +94,7 @@ function Area({
         <rect
           fill="red"
           x={0}
-          y={y(rectY)}
+          y={y(targetPrice)}
           width={width - (marginRight + marginLeft)}
           height={3}
           style={{ cursor: "pointer" }}
@@ -105,11 +103,11 @@ function Area({
 
         <text
           x={width - 55}
-          y={y(rectY) - 10}
+          y={y(targetPrice) - 10}
           className="tooltip"
           fill="white"
           style={{ opacity: isMouseClicked ? 1 : 0 }}>
-          {rectY.toFixed(2)}
+          {targetPrice.toFixed(2)}
         </text>
       </svg>
 
