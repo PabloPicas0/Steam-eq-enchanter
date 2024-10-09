@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector ";
-import { loadMarketData } from "../Store/Slices/profileSlice";
+import { loadMarketData } from "../Store/Thunks/loadMarketDataThunk";
 import { CurrencyTableModel } from "../models/CurrencyModel";
 
 import getCorrectItemCurrency from "../utils/getCorrectItemCurrency";
