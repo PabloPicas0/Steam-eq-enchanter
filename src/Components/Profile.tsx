@@ -1,4 +1,5 @@
 import { useAppSelector } from "../hooks/useAppSelector ";
+import AdditionalItemSearch from "./AdditionalItemSearch";
 
 function Profile() {
   const profile = useAppSelector((state) => state.profile.items[0]);
@@ -33,6 +34,8 @@ function Profile() {
           {communityvisibilitystate === 1 ? "Private" : "Public"}
         </span>
       </p>
+
+      <AdditionalItemSearch />
     </section>
   );
 }
