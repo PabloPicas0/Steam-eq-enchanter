@@ -1,64 +1,14 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { parseSteamId32, parseSteamId64 } from "../../utils/parseSteamID";
 import { CurrencyTableModel } from "../../models/CurrencyModel";
 import { EquipmentModel } from "../../models/EquipmentModel";
 import { UserModel } from "../../models/UserModel";
 import { ItemModel } from "../../models/ItemsModel";
-import { MarketModel } from "../../models/MarketModel";
-import { AppDispatch, RootState } from "../store";
+
+import { loadProfile } from "../Thunks/loadProfileThunk";
+import { loadMarketData } from "../Thunks/loadMarketDataThunk";
 
 const savedFavouriteItems = JSON.parse(localStorage.getItem("favourite") || "[]") as string[];
-
-export const loadProfile = createAsyncThunk(
-  "profile/loadProfile",
-  async (input: string, { rejectWithValue }) => {
-    const steam64ID = /STEAM_/g.test(input) ? parseSteamId32(input) : parseSteamId64(input);
-    const nbpCurrency = "https://api.nbp.pl/api/exchangerates/tables/a/";
-    const headers = {
-      headers: { Accept: "application/json" },
-    };
-
-    try {
-      const [proxyResponse, currenciesResponse] = await Promise.all([
-        fetch(`/api?id=${steam64ID}`),
-        fetch(nbpCurrency, headers),
-      ]);
-
-      const [proxyData, currenciesData] = (await Promise.all([
-        proxyResponse.json(),
-        currenciesResponse.json(),
-      ])) as [(UserModel & EquipmentModel)[], CurrencyTableModel];
-
-      return { proxyData, currenciesData };
-    } catch (error) {
-      return rejectWithValue(true);
-    }
-  }
-);
-
-export const loadMarketData = createAsyncThunk<
-  MarketModel[],
-  void,
-  { state: RootState; dispatch: AppDispatch }
->("profile/loadMarketData", async (_, { getState, rejectWithValue }) => {
-  const { pickedItems } = getState().profile;
-
-  const itemsMarketName = pickedItems.map((item) => item.market_name);
-
-  try {
-    const response = await fetch("/api", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(itemsMarketName),
-    });
-    const data = (await response.json()) as MarketModel[];
-
-    return data;
-  } catch (error) {
-    return rejectWithValue(true);
-  }
-});
 
 export const profileSlice = createSlice({
   name: "profile",
