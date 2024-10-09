@@ -3,7 +3,7 @@ import "../styles/Form.css";
 
 import steam from "../assets/Steam.webp";
 
-import { loadProfile } from "../Store/Slices/profileSlice";
+import { loadProfile } from "../Store/Thunks/loadProfileThunk";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 
 function Form() {
@@ -11,7 +11,7 @@ function Form() {
 
   const dispatch = useAppDispatch();
 
-  async function handleSubmit(e: React.FormEvent<HTMLInputElement>) {
+  function handleSubmit(e: React.FormEvent<HTMLInputElement>) {
     e.preventDefault();
 
     if (input === "") return;
