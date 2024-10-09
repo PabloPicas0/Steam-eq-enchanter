@@ -100,9 +100,11 @@ function UserItem(props: PropTypes) {
         <p>
           Current price: {market_price} {priceSuffix}
         </p>
+
         <p>
           Sell profit: {sellProfit} {priceSuffix}
         </p>
+        
         <p>
           Buy Profit: {buyProfit} {priceSuffix}
         </p>
