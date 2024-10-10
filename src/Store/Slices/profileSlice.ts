@@ -10,7 +10,7 @@ import { loadMarketData } from "../Thunks/loadMarketDataThunk";
 
 const savedFavouriteItems = JSON.parse(localStorage.getItem("favourite") || "[]") as string[];
 
-export const profileSlice = createSlice({
+const profileSlice = createSlice({
   name: "profile",
   initialState: {
     items: [] as (UserModel & EquipmentModel)[],
