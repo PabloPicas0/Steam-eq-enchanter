@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { AdditionalItemModel } from "../models/AdditionalItemModel";
 
-import "../styles/AdditionalItem.css";
+import "../styles/MarketItemsSearch.css";
 
 // TODO: Lack of fetching error validation for user
-function MarketItems() {
+function MarketItemsSearch() {
   const [link, setLink] = useState("");
 
   async function addAdditionalItem() {
@@ -25,7 +25,9 @@ function MarketItems() {
 
   return (
     <div className="search-additional-item-container">
-      <label htmlFor="additional-item">Search additional item</label>
+      <label htmlFor="additional-item" style={{ fontSize: "1.5rem", fontWeight: "bold" }}>
+        Search from steam market
+      </label>
       <input
         type="text"
         className="input-steamID"
@@ -42,4 +44,4 @@ function MarketItems() {
   );
 }
 
-export default MarketItems;
+export default MarketItemsSearch;
