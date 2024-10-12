@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { AdditionalItemModel } from "../models/AdditionalItemModel";
 
 import "../styles/MarketItemsSearch.css";
 import { useAppSelector } from "../hooks/useAppSelector ";
 import { useAppDispatch } from "../hooks/useAppDispatch";
-import { addMarketItem } from "../Store/Slices/itemsFromMarketSlice";
+import { loadItemFromMarket } from "../Store/Thunks/loadItemFromMarketThunk";
 
 // TODO: Lack of fetching error validation for user
 function MarketItemsSearch() {
@@ -17,21 +16,11 @@ function MarketItemsSearch() {
   async function addAdditionalItem() {
     if (link === "") return;
 
-    const linksParts = link.split("/");
-    const lastPart = linksParts.length - 1;
-    const itemName = linksParts[lastPart];
-
-    const req = await fetch(`/api/item/${itemName}`);
-
-    if (!req.ok) {
-      console.error(req.statusText);
-      return addAdditionalItem()
+    try {
+      await dispatch(loadItemFromMarket(link)).unwrap();
+    } catch (error) {
+      return addAdditionalItem();
     }
-
-    const item = (await req.json()) as AdditionalItemModel;
-
-    console.log(item);
-    dispatch(addMarketItem(item));
   }
 
   return (
@@ -56,11 +45,11 @@ function MarketItemsSearch() {
 
       <div>
         {items.map((item, idx) => {
+          const { icon_url, classid } = item.results[0].asset_description;
+
           return (
-            <div style={{ color: "whitesmoke" }}>
-              <img
-                src={`https://steamcommunity-a.akamaihd.net/economy/image//${item.results[0]?.asset_description.icon_url}`}
-              />
+            <div style={{ color: "whitesmoke" }} key={classid + idx}>
+              <img src={`https://steamcommunity-a.akamaihd.net/economy/image//${icon_url}`} />
               <p>item {item.results[0]?.name}</p>
             </div>
           );
