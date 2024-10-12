@@ -9,7 +9,10 @@ router.get("/", async (req: Request<{ name: string }>, res) => {
 
   try {
     const itemReq = await fetch(url);
-    const item = await itemReq.json() as AdditionalItemModel;
+    const item = (await itemReq.json()) as AdditionalItemModel;
+
+    if (!item.results.length)
+      throw new Error("Missed request " + new Date().toLocaleTimeString("en-EN", { hourCycle: "h24" }));
 
     res.send(item);
   } catch (error) {
