@@ -1,5 +1,6 @@
+import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector ";
-import AdditionalItemSearch from "./AdditionalItemSearch";
+import { isEquipmentMode } from "../Store/Slices/itemsFromMarketSlice";
 
 function Profile() {
   const profile = useAppSelector((state) => state.profile.items[0]);
@@ -8,6 +9,7 @@ function Profile() {
     profile.response.players[0];
 
   const accountCreated = new Date(timecreated * 1000).toLocaleDateString();
+  const dispatch = useAppDispatch();
 
   return (
     <section className="hero">
@@ -35,7 +37,17 @@ function Profile() {
         </span>
       </p>
 
-      <AdditionalItemSearch />
+      <p className="account-crated">Search from</p>
+
+      <div style={{ display: "flex", gap: 15, justifyContent: "center" }}>
+        <button style={{ borderRadius: 0 }} onClick={() => dispatch(isEquipmentMode(true))}>
+          Equipment
+        </button>
+
+        <button style={{ borderRadius: 0 }} onClick={() => dispatch(isEquipmentMode(false))}>
+          Market
+        </button>
+      </div>
     </section>
   );
 }
