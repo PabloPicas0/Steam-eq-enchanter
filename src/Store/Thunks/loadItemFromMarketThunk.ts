@@ -1,13 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AdditionalItemModel } from "../../models/AdditionalItemModel";
+import { RootState } from "../store";
 
-export const loadItemFromMarket = createAsyncThunk(
+export const loadItemFromMarket = createAsyncThunk<AdditionalItemModel, string, { state: RootState }>(
   "itemsFromMarket/loadItemFromMarket",
-  async (link: string) => {
-    const linksParts = link.split("/");
-    const lastPart = linksParts.length - 1;
-    const itemName = linksParts[lastPart];
-
+  async (itemName: string) => {
     const req = await fetch(`/api/item/${itemName}`);
 
     if (!req.ok) {
