@@ -26,7 +26,7 @@ const end = steamCommunityCookie.indexOf(";");
 export const cookieValue = steamCommunityCookie.slice(start, end);
 
 app.use("/", rootRouter);
-app.use("/item/:name", itemRouter);
+app.use("/market/item/:name", itemRouter);
 
 const listener = app.listen(process.env.PORT || 3001, () => {
   const { port } = listener.address() as AddressInfo;
