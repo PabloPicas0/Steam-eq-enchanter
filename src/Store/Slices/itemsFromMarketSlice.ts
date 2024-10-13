@@ -7,7 +7,6 @@ const itemsFromMarketSlice = createSlice({
   initialState: {
     marketItems: [] as AdditionalItemModel[],
     isUserEquipment: true,
-    error: false,
     pending: false,
   },
   reducers: {
@@ -20,14 +19,17 @@ const itemsFromMarketSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(loadItemFromMarket.pending, (state) => {
-      state.pending = true
-    })
+      state.pending = true;
+    });
 
     builder.addCase(loadItemFromMarket.fulfilled, (state, action) => {
-      state.pending = false
-      state.error = false
-      state.marketItems.push(action.payload)
-    })
+      state.pending = false;
+      state.marketItems.push(action.payload);
+    });
+
+    builder.addCase(loadItemFromMarket.rejected, (state) => {
+      state.pending = false;
+    });
   },
 });
 
