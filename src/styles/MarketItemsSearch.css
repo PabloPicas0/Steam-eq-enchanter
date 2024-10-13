@@ -1,0 +1,27 @@
+.search-additional-item-container {
+  display: grid;
+  max-width: 33%;
+  margin: 0 auto;
+  color: white;
+}
+
+.search-additional-item-label {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.search-additional-item-btn {
+  margin-top: 0.5rem;
+  border-radius: 0;
+}
+
+.items-from-market-wrapper {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  margin: 3rem 0;
+}
+
+.item-from-market {
+  color: whitesmoke;
+}

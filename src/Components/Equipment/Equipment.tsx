@@ -1,14 +1,14 @@
 import { useState } from "react";
-import "../styles/Equipment.css";
+import "../../styles/Equipment.css";
 
-import useFiter from "../hooks/useFilter";
+import useFiter from "../../hooks/useFilter";
 
 import Items from "./Items";
 import PickedItems from "./PickedItems";
 
 import FilterQuality from "./FilterQuality";
 
-import { useAppSelector } from "../hooks/useAppSelector ";
+import { useAppSelector } from "../../hooks/useAppSelector ";
 import FilterFavourite from "./FilterFavourite";
 
 function Equipment() {

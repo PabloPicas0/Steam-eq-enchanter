@@ -1,6 +1,6 @@
 import { useAppSelector } from "../hooks/useAppSelector ";
-import Market from "./Market";
-import Equipment from "./Equipment";
+import Market from "./Market/Market";
+import Equipment from "./Equipment/Equipment";
 
 function Mode() {
   const isUserEquipment = useAppSelector((state) => state.itemsFromMarket.isUserEquipment);
@@ -8,4 +8,4 @@ function Mode() {
   return isUserEquipment ? <Equipment /> : <Market />;
 }
 
-export default Mode
+export default Mode;

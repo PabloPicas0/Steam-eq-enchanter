@@ -1,8 +1,8 @@
-import HeartIcon from "../Icons/Heartcon";
+import HeartIcon from "../../Icons/Heartcon";
 
-import { useAppDispatch } from "../hooks/useAppDispatch";
-import { addToFavouriteItems, removeFromFavouriteItems } from "../Store/Slices/profileSlice";
-import { useAppSelector } from "../hooks/useAppSelector ";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { addToFavouriteItems, removeFromFavouriteItems } from "../../Store/Slices/profileSlice";
+import { useAppSelector } from "../../hooks/useAppSelector ";
 
 function Favourite(props: { className?: string; itemName: string }) {
   const { className, itemName } = props;

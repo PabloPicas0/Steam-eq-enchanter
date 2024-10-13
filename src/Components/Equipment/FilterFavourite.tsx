@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useAppDispatch } from "../hooks/useAppDispatch";
-import HeartIcon from "../Icons/Heartcon";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import HeartIcon from "../../Icons/Heartcon";
 
-import { loadFavouriteItems, removeFromFavouriteItems } from "../Store/Slices/profileSlice";
-import { useAppSelector } from "../hooks/useAppSelector ";
-import BinIcon from "../Icons/BinIcon";
-import { EquipmentModel } from "../models/EquipmentModel";
+import { loadFavouriteItems, removeFromFavouriteItems } from "../../Store/Slices/profileSlice";
+import { useAppSelector } from "../../hooks/useAppSelector ";
+import BinIcon from "../../Icons/BinIcon";
+import { EquipmentModel } from "../../models/EquipmentModel";
 
 function FilterFavourite(props: { items: EquipmentModel }) {
   const { items } = props;

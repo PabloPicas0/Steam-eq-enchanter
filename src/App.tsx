@@ -2,10 +2,10 @@ import "./App.css";
 
 import Form from "./Components/Form";
 import Profile from "./Components/Profile";
-import Equipment from "./Components/Equipment";
 import AsyncSuspense from "./Components/AsyncSuspense";
+import Mode from "./Components/Mode";
 
-// TODO: Red line on Area component should respect currency change
+// TODO: Better error handling when fetching price data
 function App() {
   return (
     <>
@@ -13,7 +13,7 @@ function App() {
 
       <AsyncSuspense>
         <Profile />
-        <Equipment />
+        <Mode />
       </AsyncSuspense>
 
       <footer>

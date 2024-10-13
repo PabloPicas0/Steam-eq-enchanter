@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import FilterIcon from "../Icons/FilterIcon";
+import FilterIcon from "../../Icons/FilterIcon";
 
-import "../styles/Filter.css";
+import "../../styles/Filter.css";
 
 const itemQualityTypes = [
   ["Common", "rgb(176, 195, 217)"],

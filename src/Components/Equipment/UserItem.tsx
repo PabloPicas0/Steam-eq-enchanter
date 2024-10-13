@@ -1,18 +1,18 @@
 import { useMemo } from "react";
 
-import "../styles/UserItem.css";
+import "../../styles/UserItem.css";
 
-import { ItemModel } from "../models/ItemsModel";
+import { ItemModel } from "../../models/ItemsModel";
 
-import Area from "./Area";
-import Price from "./Price";
+import Area from "../Area";
+import Price from "../Price";
 import Favourite from "./Favourite";
 
-import usePrice from "../hooks/usePrice";
-import AmmountIcon from "../Icons/AmmountIcon";
-import getSavedItemProps from "../utils/getSavedItemProps";
-import { useAppDispatch } from "../hooks/useAppDispatch";
-import { addToPickedItems, removeFromPickedItems } from "../Store/Slices/profileSlice";
+import usePrice from "../../hooks/usePrice";
+import AmmountIcon from "../../Icons/AmmountIcon";
+import getSavedItemProps from "../../utils/getSavedItemProps";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { addToPickedItems, removeFromPickedItems } from "../../Store/Slices/profileSlice";
 
 type PropTypes = {
   item: ItemModel;
@@ -104,7 +104,7 @@ function UserItem(props: PropTypes) {
         <p>
           Sell profit: {sellProfit} {priceSuffix}
         </p>
-        
+
         <p>
           Buy Profit: {buyProfit} {priceSuffix}
         </p>

@@ -1,5 +1,5 @@
-import usePagination from "../hooks/usePagination";
-import { EquipmentModel } from "../models/EquipmentModel";
+import usePagination from "../../hooks/usePagination";
+import { EquipmentModel } from "../../models/EquipmentModel";
 import UserItem from "./UserItem";
 
 type PropTypes = {

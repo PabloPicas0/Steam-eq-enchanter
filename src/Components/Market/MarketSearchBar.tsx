@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useAppDispatch } from "../hooks/useAppDispatch";
-import { loadItemFromMarket } from "../Store/Thunks/loadItemFromMarketThunk";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { loadItemFromMarket } from "../../Store/Thunks/loadItemFromMarketThunk";
 
 function MarketSearchBar() {
   const [link, setLink] = useState("");
