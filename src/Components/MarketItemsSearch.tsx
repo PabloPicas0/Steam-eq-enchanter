@@ -1,11 +1,13 @@
 import { useState } from "react";
 
 import "../styles/MarketItemsSearch.css";
+
 import { useAppSelector } from "../hooks/useAppSelector ";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { loadItemFromMarket } from "../Store/Thunks/loadItemFromMarketThunk";
 
 // TODO: Lack of fetching error validation for user
+// TODO: Currency needs to match with this in eq
 function MarketItemsSearch() {
   const items = useAppSelector((state) => state.itemsFromMarket.marketItems);
 
@@ -14,20 +16,21 @@ function MarketItemsSearch() {
   const dispatch = useAppDispatch();
 
   async function addAdditionalItem() {
-    if (link === "") return;
+    const linksParts = link.split("/");
+    const lastPart = linksParts.length - 1;
+    const itemName = decodeURIComponent(linksParts[lastPart]);
 
-    try {
-      await dispatch(loadItemFromMarket(link)).unwrap();
-    } catch (error) {
-      return addAdditionalItem();
-    }
+    if (link === "" || items.length === 10 || items.some((item) => item.results[0].hash_name === itemName))
+      return;
+
+    dispatch(loadItemFromMarket(itemName));
   }
 
   return (
     <section>
       <div className="search-additional-item-container">
         {" "}
-        <label htmlFor="additional-item" style={{ fontSize: "1.5rem", fontWeight: "bold" }}>
+        <label htmlFor="additional-item" className="search-additional-item-label">
           Search from steam market
         </label>
         <input
@@ -43,14 +46,23 @@ function MarketItemsSearch() {
         </button>
       </div>
 
-      <div>
+      <div className="items-from-market-wrapper">
         {items.map((item, idx) => {
-          const { icon_url, classid } = item.results[0].asset_description;
+          const { sell_price_text } = item.results[0];
+          const { icon_url, classid, name } = item.results[0].asset_description;
 
           return (
-            <div style={{ color: "whitesmoke" }} key={classid + idx}>
-              <img src={`https://steamcommunity-a.akamaihd.net/economy/image//${icon_url}`} />
-              <p>item {item.results[0]?.name}</p>
+            <div className="item-from-market" key={classid + idx}>
+              <img
+                src={`https://steamcommunity-a.akamaihd.net/economy/image//${icon_url}`}
+                width={100}
+                height={100}
+              />
+
+              <div>
+                <p>{name + " " + idx}</p>
+                <p>{sell_price_text}</p>
+              </div>
             </div>
           );
         })}
