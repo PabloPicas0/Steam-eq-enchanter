@@ -1,4 +1,5 @@
 import "../../styles/MarketItemsSearch.css";
+import "../../styles/Loader.css"
 import MarketItems from "./MarketItems";
 
 import MarketSearchBar from "./MarketSearchBar";
