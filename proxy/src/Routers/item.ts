@@ -1,18 +1,21 @@
 import express, { Request } from "express";
-import { AdditionalItemModel } from "../models/AdditionalItemModel.js";
+import { cookieValue } from "../index.js";
+
+import getPriceHistory from "../utils/getPriceHistory.js";
+import getSteamMarketItem from "../utils/getSteamMarketItem.js";
 
 export const router = express.Router({ mergeParams: true });
 
 router.get("/", async (req: Request<{ name: string }>, res) => {
   const name = req.params.name.replace(/[&]/g, "%26").replace(/\s/g, "%20");
-  const url = `https://steamcommunity.com/market/search/render?norender=1&appid=730&query=${name}`;
 
   try {
-    const itemReq = await fetch(url);
-    const item = (await itemReq.json()) as AdditionalItemModel;
+    const [item, price_history] = await Promise.all([
+      getSteamMarketItem(name),
+      getPriceHistory(name, { headers: { Cookie: `steamLoginSecure=${cookieValue}` } }),
+    ]);
 
-    if (!item.results.length)
-      throw new Error("Missed request " + new Date().toLocaleTimeString("en-EN", { hourCycle: "h24" }));
+    item.results[0].price_history = price_history;
 
     res.send(item);
   } catch (error) {
