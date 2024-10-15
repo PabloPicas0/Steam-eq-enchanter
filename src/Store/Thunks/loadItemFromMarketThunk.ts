@@ -12,10 +12,7 @@ export const loadItemFromMarket = createAsyncThunk<AdditionalItemModel, string, 
       const lastPart = linksParts.length - 1;
       const itemName = decodeURIComponent(linksParts[lastPart]);
 
-      if (
-        marketItems.length === 10 ||
-        marketItems.some((item) => item.results[0].hash_name === itemName)
-      )
+      if (marketItems.length === 10 || marketItems.some((item) => item.results[0].hash_name === itemName))
         return rejectWithValue(false);
 
       const req = await fetch(`/api/market/item/${itemName}`);
@@ -28,7 +25,8 @@ export const loadItemFromMarket = createAsyncThunk<AdditionalItemModel, string, 
 
       return item;
     } catch (error) {
-      return rejectWithValue(error);
+      console.error(error);
+      return rejectWithValue(false);
     }
   }
 );
