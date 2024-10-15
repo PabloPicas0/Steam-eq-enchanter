@@ -16,6 +16,11 @@ const itemsFromMarketSlice = createSlice({
     addMarketItem: (state, action: PayloadAction<AdditionalItemModel>) => {
       state.marketItems.push(action.payload);
     },
+    removeMarketitem: (state, action: PayloadAction<string>) => {
+      state.marketItems = state.marketItems.filter(
+        (item) => item.results[0].asset_description.classid !== action.payload
+      );
+    },
   },
   extraReducers(builder) {
     builder.addCase(loadItemFromMarket.pending, (state) => {
@@ -33,5 +38,5 @@ const itemsFromMarketSlice = createSlice({
   },
 });
 
-export const { isEquipmentMode, addMarketItem } = itemsFromMarketSlice.actions;
+export const { isEquipmentMode, addMarketItem, removeMarketitem } = itemsFromMarketSlice.actions;
 export default itemsFromMarketSlice.reducer;
