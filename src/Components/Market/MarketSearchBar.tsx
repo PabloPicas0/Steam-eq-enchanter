@@ -7,6 +7,14 @@ function MarketSearchBar() {
 
   const dispatch = useAppDispatch();
 
+  function loadMarketItem() {
+    if (link === "") return;
+
+    dispatch(loadItemFromMarket(link))
+      .unwrap()
+      .then(() => setLink(""));
+  }
+
   return (
     <div className="search-additional-item-container">
       {" "}
@@ -21,9 +29,7 @@ function MarketSearchBar() {
         value={link}
         onChange={(e) => setLink(e.target.value)}
       />
-      <button
-        className="search-additional-item-btn"
-        onClick={() => link !== "" && dispatch(loadItemFromMarket(link))}>
+      <button className="search-additional-item-btn" onClick={loadMarketItem}>
         Search
       </button>
     </div>
