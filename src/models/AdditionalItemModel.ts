@@ -1,3 +1,5 @@
+import { PriceHistoryModel } from "./PriceHistoryModel";
+
 export type AdditionalItemModel = {
   success: boolean;
   start: number;
@@ -33,6 +35,7 @@ export type AdditionalItemModel = {
       market_hash_name: string;
       commodity: number;
     };
+    price_history?: PriceHistoryModel;
     sale_price_text: string;
   }[];
 };
