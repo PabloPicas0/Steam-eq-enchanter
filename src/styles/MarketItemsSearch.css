@@ -1,7 +1,7 @@
 .search-additional-item-container {
   display: grid;
   max-width: 33%;
-  margin: 0 auto;
+  margin: 3rem auto;
   color: white;
 }
 
@@ -23,5 +23,6 @@
 }
 
 .item-from-market {
+  cursor: pointer;
   color: whitesmoke;
 }
