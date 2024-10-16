@@ -15,7 +15,9 @@ router.get("/", async (req: Request<{ name: string }>, res) => {
       getPriceHistory(name, { headers: { Cookie: `steamLoginSecure=${cookieValue}` } }),
     ]);
 
-    item.results[0].price_history = price_history;
+    if (price_history.success) {
+      item.results[0].price_history = price_history;
+    }
 
     res.send(item);
   } catch (error) {
