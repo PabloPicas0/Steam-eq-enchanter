@@ -35,7 +35,7 @@ function Item(props: { item: AdditionalItemModel }) {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="item-from-market" style={{border: `1px solid #${name_color}`}}>
+    <div className="item-from-market" style={{ border: `1px solid #${name_color}` }}>
       <div onClick={() => dispatch(removeMarketitem(classid))}>
         <img
           src={`https://steamcommunity-a.akamaihd.net/economy/image//${icon_url}`}
@@ -46,11 +46,17 @@ function Item(props: { item: AdditionalItemModel }) {
         <div>
           <p>{name}</p>
           <p>{sell_price_text}</p>
+          <p>{sellProfit}</p>
+          <p>{buyProfit}</p>
         </div>
       </div>
 
       {price_history ? (
-        <Area width={800} height={600} data={price_history.prices} targetPrice={targetPrice} setNewPrice={setNewPrice} />
+        <Area
+          data={price_history.prices}
+          targetPrice={targetPrice}
+          setNewPrice={setNewPrice}
+        />
       ) : null}
     </div>
   );
