@@ -9,6 +9,10 @@ async function getSteamMarketItem(itemName: string) {
   if (!item?.results.length)
     throw new Error("Missed request " + new Date().toLocaleTimeString("en-EN", { hourCycle: "h24" }));
 
+  const { sell_price_text } = item.results[0];
+
+  item.results[0].sell_price_text = sell_price_text.replace("$", "");
+  
   return item;
 }
 
