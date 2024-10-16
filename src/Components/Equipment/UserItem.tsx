@@ -11,6 +11,8 @@ import Favourite from "./Favourite";
 import usePrice from "../../hooks/usePrice";
 import AmmountIcon from "../../Icons/AmmountIcon";
 import getSavedItemProps from "../../utils/getSavedItemProps";
+import saveToStorage from "../../utils/saveToStorage";
+
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { addToPickedItems, removeFromPickedItems } from "../../Store/Slices/profileSlice";
 
@@ -43,15 +45,7 @@ function UserItem(props: PropTypes) {
       setTargetPrice(e);
     }
 
-    save();
-  }
-
-  function save() {
-    const prices = JSON.parse(localStorage.getItem("prices") || "{}") as { [key: string]: number };
-
-    prices[classid] = targetPrice;
-
-    localStorage.setItem("prices", JSON.stringify(prices));
+    saveToStorage(classid, targetPrice);
   }
 
   return (
