@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const ITEMS_START_AMMOUNT = 24
+const ITEMS_START_AMMOUNT = 24;
 const NEXT_ITEMS_AMMOUNT = 25;
 
 function usePagination(length: number) {
