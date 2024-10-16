@@ -4,7 +4,7 @@ import UserItem from "./UserItem";
 
 type PropTypes = {
   filteredItems: EquipmentModel["assets"];
-}
+};
 
 function Items(props: PropTypes) {
   const { filteredItems } = props;
@@ -15,11 +15,9 @@ function Items(props: PropTypes) {
   return (
     <>
       <ul className="items-container">
-        {filteredItems.slice(start, end).map((item) => {
-          return (
-            <UserItem key={item.market_name} item={item} isSelected={false} />
-          );
-        })}
+        {filteredItems.slice(start, end).map((item) => (
+          <UserItem key={item.market_name} item={item} isSelected={false} />
+        ))}
       </ul>
 
       <div className="pagination">
