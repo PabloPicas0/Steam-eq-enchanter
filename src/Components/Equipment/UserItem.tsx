@@ -39,8 +39,8 @@ function UserItem(props: PropTypes) {
   function setNewPrice(e: number) {
     if (e < 0) {
       setTargetPrice(0.03);
-    } else if (e > 999) {
-      setTargetPrice(999);
+    } else if (e > 99999) {
+      setTargetPrice(99999);
     } else {
       setTargetPrice(e);
     }
