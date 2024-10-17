@@ -7,8 +7,7 @@ import getSavedItemProps from "../../utils/getSavedItemProps";
 import Area from "../Area";
 import saveToStorage from "../../utils/saveToStorage";
 
-// TODO: PriceHistory is always in PLN
-function Item(props: { item: AdditionalItemModel }) {
+function MarketItem(props: { item: AdditionalItemModel }) {
   const { item } = props;
 
   const { sell_price_text, price_history } = item.results[0];
@@ -23,8 +22,8 @@ function Item(props: { item: AdditionalItemModel }) {
   function setNewPrice(e: number) {
     if (e < 0) {
       setTargetPrice(0.03);
-    } else if (e > 999) {
-      setTargetPrice(999);
+    } else if (e > 99999) {
+      setTargetPrice(99999);
     } else {
       setTargetPrice(e);
     }
@@ -35,8 +34,8 @@ function Item(props: { item: AdditionalItemModel }) {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="item-from-market" style={{ border: `1px solid #${name_color}` }}>
-      <div onClick={() => dispatch(removeMarketitem(classid))}>
+    <div className="item" style={{ border: `1px solid #${name_color}` }}>
+      <div className="item-from-market" onClick={() => dispatch(removeMarketitem(classid))}>
         <img
           src={`https://steamcommunity-a.akamaihd.net/economy/image//${icon_url}`}
           width={100}
@@ -45,21 +44,17 @@ function Item(props: { item: AdditionalItemModel }) {
 
         <div>
           <p>{name}</p>
-          <p>{sell_price_text}</p>
-          <p>{sellProfit}</p>
-          <p>{buyProfit}</p>
+          <p>Current price: {sell_price_text}</p>
+          <p>Sell profit: {sellProfit}</p>
+          <p>Buy profit: {buyProfit}</p>
         </div>
       </div>
 
       {price_history ? (
-        <Area
-          data={price_history.prices}
-          targetPrice={targetPrice}
-          setNewPrice={setNewPrice}
-        />
+        <Area data={price_history.prices} targetPrice={targetPrice} setNewPrice={setNewPrice} />
       ) : null}
     </div>
   );
 }
 
-export default Item;
+export default MarketItem;
