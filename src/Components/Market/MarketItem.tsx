@@ -1,10 +1,15 @@
 import { useMemo } from "react";
+
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import usePrice from "../../hooks/usePrice";
+
 import { AdditionalItemModel } from "../../models/AdditionalItemModel";
 import { removeMarketitem } from "../../Store/Slices/itemsFromMarketSlice";
-import getSavedItemProps from "../../utils/getSavedItemProps";
+
 import Area from "../Area";
+import Price from "../Price";
+
+import getSavedItemProps from "../../utils/getSavedItemProps";
 import saveToStorage from "../../utils/saveToStorage";
 
 function MarketItem(props: { item: AdditionalItemModel }) {
@@ -12,6 +17,8 @@ function MarketItem(props: { item: AdditionalItemModel }) {
 
   const { sell_price_text, price_history } = item.results[0];
   const { icon_url, classid, name, name_color } = item.results[0].asset_description;
+
+  const priceSuffix = price_history?.price_suffix
 
   const savedPrice = useMemo(() => getSavedItemProps(classid), []);
   const { targetPrice, sellProfit, buyProfit, setTargetPrice } = usePrice({
@@ -34,26 +41,39 @@ function MarketItem(props: { item: AdditionalItemModel }) {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="item" style={{ border: `1px solid #${name_color}` }}>
+    <li className="item" style={{ border: `1px solid #${name_color}` }}>
       <div className="item-from-market" onClick={() => dispatch(removeMarketitem(classid))}>
-        <img
-          src={`https://steamcommunity-a.akamaihd.net/economy/image//${icon_url}`}
-          width={100}
-          height={100}
-        />
-
-        <div>
-          <p>{name}</p>
-          <p>Current price: {sell_price_text}</p>
-          <p>Sell profit: {sellProfit}</p>
-          <p>Buy profit: {buyProfit}</p>
+        <div className="item-image-wrapper">
+          <img
+            src={`https://steamcommunity-a.akamaihd.net/economy/image//${icon_url}`}
+            width={100}
+            height={100}
+          />
         </div>
+
+        <div className="item-description">
+          <p className="item-name">{name}</p>
+        </div>
+
+        <Price price={sell_price_text} fallback={<div className="skeleton-text" />}>
+          <p>
+            Current price: {sell_price_text} {priceSuffix}
+          </p>
+
+          <p>
+            Sell profit: {sellProfit} {priceSuffix}
+          </p>
+
+          <p>
+            Buy Profit: {buyProfit} {priceSuffix}
+          </p>
+        </Price>
       </div>
 
       {price_history ? (
         <Area data={price_history.prices} targetPrice={targetPrice} setNewPrice={setNewPrice} />
       ) : null}
-    </div>
+    </li>
   );
 }
 
