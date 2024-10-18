@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { useAppSelector } from "../../hooks/useAppSelector ";
+
 import MarketItem from "./MarketItem";
 import getCorrectMarketCurrency from "../../utils/getCorrectMarketCurrency";
 
@@ -17,19 +18,23 @@ function MarketItems() {
   );
 
   return (
-    <>
+    <div>
       <h2 style={{ color: "white" }}>Items {items.length}/10</h2>
 
-      <div className="items-from-market-wrapper">
+      <ul className="items-container selected-items-container">
         {itemsWithCorrecetedCurrency.map((item, idx) => {
           const { classid } = item.results[0].asset_description;
 
           return <MarketItem item={item} key={classid + idx} />;
         })}
 
-        {pending && <span className="loader"></span>}
-      </div>
-    </>
+        {pending && (
+          <li style={{ placeSelf: "center" }}>
+            <span className="loader"></span>{" "}
+          </li>
+        )}
+      </ul>
+    </div>
   );
 }
 
