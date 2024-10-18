@@ -18,12 +18,13 @@ function MarketItem(props: { item: AdditionalItemModel }) {
   const { sell_price_text, price_history } = item.results[0];
   const { icon_url, classid, name, name_color } = item.results[0].asset_description;
 
-  const priceSuffix = price_history?.price_suffix
+  const priceSuffix = price_history?.price_suffix;
+  const market_price = sell_price_text.replace(/,(?=[^,]*$)/, "");
 
   const savedPrice = useMemo(() => getSavedItemProps(classid), []);
   const { targetPrice, sellProfit, buyProfit, setTargetPrice } = usePrice({
     savedPrice,
-    market_price: sell_price_text,
+    market_price,
   });
 
   function setNewPrice(e: number) {
@@ -42,22 +43,24 @@ function MarketItem(props: { item: AdditionalItemModel }) {
 
   return (
     <li className="item" style={{ border: `1px solid #${name_color}` }}>
-      <div className="item-from-market" onClick={() => dispatch(removeMarketitem(classid))}>
-        <div className="item-image-wrapper">
-          <img
-            src={`https://steamcommunity-a.akamaihd.net/economy/image//${icon_url}`}
-            width={100}
-            height={100}
-          />
+      <div className="item-from-market">
+        <div onClick={() => dispatch(removeMarketitem(classid))} style={{ cursor: "pointer" }}>
+          <div className="item-image-wrapper">
+            <img
+              src={`https://steamcommunity-a.akamaihd.net/economy/image//${icon_url}`}
+              width={100}
+              height={100}
+            />
+          </div>
+
+          <div className="item-description">
+            <p className="item-name">{name}</p>
+          </div>
         </div>
 
-        <div className="item-description">
-          <p className="item-name">{name}</p>
-        </div>
-
-        <Price price={sell_price_text} fallback={<div className="skeleton-text" />}>
+        <Price price={market_price} fallback={<div className="skeleton-text" />}>
           <p>
-            Current price: {sell_price_text} {priceSuffix}
+            Current price: {market_price} {priceSuffix}
           </p>
 
           <p>
