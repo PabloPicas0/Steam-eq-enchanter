@@ -5,7 +5,6 @@ import MarketItems from "./MarketItems";
 
 import MarketSearchBar from "./MarketSearchBar";
 
-// TODO: Lack of fetching error validation for user
 // TODO: Currency needs to match with this in eq
 function Market() {
   return (
