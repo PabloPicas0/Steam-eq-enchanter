@@ -44,6 +44,7 @@ function MarketItem(props: { item: AdditionalItemModel }) {
   return (
     <li className="item" style={{ border: `1px solid #${name_color}` }}>
       <div className="item-from-market">
+        
         <div onClick={() => dispatch(removeMarketitem(classid))} style={{ cursor: "pointer" }}>
           <div className="item-image-wrapper">
             <img
