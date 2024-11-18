@@ -10,8 +10,8 @@ import { cookieValue, webCookies } from "../index.js";
 
 export const router = express.Router();
 
-const forbidenItems = ["Collectible", "Music", "Stock"].join("|");
-const isForbiden = new RegExp(forbidenItems, "g");
+const forbidenItems = ["Collectible", "Music", "Stock", "Tool", "Pass"].join("|");
+const isForbiden = new RegExp(forbidenItems);
 
 router.get("/", async (req, res) => {
   const { id } = req.query;
