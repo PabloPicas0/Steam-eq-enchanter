@@ -68,7 +68,9 @@ const profileSlice = createSlice({
     builder.addCase(loadProfile.pending, (state) => {
       state.items = [];
       state.pickedItems = [];
+
       state.pending = true;
+      state.error = false
     });
 
     builder.addCase(loadProfile.fulfilled, (state, action) => {
@@ -84,6 +86,8 @@ const profileSlice = createSlice({
     builder.addCase(loadProfile.rejected, (state) => {
       state.items = [];
       state.pickedItems = [];
+
+      state.pending = false
       state.error = true;
     });
 
