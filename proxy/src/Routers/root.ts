@@ -10,6 +10,9 @@ import { cookieValue, webCookies } from "../index.js";
 
 export const router = express.Router();
 
+const forbidenItems = ["Collectible", "Music", "Stock"].join("|");
+const isForbiden = new RegExp(forbidenItems, "g");
+
 router.get("/", async (req, res) => {
   const { id } = req.query;
 
@@ -22,10 +25,7 @@ router.get("/", async (req, res) => {
     // label for each inventory item name and icon
     addItemDescriptions(userInventory);
 
-    const filteredUserInventory = userInventory.assets.filter(
-      (item) =>
-        !item.type.includes("Collectible") && !item.type.includes("Music") && !item.type.includes("Stock")
-    );
+    const filteredUserInventory = userInventory.assets.filter((item) => !isForbiden.test(item.type));
 
     userInventory.assets = filteredUserInventory;
     userInventory.total_inventory_count = filteredUserInventory.length;
