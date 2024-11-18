@@ -96,7 +96,7 @@ function Area({
           x={0}
           y={y(targetPrice)}
           width={width - (marginRight + marginLeft)}
-          height={3}
+          height={1}
           style={{ cursor: "pointer" }}
           transform={`translate(${marginLeft}, 0)`}
         />
