@@ -23,7 +23,8 @@ router.get("/", async (req, res) => {
     addItemDescriptions(userInventory);
 
     const filteredUserInventory = userInventory.assets.filter(
-      (item) => !item.type.includes("Collectible") && !item.type.includes("Music")
+      (item) =>
+        !item.type.includes("Collectible") && !item.type.includes("Music") && !item.type.includes("Stock")
     );
 
     userInventory.assets = filteredUserInventory;
