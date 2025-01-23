@@ -18,7 +18,7 @@ session.refreshToken = process.env.REFRESH_TOKEN;
 export const webCookies = await session.getWebCookies();
 // const ONE_DOLLAR_IN_POLISH_CURRENCY = await getCurrency("usd");
 
-const steamCommunityCookie = webCookies[2];
+const steamCommunityCookie = webCookies.filter((cookie) => cookie.includes("Domain=steamcommunity.com"))[1];
 
 // get steam cookie value needed for price history
 const start = steamCommunityCookie.indexOf("=") + 1;
