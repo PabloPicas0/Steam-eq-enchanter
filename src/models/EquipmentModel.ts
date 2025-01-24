@@ -5,7 +5,7 @@ export type EquipmentModel = {
     assetid: string;
     classid: string;
     instanceid: string;
-    amount: string;
+    amount: number;
     name: string;
     icon_url: string;
     market_name: string;

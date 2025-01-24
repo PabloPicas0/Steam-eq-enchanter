@@ -7,8 +7,8 @@ type PropTypes = {
 
 type UsePriceProperties = {
   targetPrice: number;
-  sellProfit: null | string;
-  buyProfit: null | string;
+  sellProfit: number;
+  buyProfit: number;
   setTargetPrice: React.Dispatch<React.SetStateAction<number>>;
 };
 
@@ -20,8 +20,8 @@ function usePrice(props: PropTypes): UsePriceProperties {
   if (!market_price || market_price === "Not marketable")
     return {
       targetPrice,
-      sellProfit: "0",
-      buyProfit: "0",
+      sellProfit: 0,
+      buyProfit: 0,
       setTargetPrice,
     };
 
@@ -32,8 +32,8 @@ function usePrice(props: PropTypes): UsePriceProperties {
   // const makretPriceDifference = (marketPrice - priceOnMarketShouldBe).toFixed(2);
   const iGetFromCurrentMarketPrice = parseFloat((marketPrice * 0.87).toFixed(2));
 
-  const sellProfit = (iGetFromCurrentMarketPrice - targetPrice).toFixed(2);
-  const buyProfit = (targetPrice - marketPrice).toFixed(2);
+  const sellProfit = parseFloat((iGetFromCurrentMarketPrice - targetPrice).toFixed(2));
+  const buyProfit = parseFloat((targetPrice - marketPrice).toFixed(2));
 
   return {
     targetPrice,

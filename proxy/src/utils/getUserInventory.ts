@@ -22,7 +22,7 @@ async function getUserInventory(id: string) {
     const item = inventoryData.assets.find((item) => item.classid === id);
     const classid = item.classid;
 
-    item.amount = itemsAmmount[classid].toString();
+    item.amount = itemsAmmount[classid];
 
     return item;
   });

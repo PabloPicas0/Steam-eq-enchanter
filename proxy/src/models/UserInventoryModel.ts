@@ -5,7 +5,7 @@ export type UserInventoryType = {
     assetid: string;
     classid: string;
     instanceid: string;
-    amount: string;
+    amount: number;
     name: string;
     market_name: string;
     icon_url: string;
