@@ -25,7 +25,14 @@ router.get("/", async (req, res) => {
     // label for each inventory item name and icon
     addItemDescriptions(userInventory);
 
-    const filteredUserInventory = userInventory.assets.filter((item) => !isForbiden.test(item.type));
+    const filteredUserInventory = userInventory.assets.filter((item) => {
+      const graffitiIsNotSealed =
+        item.market_name.includes("Graffiti") && !item.market_name.includes("Sealed");
+
+      if (graffitiIsNotSealed) return false;
+
+      return !isForbiden.test(item.type);
+    });
 
     userInventory.assets = filteredUserInventory;
     userInventory.total_inventory_count = filteredUserInventory.length;
