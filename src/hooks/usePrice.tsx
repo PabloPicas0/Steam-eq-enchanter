@@ -9,6 +9,7 @@ type UsePriceProperties = {
   targetPrice: number;
   sellProfit: number;
   buyProfit: number;
+  iGetFromCurrentMarketPrice: number,
   setTargetPrice: React.Dispatch<React.SetStateAction<number>>;
 };
 
@@ -22,6 +23,7 @@ function usePrice(props: PropTypes): UsePriceProperties {
       targetPrice,
       sellProfit: 0,
       buyProfit: 0,
+      iGetFromCurrentMarketPrice: 0,
       setTargetPrice,
     };
 
@@ -37,6 +39,7 @@ function usePrice(props: PropTypes): UsePriceProperties {
 
   return {
     targetPrice,
+    iGetFromCurrentMarketPrice,
     sellProfit,
     buyProfit,
     setTargetPrice,
