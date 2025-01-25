@@ -8,6 +8,7 @@ import { removeMarketitem } from "../../Store/Slices/itemsFromMarketSlice";
 
 import Area from "../Area";
 import Price from "../Price";
+import PriceSummary from "../PriceSummary";
 
 import getSavedItemProps from "../../utils/getSavedItemProps";
 import saveToStorage from "../../utils/saveToStorage";
@@ -22,7 +23,7 @@ function MarketItem(props: { item: AdditionalItemModel }) {
   const market_price = sell_price_text.replace(/,(?=[^,]*$)/, "");
 
   const savedPrice = useMemo(() => getSavedItemProps(classid), []);
-  const { targetPrice, sellProfit, buyProfit, setTargetPrice } = usePrice({
+  const { targetPrice, sellProfit, buyProfit, iGetFromCurrentMarketPrice, setTargetPrice } = usePrice({
     savedPrice,
     market_price,
   });
@@ -44,7 +45,6 @@ function MarketItem(props: { item: AdditionalItemModel }) {
   return (
     <li className="item" style={{ border: `1px solid #${name_color}` }}>
       <div className="item-from-market">
-        
         <div onClick={() => dispatch(removeMarketitem(classid))} style={{ cursor: "pointer" }}>
           <div className="item-image-wrapper">
             <img
@@ -60,17 +60,13 @@ function MarketItem(props: { item: AdditionalItemModel }) {
         </div>
 
         <Price price={market_price} fallback={<div className="skeleton-text" />}>
-          <p>
-            Current price: {market_price} {priceSuffix}
-          </p>
-
-          <p>
-            Sell profit: {sellProfit} {priceSuffix}
-          </p>
-
-          <p>
-            Buy Profit: {buyProfit} {priceSuffix}
-          </p>
+          <PriceSummary
+            buyProfit={buyProfit}
+            iGetFromCurrentPrice={iGetFromCurrentMarketPrice}
+            market_price={market_price}
+            sellProfit={sellProfit}
+            priceSuffix={priceSuffix}
+          />
         </Price>
       </div>
 
