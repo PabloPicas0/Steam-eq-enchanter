@@ -6,6 +6,7 @@ import { ItemModel } from "../../models/ItemsModel";
 
 import Area from "../Area";
 import Price from "../Price";
+import PriceSummary from "../PriceSummary";
 import Favourite from "./Favourite";
 
 import usePrice from "../../hooks/usePrice";
@@ -15,7 +16,6 @@ import saveToStorage from "../../utils/saveToStorage";
 
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { addToPickedItems, removeFromPickedItems } from "../../Store/Slices/profileSlice";
-import PriceSummary from "../PriceSummary";
 
 type PropTypes = {
   item: ItemModel;
@@ -98,7 +98,6 @@ function UserItem(props: PropTypes) {
           buyProfit={buyProfit}
           sellProfit={sellProfit}
           iGetFromCurrentPrice={iGetFromCurrentMarketPrice}
-          amount={amount}
         />
       </Price>
 
