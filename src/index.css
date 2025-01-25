@@ -20,6 +20,7 @@
 
   --main-background: rgba(255, 255, 255, 0.1);
   --form-and-profile-width: 675px;
+  --body-background: rgb(14, 14, 14)
 }
 
 #root {
@@ -45,7 +46,7 @@ body {
   margin: 0px;
   min-width: 320px;
   height: 100vh;
-  background-color: rgb(14, 14, 14);
+  background-color: var(--body-background);
   overflow: auto;
   scrollbar-color: gray transparent;
   scrollbar-width: thin;
