@@ -5,18 +5,18 @@ type PriceSummaryProps = {
   market_price: string;
   sellProfit: number;
   buyProfit: number;
-  amount: number;
   iGetFromCurrentPrice: number;
 };
 
 function PriceSummary(props: PriceSummaryProps) {
-  const { amount, buyProfit, iGetFromCurrentPrice, market_price, priceSuffix, sellProfit } = props;
+  const { buyProfit, iGetFromCurrentPrice, market_price, priceSuffix, sellProfit } = props;
 
   const [isClicked, setIsClicked] = useState(false);
   const [currentAmount, setCurrentAmount] = useState(1);
 
-  const sell = (iGetFromCurrentPrice * currentAmount).toFixed(2);
-  const spend = (Number(market_price) * currentAmount).toFixed(2);
+  const currentAmountIsNaN = Number.isNaN(currentAmount);
+  const sell = currentAmountIsNaN ? "0.00" : (iGetFromCurrentPrice * currentAmount).toFixed(2);
+  const spend = currentAmountIsNaN ? "0.00" : (Number(market_price) * currentAmount).toFixed(2);
 
   return isClicked ? (
     <>
@@ -31,7 +31,13 @@ function PriceSummary(props: PriceSummaryProps) {
           style={{ width: `${1 + currentAmount.toString().length}ch` }}
           type="number"
           value={currentAmount}
-          onChange={(e) => setCurrentAmount(e.target.valueAsNumber)}
+          onChange={(e) => {
+            const { valueAsNumber } = e.target;
+
+            if (valueAsNumber < 1 || valueAsNumber > 10000) return;
+
+            setCurrentAmount(e.target.valueAsNumber);
+          }}
         />
       </div>
 
