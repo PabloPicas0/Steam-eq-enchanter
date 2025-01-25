@@ -1,6 +1,12 @@
 import { ReactNode } from "react";
 
-function Price(props: { price?: null | string; children: ReactNode; fallback: ReactNode }) {
+type PriceProps = {
+  price?: null | string;
+  children: ReactNode;
+  fallback: ReactNode;
+}
+
+function Price(props: PriceProps) {
   const { price, children, fallback } = props;
 
   if (price === undefined) return null;
