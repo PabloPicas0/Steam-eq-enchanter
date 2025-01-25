@@ -15,6 +15,7 @@ import saveToStorage from "../../utils/saveToStorage";
 
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { addToPickedItems, removeFromPickedItems } from "../../Store/Slices/profileSlice";
+import PriceSummary from "../PriceSummary";
 
 type PropTypes = {
   item: ItemModel;
@@ -29,7 +30,7 @@ function UserItem(props: PropTypes) {
   const priceSuffix = price_history?.price_suffix;
 
   const savedPrice = useMemo(() => getSavedItemProps(classid), []);
-  const { targetPrice, sellProfit, buyProfit, setTargetPrice } = usePrice({
+  const { targetPrice, sellProfit, buyProfit, iGetFromCurrentMarketPrice, setTargetPrice } = usePrice({
     savedPrice,
     market_price,
   });
@@ -91,17 +92,14 @@ function UserItem(props: PropTypes) {
       </div>
 
       <Price price={market_price} fallback={<div className="skeleton-text" />}>
-        <p>
-          Current price: {market_price} {priceSuffix}
-        </p>
-
-        <p>
-          Sell profit: {sellProfit} {priceSuffix}
-        </p>
-
-        <p>
-          Buy Profit: {buyProfit} {priceSuffix}
-        </p>
+        <PriceSummary
+          market_price={market_price as string}
+          priceSuffix={priceSuffix}
+          buyProfit={buyProfit}
+          sellProfit={sellProfit}
+          iGetFromCurrentPrice={iGetFromCurrentMarketPrice}
+          amount={amount}
+        />
       </Price>
 
       {price_history ? (
