@@ -53,3 +53,28 @@
 .item-favourite:focus {
   outline: none;
 }
+
+.item-price-summary-header {
+  cursor: pointer
+}
+
+.item-price-summary {
+   margin: 0.5rem 0rem
+}
+
+.item-price-summary-input {
+  background-color: var(--body-background);
+  border: none;
+  color: white;
+  -webkit-appearance: none;
+  margin: 0;
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+}
+
+.item-price-summary-input::-webkit-outer-spin-button,
+.item-price-summary-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
