@@ -5,9 +5,10 @@ import steam from "../assets/Steam.webp";
 
 import { loadProfile } from "../Store/Thunks/loadProfileThunk";
 import { useAppDispatch } from "../hooks/useAppDispatch";
+import Logo from "../Icons/Logo";
 
 function Form() {
-  const [input, setInput] = useState("76561198199821373");
+  const [input, setInput] = useState("76561198836490113");
 
   const dispatch = useAppDispatch();
 
@@ -23,7 +24,7 @@ function Form() {
     <form className="primary-form">
       <div className="form-image-wrapper">
         <a href="/">
-          <img className="form-image" src={steam} />
+          <Logo width="120px" height="120px"/>
         </a>
       </div>
 
