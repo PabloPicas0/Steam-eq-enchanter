@@ -8,3 +8,13 @@
   width: 54px;
   height: 54px;
 }
+
+.scroll-transition {
+  transition: visibility 100ms linear, opacity 100ms linear;
+}
+
+@media (width < 500px) {
+  .scroll-wrapper {
+    right: 20px;
+  }
+}
