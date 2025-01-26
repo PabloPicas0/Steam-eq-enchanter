@@ -30,7 +30,7 @@ function PriceSummary(props: PriceSummaryProps) {
           className="item-price-summary-input"
           style={{ width: `${1 + currentAmount.toString().length}ch` }}
           type="number"
-          value={currentAmount}
+          value={currentAmount || ""}
           onChange={(e) => {
             const { valueAsNumber } = e.target;
 
