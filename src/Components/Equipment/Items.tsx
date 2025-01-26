@@ -15,7 +15,7 @@ function Items(props: PropTypes) {
   return (
     <>
       <ul className="items-container">
-        {filteredItems.slice(start, end).map((item) => (
+        {filteredItems.map((item) => (
           <UserItem key={item.market_name} item={item} isSelected={false} />
         ))}
       </ul>
