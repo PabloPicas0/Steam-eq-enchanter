@@ -9,6 +9,8 @@ import ScrollToTop from "./Components/ScrollToTop";
 // TODO: Better error handling when fetching price data
 // TODO: Functionality to reset saved price or crop ammount of prices to be saved in localstorage
 function App() {
+  const currentYear = new Date().getFullYear();
+  
   return (
     <>
       <Form />
@@ -21,8 +23,7 @@ function App() {
       <ScrollToTop />
 
       <footer>
-        <p>This website is not a part of Valve official sites</p>
-        <p>Created by Pablo</p>
+        <p>Created by Pablo 2024-{currentYear}</p>
       </footer>
     </>
   );
