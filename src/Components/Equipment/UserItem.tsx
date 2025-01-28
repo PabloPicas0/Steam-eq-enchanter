@@ -56,7 +56,7 @@ function UserItem(props: PropTypes) {
 
   return (
     <li ref={ref} className="item" style={{ borderColor: `#${color}` }}>
-      {isVisible ? (
+      {isVisible || isSelected ? (
         <>
           <div>
             <div className="item-ammount">
