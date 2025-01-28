@@ -15,8 +15,9 @@ function saveToStorage(classid: string, targetPrice: number) {
 
       for (const key of pricesKeys) {
         const currentLastModification = prices[key].lastModified
-
-        if (oldestLastModification > currentLastModification) {
+        
+        // Lower the number means more in past 
+        if (currentLastModification < oldestLastModification) {
           oldestLastModification = currentLastModification;
           oldestKey = key;
         }
