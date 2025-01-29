@@ -1,8 +1,6 @@
 import { useState } from "react";
 import "../styles/Form.css";
 
-import steam from "../assets/Steam.webp";
-
 import { loadProfile } from "../Store/Thunks/loadProfileThunk";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import Logo from "../Icons/Logo";
