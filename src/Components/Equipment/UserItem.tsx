@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react";
+import { useMemo } from "react";
 
 import "../../styles/UserItem.css";
 
@@ -10,7 +10,6 @@ import PriceSummary from "../PriceSummary";
 import Favourite from "./Favourite";
 
 import usePrice from "../../hooks/usePrice";
-import useIsVisible from "../../hooks/useIsVisible";
 
 import AmmountIcon from "../../Icons/AmmountIcon";
 
