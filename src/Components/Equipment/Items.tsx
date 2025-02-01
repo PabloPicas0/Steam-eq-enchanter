@@ -1,8 +1,8 @@
 import { useRef } from "react";
-import usePagination from "../../hooks/usePagination";
 import { EquipmentModel } from "../../models/EquipmentModel";
 import UserItem from "./UserItem";
 import UserItemList from "./UserItemList";
+import Pagination from "../Pagination";
 
 type PropTypes = {
   filteredItems: EquipmentModel["assets"];
@@ -12,19 +12,16 @@ type PropTypes = {
 function Items(props: PropTypes) {
   const { filteredItems } = props;
 
-  const { pagination, setPagination, moveBackwards, moveForeword } = usePagination(filteredItems.length);
-  const { start, end } = pagination;
-  
   const carouselRef = useRef<HTMLDivElement>(null);
   const listCount = Math.ceil(filteredItems.length / 24);
   const lists = Array.from({ length: listCount }, (_, i) => i + 1);
 
   const goToPrevious = () => {
-    if (carouselRef.current) carouselRef.current.scrollLeft += -carouselRef.current.offsetWidth ;
+    if (carouselRef.current) carouselRef.current.scrollLeft += -carouselRef.current.offsetWidth;
   };
 
   const goToNext = () => {
-    if (carouselRef.current) carouselRef.current.scrollLeft += carouselRef.current.offsetWidth ;
+    if (carouselRef.current) carouselRef.current.scrollLeft += carouselRef.current.offsetWidth;
   };
 
   return (
@@ -44,13 +41,7 @@ function Items(props: PropTypes) {
         })}
       </div>
 
-      <div className="pagination">
-        <button onClick={goToPrevious}>Back</button>
-
-        {`${start} / ${end} of ${filteredItems.length}`}
-
-        <button onClick={goToNext}>Next</button>
-      </div>
+      <Pagination lastPage={listCount} nextPage={goToNext} previousPage={goToPrevious} />
     </>
   );
 }
