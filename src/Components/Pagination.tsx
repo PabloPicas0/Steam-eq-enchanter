@@ -1,33 +1,39 @@
 import { useState } from "react";
 
 type PaginationPropTypes = {
-  nextPage: () => void;
-  previousPage: () => void;
   lastPage: number;
+  parentRef: React.RefObject<HTMLDivElement | null>;
 };
 
 function Pagination(props: PaginationPropTypes) {
-  const { nextPage, previousPage, lastPage } = props;
+  const { lastPage, parentRef } = props;
 
   const [currentPage, setCurrentPage] = useState(1);
+  // console.log(1830 * lastPage)
+  const goToPrevious = () => {
+    if (!parentRef.current) return;
 
-  function goBack() {
-    previousPage();
-    setCurrentPage((prev) => (prev - 1 > 0 ? prev - 1 : prev));
-  }
+    parentRef.current.scrollLeft += -parentRef.current.offsetWidth;
+    const page = Math.floor(parentRef.current.scrollLeft / 1830);
+    setCurrentPage(page > 1 ? page : 1);
+  };
 
-  function goNext() {
-    nextPage();
-    setCurrentPage((prev) => (prev + 1 <= lastPage ? prev + 1 : prev));
-  }
+  const goToNext = () => {
+    if (!parentRef.current) return;
+
+    parentRef.current.scrollLeft += parentRef.current.offsetWidth;
+    const page = Math.floor(parentRef.current.scrollLeft / 1830);
+    console.log(parentRef.current.scrollLeft / 1830, parentRef.current.scrollLeft);
+    setCurrentPage(page > 1 ? page : 1);
+  };
 
   return (
     <div className="pagination">
-      <button onClick={goBack}>Back</button>
+      <button onClick={goToPrevious}>Back</button>
 
       {`${currentPage} / ${lastPage}`}
 
-      <button onClick={goNext}>Next</button>
+      <button onClick={goToNext}>Next</button>
     </div>
   );
 }
