@@ -50,16 +50,11 @@ router.post("/", async (req, res) => {
   if (!webCookies) res.sendStatus(404);
 
   try {
-    const priceOverview = await Promise.all(
-      marketItems.map((item) => {
-        return getPriceOverview(item);
-      })
-    );
-
+    const priceOverview = await Promise.all(marketItems.map((item) => getPriceOverview(item)));
     const priceHistory = await Promise.all(
-      marketItems.map((item) => {
-        return getPriceHistory(item, { headers: { Cookie: `steamLoginSecure=${cookieValue}` } });
-      })
+      marketItems.map((item) =>
+        getPriceHistory(item, { headers: { Cookie: `steamLoginSecure=${cookieValue}` } })
+      )
     );
 
     const finalPrice = priceOverview.map((itemPrice, idx) => {
@@ -68,8 +63,11 @@ router.post("/", async (req, res) => {
       itemPrice.price_history = priceHistory[idx];
 
       if (success) {
-        itemPrice.lowest_price = lowest_price.replace("zł", "").replace(",", ".");
-        itemPrice.median_price = median_price.replace("zł", "").replace(",", ".");
+        const lowest = lowest_price?.replace("zł", "").replace(",", "."); // There are cases where only median exists
+        const median = median_price?.replace("zł", "").replace(",", ".");
+
+        itemPrice.lowest_price = lowest || median;
+        itemPrice.median_price = median || lowest;
       }
 
       return itemPrice;
