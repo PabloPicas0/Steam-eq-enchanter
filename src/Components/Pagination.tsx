@@ -9,22 +9,25 @@ function Pagination(props: PaginationPropTypes) {
   const { lastPage, parentRef } = props;
 
   const [currentPage, setCurrentPage] = useState(1);
-  // console.log(1830 * lastPage)
+
   const goToPrevious = () => {
     if (!parentRef.current) return;
+    const offset = parentRef.current.offsetWidth + 100;
+    const nextPage = (parentRef.current.scrollLeft += -offset);
+    const pageNumber = Math.round(nextPage / offset) + 1;
 
-    parentRef.current.scrollLeft += -parentRef.current.offsetWidth;
-    const page = Math.floor(parentRef.current.scrollLeft / 1830);
-    setCurrentPage(page > 1 ? page : 1);
+    parentRef.current.scrollLeft = nextPage;
+    setCurrentPage(pageNumber < 1 ? currentPage : pageNumber);
   };
 
   const goToNext = () => {
     if (!parentRef.current) return;
+    const offset = parentRef.current.offsetWidth + 100;
+    const nextPage = parentRef.current.scrollLeft + offset;
+    const pageNumber = Math.round(nextPage / offset) + 1;
 
-    parentRef.current.scrollLeft += parentRef.current.offsetWidth;
-    const page = Math.floor(parentRef.current.scrollLeft / 1830);
-    console.log(parentRef.current.scrollLeft / 1830, parentRef.current.scrollLeft);
-    setCurrentPage(page > 1 ? page : 1);
+    parentRef.current.scrollLeft = nextPage;
+    setCurrentPage(pageNumber > lastPage ? currentPage : pageNumber);
   };
 
   return (
