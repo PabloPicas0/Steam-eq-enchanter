@@ -9,7 +9,7 @@ function MarketItems() {
   const currencies = useAppSelector((state) => state.profile.currencies);
   const pending = useAppSelector((state) => state.itemsFromMarket.pending);
 
-  const [currencyCode, setCurrencyCode] = useState("USD");
+  const [currencyCode] = useState("USD");
 
   const pickedCurrencyData = currencies[0].rates.find((rate) => rate.code === currencyCode);
   const itemsWithCorrecetedCurrency = useMemo(
