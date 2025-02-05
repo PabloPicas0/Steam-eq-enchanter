@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import HeartIcon from "../../Icons/Heartcon";
+import HeartIcon from "../../Icons/HeartIconBlack.svg";
 
 import { loadFavouriteItems, removeFromFavouriteItems } from "../../Store/Slices/profileSlice";
 import { useAppSelector } from "../../hooks/useAppSelector ";
@@ -27,7 +27,7 @@ function FilterFavourite(props: { items: EquipmentModel }) {
       <div className="filter">
         <button title="Favourite" className="favourite-items filter-quality-btn">
           Favourites
-          <HeartIcon />
+          <img src={HeartIcon} width={15} height={15} />
         </button>
       </div>
     );
@@ -40,7 +40,7 @@ function FilterFavourite(props: { items: EquipmentModel }) {
         style={{ zIndex: zIndexState }}
         onClick={() => setIsClicked((prev) => !prev)}>
         Favourites
-        <HeartIcon />
+        <img src={HeartIcon} width={15} height={15}/>
       </button>
 
       <div

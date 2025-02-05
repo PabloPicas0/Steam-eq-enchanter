@@ -11,7 +11,7 @@ import Favourite from "./Favourite";
 
 import usePrice from "../../hooks/usePrice";
 
-import AmmountIcon from "../../Icons/AmmountIcon";
+import AmmountIcon  from "../../Icons/AmmountIcon.svg";
 
 import getSavedItemProps from "../../utils/getSavedItemProps";
 import saveToStorage from "../../utils/saveToStorage";
@@ -56,7 +56,7 @@ function UserItem(props: PropTypes) {
       <div>
         <div className="item-ammount">
           <Favourite className="item-favourite" itemName={market_name} />
-          <AmmountIcon width={20} height={20} />
+          <img src={AmmountIcon} />
           {amount}
         </div>
 

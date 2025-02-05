@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import FilterIcon from "../../Icons/FilterIcon";
+import FilterIcon from "../../Icons/FilterIcon.svg";
 
 import "../../styles/Filter.css";
 
@@ -41,7 +41,7 @@ function FilterQuality(props: {
         className="filter-quality-btn"
         style={{ zIndex: zIndexState }}
         onClick={() => setIsClicked((prev) => !prev)}>
-        Filter <FilterIcon width={15} height={15} />
+        Filter <img src={FilterIcon} width={15} height={15} />
       </button>
 
       <div

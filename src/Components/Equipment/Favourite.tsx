@@ -1,4 +1,5 @@
-import HeartIcon from "../../Icons/Heartcon";
+import HeartIcon from "../../Icons/HeartIcon.svg";
+import HeartIconRed from "../../Icons/HeartIconRed.svg";
 
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { addToFavouriteItems, removeFromFavouriteItems } from "../../Store/Slices/profileSlice";
@@ -15,7 +16,7 @@ function Favourite(props: { className?: string; itemName: string }) {
 
   return (
     <button className={className} onClick={() => dispatch(handleFavourite(itemName))}>
-      <HeartIcon width="20px" height="20px" color="#ff0000" fill={isFavourite ? "red" : ""} />
+      <img src={isFavourite ? HeartIconRed : HeartIcon}/>
     </button>
   );
 }

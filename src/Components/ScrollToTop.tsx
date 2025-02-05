@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import GoToTopIcon from "../Icons/GoToTop";
+import GoToTopIcon from "../Icons/GoToTop.svg";
 import "../styles/ScrollToTop.css";
 
 function ScrollToTop() {
@@ -23,7 +23,7 @@ function ScrollToTop() {
       className="scroll-wrapper scroll-transition"
       style={{ visibility: visibilityState, opacity: opacityState }}
       onClick={scrollToTop}>
-      <GoToTopIcon width="3rem" height="3rem" />
+      <img src={GoToTopIcon}  />
     </div>
   );
 }
