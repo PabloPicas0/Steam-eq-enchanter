@@ -8,21 +8,12 @@ type PropTypes = {
   filteredItems: EquipmentModel["assets"];
 };
 
-// TODO: Pagination not showing current card
 function Items(props: PropTypes) {
   const { filteredItems } = props;
 
   const carouselRef = useRef<HTMLDivElement>(null);
   const listCount = Math.ceil(filteredItems.length / 24);
   const lists = Array.from({ length: listCount }, (_, i) => i + 1);
-
-  const goToPrevious = () => {
-    if (carouselRef.current) carouselRef.current.scrollLeft += -carouselRef.current.offsetWidth;
-  };
-
-  const goToNext = () => {
-    if (carouselRef.current) carouselRef.current.scrollLeft += carouselRef.current.offsetWidth;
-  };
 
   return (
     <>
@@ -41,7 +32,7 @@ function Items(props: PropTypes) {
         })}
       </div>
 
-      <Pagination lastPage={listCount} nextPage={goToNext} previousPage={goToPrevious} />
+      <Pagination parentRef={carouselRef} lastPage={listCount} />
     </>
   );
 }
