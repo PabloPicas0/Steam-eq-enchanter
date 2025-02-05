@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { ReactNode, useRef } from "react";
 import { EquipmentModel } from "../../models/EquipmentModel";
 import UserItem from "./UserItem";
 import UserItemList from "./UserItemList";
@@ -7,6 +7,16 @@ import Pagination from "../Pagination";
 type PropTypes = {
   filteredItems: EquipmentModel["assets"];
 };
+
+function Carousel(props: { ref: React.RefObject<HTMLDivElement | null>; children: ReactNode }) {
+  const { children, ref } = props;
+
+  return (
+    <div ref={ref} className="carousel-wrapper">
+      {children}
+    </div>
+  );
+}
 
 function Items(props: PropTypes) {
   const { filteredItems } = props;
@@ -17,7 +27,7 @@ function Items(props: PropTypes) {
 
   return (
     <>
-      <div ref={carouselRef} className="carousel-wrapper">
+      <Carousel ref={carouselRef}>
         {lists.map((list) => {
           const end = 24 * list;
           const start = end - 24; // TODO: Missed by one
@@ -30,7 +40,7 @@ function Items(props: PropTypes) {
             </UserItemList>
           );
         })}
-      </div>
+      </Carousel>
 
       <Pagination parentRef={carouselRef} lastPage={listCount} />
     </>
