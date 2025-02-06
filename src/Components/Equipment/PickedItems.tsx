@@ -6,6 +6,7 @@ import { CurrencyTableModel } from "../../models/CurrencyModel";
 
 import getCorrectItemCurrency from "../../utils/getCorrectItemCurrency";
 import UserItem from "./UserItem";
+import PickedItem from "./PickedItem";
 
 type PropTypes = {
   currencyCode: string;
@@ -36,9 +37,9 @@ function PickedItems(props: PropTypes) {
       {itemsWithCorrecetedCurrency.length ? (
         <>
           <ul className="items-container selected-items-container">
-            {itemsWithCorrecetedCurrency.map((item) => {
-              return <UserItem key={item.classid} item={item} isSelected={true} />;
-            })}
+            {itemsWithCorrecetedCurrency.map((item) => (
+              <PickedItem key={item.classid} item={item} />
+            ))}
           </ul>
 
           <form method="POST">
