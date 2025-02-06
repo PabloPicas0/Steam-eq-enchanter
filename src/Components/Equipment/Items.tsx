@@ -35,7 +35,9 @@ function Items(props: PropTypes) {
           return (
             <UserItemList key={"carousel " + list} carouselRef={carouselRef}>
               {filteredItems.slice(start, end).map((item) => (
-                <UserItem key={item.market_name} item={item} isSelected={false} />
+                <li className="item" style={{ borderColor: `#${item.color}` }}>
+                  <UserItem key={item.market_name} item={item} isSelected={false} />
+                </li>
               ))}
             </UserItemList>
           );
