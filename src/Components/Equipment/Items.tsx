@@ -1,12 +1,11 @@
 import { ReactNode, useRef } from "react";
-import { EquipmentModel } from "../../models/EquipmentModel";
+
 import UserItem from "./UserItem";
 import UserItemList from "./UserItemList";
 import Pagination from "../Pagination";
 
-type PropTypes = {
-  filteredItems: EquipmentModel["assets"];
-};
+import { useAppSelector } from "../../hooks/useAppSelector ";
+
 
 function Carousel(props: { ref: React.RefObject<HTMLDivElement | null>; children: ReactNode }) {
   const { children, ref } = props;
@@ -18,9 +17,8 @@ function Carousel(props: { ref: React.RefObject<HTMLDivElement | null>; children
   );
 }
 
-function Items(props: PropTypes) {
-  const { filteredItems } = props;
-
+function Items() {
+  const filteredItems = useAppSelector((state) => state.profile.notPickedItems);
   const carouselRef = useRef<HTMLDivElement>(null);
   const listCount = Math.ceil(filteredItems.length / 24);
   const lists = Array.from({ length: listCount }, (_, i) => i + 1);
@@ -35,8 +33,8 @@ function Items(props: PropTypes) {
           return (
             <UserItemList key={"carousel " + list} carouselRef={carouselRef}>
               {filteredItems.slice(start, end).map((item) => (
-                <li className="item" style={{ borderColor: `#${item.color}` }}>
-                  <UserItem key={item.market_name} item={item} isSelected={false} />
+                <li className="item" key={item.market_name} style={{ borderColor: `#${item.color}` }}>
+                  <UserItem item={item} isSelected={false} />
                 </li>
               ))}
             </UserItemList>
