@@ -1,37 +1,50 @@
+import { useEffect } from "react";
+
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { useAppSelector } from "../../hooks/useAppSelector ";
+import { loadFilterItems, newCurrencyCode } from "../../Store/Slices/profileSlice";
+
+import useFiter from "../../hooks/useFilter";
+
 import { EquipmentModel } from "../../models/EquipmentModel";
+
 import FilterFavourite from "./FilterFavourite";
 import FilterQuality from "./FilterQuality";
+import ItemsCounter from "../ItemsCounter";
 
-// TODO: This component is to complete refactor
-function FilterSettings(props: {
-  itemsAmmount: number;
-  nameFilter: string;
-  items: EquipmentModel;
-  currencyCode: string;
-  currenciesCodes: string[];
-  qualityFilter: string;
-  sortAscending: boolean;
-  setNameFilter: React.Dispatch<React.SetStateAction<string>>;
-  setSortAscending: React.Dispatch<React.SetStateAction<boolean>>;
-  setQualityFilter: React.Dispatch<React.SetStateAction<string>>;
-  setCurrencyCode: React.Dispatch<React.SetStateAction<string>>;
-}) {
-  const {
-    currenciesCodes,
-    currencyCode,
-    items,
-    itemsAmmount,
-    nameFilter,
-    qualityFilter,
-    sortAscending,
-    setCurrencyCode,
-    setNameFilter,
-    setQualityFilter,
-    setSortAscending,
-  } = props;
+const workerURL = new URL("../../Workers/FilterWorker.ts", import.meta.url);
+
+function FilterSettings(props: { items: EquipmentModel; currenciesCodes: string[] }) {
+  const { items, currenciesCodes } = props;
+
+  const { nameFilter, sortAscending, qualityFilter, setNameFilter, setSortAscending, setQualityFilter } =
+    useFiter();
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    // Initialize worker
+    const newWorker = new Worker(workerURL);
+
+    // Handle worker messages
+    newWorker.onmessage = (event: MessageEvent<EquipmentModel["assets"]>) => {
+      dispatch(loadFilterItems(event.data));
+    };
+
+    // Send computation to worker
+    newWorker.postMessage({ nameFilter, qualityFilter, sortAscending, items });
+
+    // Cleanup the worker when component unmounts
+    return () => {
+      newWorker.terminate();
+    };
+  }, [nameFilter, qualityFilter, sortAscending]);
+
+  const currencyCode = useAppSelector((state) => state.profile.currencyCode);
+
   return (
     <div>
-      <h2>Total unique items: {itemsAmmount}</h2>
+      <ItemsCounter />
 
       <div className="inputs-wrapper">
         <input
@@ -56,7 +69,7 @@ function FilterSettings(props: {
 
         <select
           value={currencyCode}
-          onChange={(e) => setCurrencyCode(e.target.value)}
+          onChange={(e) => dispatch(newCurrencyCode(e.target.value))}
           className="currency-select">
           <option value={"PLN"}>PLN</option>
           {currenciesCodes.map((currCode) => {
