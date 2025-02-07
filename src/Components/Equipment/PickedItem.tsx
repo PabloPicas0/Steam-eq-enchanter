@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
 import usePrice from "../../hooks/usePrice";
 import getSavedItemProps from "../../utils/getSavedItemProps";
 import saveToStorage from "../../utils/saveToStorage";
@@ -11,7 +10,7 @@ import { ItemModel } from "../../models/ItemsModel";
 
 function PickedItem(props: { item: ItemModel }) {
   const { item } = props;
-  const {  color, market_price, price_history, classid } = item;
+  const { color, market_price, price_history, classid } = item;
 
   const priceSuffix = price_history?.price_suffix;
 
