@@ -5,18 +5,20 @@ import { loadMarketData } from "../../Store/Thunks/loadMarketDataThunk";
 import { CurrencyTableModel } from "../../models/CurrencyModel";
 
 import getCorrectItemCurrency from "../../utils/getCorrectItemCurrency";
-import UserItem from "./UserItem";
 import PickedItem from "./PickedItem";
 
 type PropTypes = {
-  currencyCode: string;
-  pickedCurrencyData: CurrencyTableModel[0]["rates"][0] | undefined;
+  currencies: CurrencyTableModel[0];
 };
 
 function PickedItems(props: PropTypes) {
-  const { currencyCode, pickedCurrencyData } = props;
+  const { currencies } = props;
 
   const pickedItems = useAppSelector((state) => state.profile.pickedItems);
+  const currencyCode = useAppSelector((state) => state.profile.currencyCode);
+
+  const pickedCurrencyData = currencies.rates.find((rate) => rate.code === currencyCode);
+  
   const itemsWithCorrecetedCurrency = useMemo(
     () => getCorrectItemCurrency(pickedItems, pickedCurrencyData),
     [pickedItems, currencyCode]
