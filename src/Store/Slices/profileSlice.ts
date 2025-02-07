@@ -15,8 +15,10 @@ const profileSlice = createSlice({
   initialState: {
     items: [] as (UserModel & EquipmentModel)[],
     pickedItems: [] as ItemModel[],
+    notPickedItems: [] as EquipmentModel["assets"],
     favouriteItems: savedFavouriteItems,
     currencies: [] as CurrencyTableModel,
+    currencyCode: "USD",
     error: false,
     pending: false,
   },
@@ -63,6 +65,12 @@ const profileSlice = createSlice({
 
       state.pickedItems = fav;
     },
+    loadFilterItems: (state, action: PayloadAction<EquipmentModel["assets"]>) => {
+      state.notPickedItems = action.payload;
+    },
+    newCurrencyCode: (state, action: PayloadAction<string>) => {
+      state.currencyCode = action.payload;
+    },
   },
   extraReducers(builder) {
     builder.addCase(loadProfile.pending, (state) => {
@@ -70,7 +78,7 @@ const profileSlice = createSlice({
       state.pickedItems = [];
 
       state.pending = true;
-      state.error = false
+      state.error = false;
     });
 
     builder.addCase(loadProfile.fulfilled, (state, action) => {
@@ -87,7 +95,7 @@ const profileSlice = createSlice({
       state.items = [];
       state.pickedItems = [];
 
-      state.pending = false
+      state.pending = false;
       state.error = true;
     });
 
@@ -133,5 +141,7 @@ export const {
   addToFavouriteItems,
   removeFromFavouriteItems,
   loadFavouriteItems,
+  newCurrencyCode,
+  loadFilterItems,
 } = profileSlice.actions;
 export default profileSlice.reducer;
