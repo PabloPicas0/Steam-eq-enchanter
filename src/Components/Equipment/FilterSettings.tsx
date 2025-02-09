@@ -17,6 +17,7 @@ const workerURL = new URL("../../Workers/FilterWorker.ts", import.meta.url);
 function FilterSettings(props: { items: EquipmentModel; currenciesCodes: string[] }) {
   const { items, currenciesCodes } = props;
 
+  const currencyCode = useAppSelector((state) => state.profile.currencyCode);
   const { nameFilter, sortAscending, qualityFilter, setNameFilter, setSortAscending, setQualityFilter } =
     useFiter();
 
@@ -39,8 +40,6 @@ function FilterSettings(props: { items: EquipmentModel; currenciesCodes: string[
       newWorker.terminate();
     };
   }, [nameFilter, qualityFilter, sortAscending]);
-
-  const currencyCode = useAppSelector((state) => state.profile.currencyCode);
 
   return (
     <div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import HeartIcon from "../../Icons/HeartIconBlack.svg";
 
@@ -78,4 +78,4 @@ function FilterFavourite(props: { items: EquipmentModel }) {
   );
 }
 
-export default FilterFavourite;
+export default memo(FilterFavourite);
