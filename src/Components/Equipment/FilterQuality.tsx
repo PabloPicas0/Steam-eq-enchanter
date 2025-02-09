@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import {  useState } from "react";
 
 import FilterIcon from "../../Icons/FilterIcon.svg";
 
@@ -72,4 +72,4 @@ function FilterQuality(props: {
   );
 }
 
-export default memo(FilterQuality);
+export default FilterQuality;

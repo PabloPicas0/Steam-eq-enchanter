@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { useAppSelector } from "../../hooks/useAppSelector ";
 import { loadFilterItems, newCurrencyCode } from "../../Store/Slices/profileSlice";
 
 import useFiter from "../../hooks/useFilter";
@@ -11,13 +10,13 @@ import { EquipmentModel } from "../../models/EquipmentModel";
 import FilterFavourite from "./FilterFavourite";
 import FilterQuality from "./FilterQuality";
 import ItemsCounter from "../ItemsCounter";
+import FilterCurrency from "./FilterCurrency";
 
 const workerURL = new URL("../../Workers/FilterWorker.ts", import.meta.url);
 
 function FilterSettings(props: { items: EquipmentModel; currenciesCodes: string[] }) {
   const { items, currenciesCodes } = props;
 
-  const currencyCode = useAppSelector((state) => state.profile.currencyCode);
   const { nameFilter, sortAscending, qualityFilter, setNameFilter, setSortAscending, setQualityFilter } =
     useFiter();
 
@@ -65,20 +64,7 @@ function FilterSettings(props: { items: EquipmentModel; currenciesCodes: string[
 
         <FilterQuality qualityFilter={qualityFilter} setQualityFilter={setQualityFilter} />
         <FilterFavourite items={items} />
-
-        <select
-          value={currencyCode}
-          onChange={(e) => dispatch(newCurrencyCode(e.target.value))}
-          className="currency-select">
-          <option value={"PLN"}>PLN</option>
-          {currenciesCodes.map((currCode) => {
-            return (
-              <option key={currCode} value={currCode}>
-                {currCode}
-              </option>
-            );
-          })}
-        </select>
+        <FilterCurrency currenciesCodes={currenciesCodes} />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { useState } from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import HeartIcon from "../../Icons/HeartIconBlack.svg";
 
@@ -40,7 +40,7 @@ function FilterFavourite(props: { items: EquipmentModel }) {
         style={{ zIndex: zIndexState }}
         onClick={() => setIsClicked((prev) => !prev)}>
         Favourites
-        <img src={HeartIcon} width={15} height={15}/>
+        <img src={HeartIcon} width={15} height={15} />
       </button>
 
       <div
@@ -78,4 +78,4 @@ function FilterFavourite(props: { items: EquipmentModel }) {
   );
 }
 
-export default memo(FilterFavourite);
+export default FilterFavourite;

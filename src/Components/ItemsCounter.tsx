@@ -1,4 +1,3 @@
-import { memo } from "react";
 import { useAppSelector } from "../hooks/useAppSelector ";
 
 function ItemsCounter() {
@@ -6,4 +5,4 @@ function ItemsCounter() {
   return <h2>Total unique items: {itemsAmmount}</h2>;
 }
 
-export default memo(ItemsCounter);
+export default ItemsCounter;
