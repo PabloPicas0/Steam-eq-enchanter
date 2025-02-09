@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 
-function useWebWorker<Task, Return>(workerScript: URL) {
-  const [result, setResult] = useState<Return>();
+function useWebWorker<Task, Return>(workerScript: URL, defaultState: Return) {
+  const [result, setResult] = useState<Return>(defaultState);
   const workerRef = useRef<Worker>(null);
 
   useEffect(() => {

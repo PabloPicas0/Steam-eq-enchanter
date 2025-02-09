@@ -1,15 +1,18 @@
-import { useMemo } from "react";
+import { useEffect } from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector ";
 import { loadMarketData } from "../../Store/Thunks/loadMarketDataThunk";
 import { CurrencyTableModel } from "../../models/CurrencyModel";
 
-import getCorrectItemCurrency from "../../utils/getCorrectItemCurrency";
 import PickedItem from "./PickedItem";
+import useWebWorker from "../../hooks/useWebWorker";
+import { ItemModel } from "../../models/ItemsModel";
 
 type PropTypes = {
   currencies: CurrencyTableModel[0];
 };
+
+const workerScript = new URL("../../Workers/correctCurrencyWorker.ts", import.meta.url);
 
 function PickedItems(props: PropTypes) {
   const { currencies } = props;
@@ -18,11 +21,12 @@ function PickedItems(props: PropTypes) {
   const currencyCode = useAppSelector((state) => state.profile.currencyCode);
 
   const pickedCurrencyData = currencies.rates.find((rate) => rate.code === currencyCode);
-  
-  const itemsWithCorrecetedCurrency = useMemo(
-    () => getCorrectItemCurrency(pickedItems, pickedCurrencyData),
-    [pickedItems, currencyCode]
-  );
+  const { result, newTask } = useWebWorker<
+    [ItemModel[], CurrencyTableModel[0]["rates"][0] | undefined],
+    ItemModel[]
+  >(workerScript, []);
+
+  useEffect(() => newTask([pickedItems, pickedCurrencyData]), [pickedItems, currencyCode]);
 
   const dispatch = useAppDispatch();
 
@@ -34,12 +38,12 @@ function PickedItems(props: PropTypes) {
 
   return (
     <div>
-      <h2>Selected items: {itemsWithCorrecetedCurrency.length}/10</h2>
+      <h2>Selected items: {result.length}/10</h2>
 
-      {itemsWithCorrecetedCurrency.length ? (
+      {result.length ? (
         <>
           <ul className="items-container selected-items-container">
-            {itemsWithCorrecetedCurrency.map((item) => (
+            {result.map((item) => (
               <PickedItem key={item.classid} item={item} />
             ))}
           </ul>
