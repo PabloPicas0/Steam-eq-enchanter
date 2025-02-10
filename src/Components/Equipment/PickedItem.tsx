@@ -1,12 +1,16 @@
-import { useMemo } from "react";
+import { memo, useCallback, useMemo } from "react";
+
+import { ItemModel } from "../../models/ItemsModel";
+
 import usePrice from "../../hooks/usePrice";
+
 import getSavedItemProps from "../../utils/getSavedItemProps";
 import saveToStorage from "../../utils/saveToStorage";
+
 import Area from "../Area";
 import Price from "../Price";
 import PriceSummary from "../PriceSummary";
 import UserItem from "./UserItem";
-import { ItemModel } from "../../models/ItemsModel";
 
 function PickedItem(props: { item: ItemModel }) {
   const { item } = props;
@@ -21,7 +25,7 @@ function PickedItem(props: { item: ItemModel }) {
   });
 
 
-  function setNewPrice(e: number) {
+  const setNewPrice = useCallback((e: number) => {
     if (e < 0) {
       setTargetPrice(0.03);
     } else if (e > 99999) {
@@ -30,8 +34,9 @@ function PickedItem(props: { item: ItemModel }) {
       setTargetPrice(e);
     }
 
-    saveToStorage(classid, targetPrice);
-  }
+    saveToStorage(classid, e);
+  }, [])
+
   return (
     <li className="item" style={{ borderColor: `#${color}` }}>
       <UserItem item={item} isSelected={true} />
@@ -53,4 +58,4 @@ function PickedItem(props: { item: ItemModel }) {
   );
 }
 
-export default PickedItem
+export default memo(PickedItem)
