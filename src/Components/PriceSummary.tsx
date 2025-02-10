@@ -17,6 +17,8 @@ function PriceSummary(props: PriceSummaryProps) {
   const currentAmountIsNaN = Number.isNaN(currentAmount);
   const sell = currentAmountIsNaN ? "0.00" : (iGetFromCurrentPrice * currentAmount).toFixed(2);
   const spend = currentAmountIsNaN ? "0.00" : (Number(market_price) * currentAmount).toFixed(2);
+  const buyColors = buyProfit > 0 ? "green" : "red";
+  const sellColors = sellProfit > 0 ? "green" : "red";
 
   return isClicked ? (
     <>
@@ -59,11 +61,11 @@ function PriceSummary(props: PriceSummaryProps) {
         Current price: {market_price} {priceSuffix}
       </p>
 
-      <p className="item-price-summary">
+      <p className="item-price-summary" style={{ color: sellColors }}>
         Sell profit: {sellProfit} {priceSuffix}
       </p>
 
-      <p className="item-price-summary">
+      <p className="item-price-summary" style={{ color: buyColors }}>
         Buy Profit: {buyProfit} {priceSuffix}
       </p>
     </>
