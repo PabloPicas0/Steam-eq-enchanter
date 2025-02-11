@@ -11,8 +11,8 @@ function Accordion(props: { children: ReactNode, title: string }) {
         style={{ display: "flex", justifyContent: "space-between", userSelect: "none" }}>
         <span>{title}</span>
         <svg
-          className="css-q7mezt"
-          style={{ transform: isClicked ? "rotate(180deg)" : "rotate(0deg)", }}
+          className="carret"
+          style={{ transform: isClicked ? "rotate(180deg)" : "rotate(0deg)" }}
           focusable="false"
           aria-hidden="true"
           viewBox="0 0 24 24"
