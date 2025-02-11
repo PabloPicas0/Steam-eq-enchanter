@@ -9,7 +9,11 @@ export const loadMarketData = createAsyncThunk<
 >("profile/loadMarketData", async (_, { getState, rejectWithValue }) => {
   const { pickedItems } = getState().profile;
 
-  const itemsMarketName = pickedItems.map((item) => item.market_name);
+  const itemsMarketName = pickedItems.reduce((acc, item) => {
+    if (!item.market_price) acc.push(item.market_name);
+
+    return acc;
+  }, [] as string[]);
 
   try {
     const response = await fetch("/api", {

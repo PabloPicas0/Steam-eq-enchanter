@@ -101,9 +101,13 @@ const profileSlice = createSlice({
 
     builder.addCase(loadMarketData.pending, (state) => {
       state.pickedItems = state.pickedItems.map((item) => {
-        item.market_price = null;
-        item.volume = null;
-        item.price_history = null;
+        const { market_price, volume, price_history } = item;
+
+        if (!market_price || !volume || !price_history) {
+          item.market_price = null;
+          item.volume = null;
+          item.price_history = null;
+        }
 
         return item;
       });
@@ -111,13 +115,19 @@ const profileSlice = createSlice({
 
     builder.addCase(loadMarketData.fulfilled, (state, action) => {
       const data = action.payload;
+      let i = 0;
 
-      state.pickedItems = state.pickedItems.map((item, idx) => {
-        const isSuccess = data[idx]?.success;
+      state.pickedItems = state.pickedItems.map((item) => {
+        const { market_price } = item;
 
-        item.market_price = isSuccess ? data[idx].lowest_price : "Not marketable";
-        item.volume = isSuccess ? data[idx].volume : "Not marketable";
-        item.price_history = data[idx].price_history.success ? data[idx].price_history : undefined;
+        if (!market_price) {
+          const isSuccess = data[i]?.success;
+
+          item.market_price = isSuccess ? data[i].lowest_price : "Not marketable";
+          item.volume = isSuccess ? data[i].volume : "Not marketable";
+          item.price_history = data[i].price_history.success ? data[i].price_history : undefined;
+          i += 1;
+        }
 
         return item;
       });
@@ -125,11 +135,15 @@ const profileSlice = createSlice({
 
     builder.addCase(loadMarketData.rejected, (state) => {
       state.pickedItems = state.pickedItems.map((item) => {
-        item.market_price = undefined;
-        item.volume = undefined;
-        item.price_history = undefined;
+          const { market_price, volume, price_history } = item;
 
-        return item;
+          if (!market_price || !volume || !price_history) {
+            item.market_price = undefined;
+            item.volume = undefined;
+            item.price_history = undefined;
+          }
+
+          return item;
       });
     });
   },
