@@ -31,18 +31,18 @@
 
 .currency-select::-webkit-scrollbar {
   width: 5px;
-} 
+}
 
 .currency-select::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
- 
+
 .currency-select::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #888;
 }
 
 .currency-select::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 .items-container {
@@ -94,6 +94,20 @@
   color: white;
   align-items: center;
   justify-content: center;
+}
+
+.carret {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 250ms;
+  fill: currentColor;
+  font-size: 1.5rem;
 }
 
 @media (max-width: 380px) {
