@@ -2,16 +2,15 @@ import "../../styles/Equipment.css";
 
 import PickedItems from "./PickedItems";
 
-import { useAppSelector } from "../../hooks/useAppSelector ";
-import NotPickedItems from "./NotPickedItems";
+import Items from "./Items";
+import ItemsSettings from "./ItemsSettings";
 
 function Equipment() {
-  const currencies = useAppSelector((state) => state.profile.currencies);
-
   return (
     <section className="equipment">
-      <PickedItems currencies={currencies[0]} />
-      <NotPickedItems currencies={currencies[0]} />
+      <PickedItems />
+      <ItemsSettings />
+      <Items />
     </section>
   );
 }
