@@ -7,7 +7,7 @@ import { useAppSelector } from "../../hooks/useAppSelector ";
 import BinIcon from "../../Icons/BinIcon";
 import { EquipmentModel } from "../../models/EquipmentModel";
 
-function FilterFavourite(props: { items: EquipmentModel }) {
+function FavouriteItems(props: { items: EquipmentModel }) {
   const { items } = props;
 
   const favItems = useAppSelector((state) => state.profile.favouriteItems);
@@ -78,4 +78,4 @@ function FilterFavourite(props: { items: EquipmentModel }) {
   );
 }
 
-export default FilterFavourite;
+export default FavouriteItems;

@@ -2,7 +2,7 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector ";
 import { newCurrencyCode } from "../../Store/Slices/profileSlice";
 
-function FilterCurrency(props: { currenciesCodes: string[] }) {
+function ItemsCurrency(props: { currenciesCodes: string[] }) {
   const { currenciesCodes } = props;
   const currencyCode = useAppSelector((state) => state.profile.currencyCode);
   const dispatch = useAppDispatch();
@@ -24,4 +24,4 @@ function FilterCurrency(props: { currenciesCodes: string[] }) {
   );
 }
 
-export default FilterCurrency
+export default ItemsCurrency;

@@ -35,7 +35,7 @@ const itemQualityTypes = [
   ["Contraband", "rgb(228, 174, 57)"],
 ];
 
-function FilterQuality(props: {
+function Filter(props: {
   setQualityFilter: React.Dispatch<React.SetStateAction<string>>;
   qualityFilter: string;
 }) {
@@ -113,4 +113,4 @@ function FilterQuality(props: {
   );
 }
 
-export default FilterQuality;
+export default Filter;
