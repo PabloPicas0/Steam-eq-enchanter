@@ -3,7 +3,7 @@
   padding: 2rem;
   border-radius: 5px;
   color: whitesmoke;
-  animation: fadeIn 600ms;
+  animation: fadeIn 300ms ease-in;
 }
 
 .inputs-wrapper {

@@ -4,7 +4,7 @@
   padding: 2rem 1rem;
   max-width: var(--form-and-profile-width);
   border-radius: 5px;
-  animation: fadeIn 600ms;
+  animation: fadeIn 300ms ease-in;
 }
 
 .steam-avatar {
