@@ -3,24 +3,19 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector ";
 import { loadMarketData } from "../../Store/Thunks/loadMarketDataThunk";
 import { CurrencyTableModel } from "../../models/CurrencyModel";
+import { ItemModel } from "../../models/ItemsModel";
 
 import PickedItem from "./PickedItem";
 import useWebWorker from "../../hooks/useWebWorker";
-import { ItemModel } from "../../models/ItemsModel";
-
-type PropTypes = {
-  currencies: CurrencyTableModel[0];
-};
 
 const workerScript = new URL("../../Workers/correctCurrencyWorker.ts", import.meta.url);
 
-function PickedItems(props: PropTypes) {
-  const { currencies } = props;
-
+function PickedItems() {
   const pickedItems = useAppSelector((state) => state.profile.pickedItems);
   const currencyCode = useAppSelector((state) => state.profile.currencyCode);
+  const currencies = useAppSelector((state) => state.profile.currencies);
 
-  const pickedCurrencyData = currencies.rates.find((rate) => rate.code === currencyCode);
+  const pickedCurrencyData = currencies[0].rates.find((rate) => rate.code === currencyCode);
   const { result, newTask } = useWebWorker<
     [ItemModel[], CurrencyTableModel[0]["rates"][0] | undefined],
     ItemModel[]
