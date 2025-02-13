@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import "../styles/Profile.css";
 
-import EquipmentSkeleton from "./EquipmentSkeleton";
 import ProfileSkeleton from "./ProfileSkeleton";
 
 import { useAppSelector } from "../hooks/useAppSelector ";
@@ -17,7 +16,6 @@ function AsyncSuspense(props: { children: ReactNode }) {
     return (
       <>
         <ProfileSkeleton />
-        <EquipmentSkeleton />
       </>
     );
   }
