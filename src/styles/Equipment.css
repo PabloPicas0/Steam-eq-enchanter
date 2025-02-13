@@ -3,6 +3,7 @@
   padding: 2rem;
   border-radius: 5px;
   color: whitesmoke;
+  animation: fadeIn 600ms;
 }
 
 .inputs-wrapper {
@@ -119,5 +120,15 @@
 @media (max-width: 699px) {
   .selected-items-container {
     grid-template-columns: 1fr;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }

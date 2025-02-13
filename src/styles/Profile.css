@@ -4,6 +4,7 @@
   padding: 2rem 1rem;
   max-width: var(--form-and-profile-width);
   border-radius: 5px;
+  animation: fadeIn 600ms;
 }
 
 .steam-avatar {
@@ -19,4 +20,14 @@
 
 .account-crated {
   color: rgb(225, 229, 233);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
