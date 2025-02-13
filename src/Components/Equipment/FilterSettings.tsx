@@ -1,24 +1,21 @@
-import { useEffect } from "react";
-
+import { useState, useEffect } from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { loadFilterItems, newCurrencyCode } from "../../Store/Slices/profileSlice";
-
-import useFiter from "../../hooks/useFilter";
-
 import { EquipmentModel } from "../../models/EquipmentModel";
+import { loadFilterItems } from "../../Store/Slices/profileSlice";
 
-import FilterFavourite from "./FilterFavourite";
-import FilterQuality from "./FilterQuality";
-import ItemsCounter from "../ItemsCounter";
-import FilterCurrency from "./FilterCurrency";
+import Filter from "./Filter";
+import Sort from "./Sort";
+import Search from "./Search";
 
 const workerURL = new URL("../../Workers/FilterWorker.ts", import.meta.url);
 
-function FilterSettings(props: { items: EquipmentModel; currenciesCodes: string[] }) {
-  const { items, currenciesCodes } = props;
+function FilterSettings(props: { items: EquipmentModel }) {
+  const { items } = props;
 
-  const { nameFilter, sortAscending, qualityFilter, setNameFilter, setSortAscending, setQualityFilter } =
-    useFiter();
+  const [search, setSearch] = useState("");
+  const [qualityFilter, setQualityFilter] = useState("12345678");
+  const [sortAscending, setSortAscending] = useState(true);
+  const [weaponFilter, setWeaponFilter] = useState("");
 
   const dispatch = useAppDispatch();
 
@@ -32,42 +29,21 @@ function FilterSettings(props: { items: EquipmentModel; currenciesCodes: string[
     };
 
     // Send computation to worker
-    newWorker.postMessage({ nameFilter, qualityFilter, sortAscending, items });
+    newWorker.postMessage({ search, qualityFilter, sortAscending, items });
 
     // Cleanup the worker when component unmounts
     return () => {
       newWorker.terminate();
     };
-  }, [nameFilter, qualityFilter, sortAscending]);
+  }, [search, qualityFilter, sortAscending]);
 
   return (
-    <div>
-      <ItemsCounter />
-
-      <div className="inputs-wrapper">
-        <input
-          className="input-steamID input-filter-equipment"
-          type="text"
-          value={nameFilter}
-          onChange={(e) => {
-            setNameFilter(e.target.value.replace("\\", ""));
-          }}
-          placeholder="Search"
-        />
-
-        <button
-          title={`Sorted ${sortAscending ? "ascending" : " descending"}`}
-          className="sort-btn"
-          onClick={() => setSortAscending((prev) => !prev)}>
-          Sort {sortAscending ? "\u2191" : "\u2193"}
-        </button>
-
-        <FilterQuality qualityFilter={qualityFilter} setQualityFilter={setQualityFilter} />
-        <FilterFavourite items={items} />
-        <FilterCurrency currenciesCodes={currenciesCodes} />
-      </div>
-    </div>
+    <>
+      <Search search={search} setSearch={setSearch} />
+      <Sort sortAscending={sortAscending} setSortAscending={setSortAscending} />
+      <Filter qualityFilter={qualityFilter} setQualityFilter={setQualityFilter} />
+    </>
   );
 }
 
-export default FilterSettings;
+export default FilterSettings
