@@ -6,7 +6,6 @@ import Pagination from "../Pagination";
 
 import { useAppSelector } from "../../hooks/useAppSelector ";
 
-
 function Carousel(props: { ref: React.RefObject<HTMLDivElement | null>; children: ReactNode }) {
   const { children, ref } = props;
 
