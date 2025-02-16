@@ -21,7 +21,7 @@ function Accordion(props: { children: ReactNode, title: string }) {
         </svg>
       </div>
 
-      <div style={{ maxHeight: isClicked ? 400 : 0, overflow: "hidden", transition: "all 250ms" }}>
+      <div style={{ maxHeight: isClicked ? 400 : 0, overflow: "hidden", transition: "all 250ms", overflowY: "auto", scrollbarWidth: "none" }}>
         {children}
       </div>
     </div>
