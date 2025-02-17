@@ -8,15 +8,13 @@ import Accordion from "../Accordion";
 const itemsTypes: [string, string[]][] = [
   [
     "Knife",
-    "Bayonet, Bowie, Butterfly, Classic, Falchion, Flip, Gut, Huntsman, Karambit, Kukri, Bayonet, Navaja, Nomad, Paracord, Daggers, Skeleton, Stiletto, Survival, Talon, Ursus".split(
+    "Bayonet, Bowie, Butterfly, Classic, Falchion, Flip, Gut, Huntsman, Karambit, Kukri, Navaja, Nomad, Paracord, Daggers, Skeleton, Stiletto, Survival, Talon, Ursus".split(
       ","
     ),
   ],
   [
     "Pistols",
-    "CZ75 , Deagle , Berettas , Five-SeveN , Glock-18 , P2000 , P250 , Revolver , Tec-9 , USP-S".split(
-      ","
-    ),
+    "CZ75 , Deagle , Berettas , Five-SeveN , Glock-18 , P2000 , P250 , Revolver , Tec-9 , USP-S".split(","),
   ],
   ["Heavy", "MAG-7 , Nova , Sawed-Off , XM1014, M249 , Negev".split(",")],
   ["SMG", "MAC-10 , MP5-SD , MP7 , MP9 , P90 , PP-Bizon , UMP-45".split(",")],
@@ -35,25 +33,37 @@ const itemQualityTypes = [
   ["Contraband", "rgb(228, 174, 57)"],
 ];
 
-function Filter(props: {
+type FilterProps = {
   setQualityFilter: React.Dispatch<React.SetStateAction<string>>;
+  setWeaponFilter: React.Dispatch<React.SetStateAction<string[]>>;
+  weaponFilter: string[];
   qualityFilter: string;
-}) {
-  const { qualityFilter, setQualityFilter } = props;
+};
+
+function addQuality(prevState: string, currentQualityType: string) {
+  return prevState + currentQualityType;
+}
+
+function deleteQuality(prevState: string, currentQualityType: string) {
+  return prevState.replace(currentQualityType, "");
+}
+
+function additem(prevState: string[], currentItem: string) {
+  return [...prevState, currentItem];
+}
+
+function deleteItem(prevState: string[], itemToDelete: string) {
+  return prevState.filter((item) => item !== itemToDelete);
+}
+
+function Filter(props: FilterProps) {
+  const { qualityFilter, weaponFilter, setWeaponFilter, setQualityFilter } = props;
 
   const [isClicked, setIsClicked] = useState(false);
 
   const visibilityState = isClicked ? "visible" : "hidden";
   const opacityState = isClicked ? 1 : 0;
   const zIndexState = isClicked ? 2 : "auto";
-
-  function addQuality(prevState: string, currentQualityType: string) {
-    return prevState + currentQualityType;
-  }
-
-  function deleteQuality(prevState: string, currentQualityType: string) {
-    return prevState.replace(currentQualityType, "");
-  }
 
   return (
     <div className="filter">
@@ -95,10 +105,19 @@ function Filter(props: {
             return (
               <Accordion title={typeName} key={typeName}>
                 {items.map((item) => {
+                  const itemName = item.trim();
+                  const isSelected = weaponFilter.includes(itemName);
+                  const handleQuality = isSelected ? deleteItem : additem;
+
                   return (
-                    <div key={item} className="filter-quality-item">
-                      <input type="checkbox" id={item} />
-                      <label htmlFor={item}>{item}</label>
+                    <div key={itemName} className="filter-quality-item">
+                      <input
+                        type="checkbox"
+                        id={itemName}
+                        checked={isSelected}
+                        onChange={() => setWeaponFilter((prev) => handleQuality(prev, itemName))}
+                      />
+                      <label htmlFor={itemName}>{itemName}</label>
                     </div>
                   );
                 })}
