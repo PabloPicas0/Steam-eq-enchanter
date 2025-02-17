@@ -15,7 +15,7 @@ function FilterSettings(props: { items: EquipmentModel }) {
   const [search, setSearch] = useState("");
   const [qualityFilter, setQualityFilter] = useState("12345678");
   const [sortAscending, setSortAscending] = useState(true);
-  const [weaponFilter, setWeaponFilter] = useState("");
+  const [weaponFilter, setWeaponFilter] = useState<string[]>([]);
 
   const dispatch = useAppDispatch();
 
@@ -29,21 +29,26 @@ function FilterSettings(props: { items: EquipmentModel }) {
     };
 
     // Send computation to worker
-    newWorker.postMessage({ search, qualityFilter, sortAscending, items });
+    newWorker.postMessage({ search, qualityFilter, sortAscending, weaponFilter, items });
 
     // Cleanup the worker when component unmounts
     return () => {
       newWorker.terminate();
     };
-  }, [search, qualityFilter, sortAscending]);
+  }, [search, qualityFilter, weaponFilter, sortAscending]);
 
   return (
     <>
       <Search search={search} setSearch={setSearch} />
       <Sort sortAscending={sortAscending} setSortAscending={setSortAscending} />
-      <Filter qualityFilter={qualityFilter} setQualityFilter={setQualityFilter} />
+      <Filter
+        qualityFilter={qualityFilter}
+        weaponFilter={weaponFilter}
+        setQualityFilter={setQualityFilter}
+        setWeaponFilter={setWeaponFilter}
+      />
     </>
   );
 }
 
-export default FilterSettings
+export default FilterSettings;
