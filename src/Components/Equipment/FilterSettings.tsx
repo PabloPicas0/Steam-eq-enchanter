@@ -9,13 +9,14 @@ import Search from "./Search";
 
 const workerURL = new URL("../../Workers/FilterWorker.ts", import.meta.url);
 
+// TODO: Consider to add only weapons in Eq to filter
 function FilterSettings(props: { items: EquipmentModel }) {
   const { items } = props;
 
   const [search, setSearch] = useState("");
   const [qualityFilter, setQualityFilter] = useState("12345678");
   const [sortAscending, setSortAscending] = useState(true);
-  const [weaponFilter, setWeaponFilter] = useState<string[]>([]);
+  const [weaponFilter, setWeaponFilter] = useState<string[][]>([]);
 
   const dispatch = useAppDispatch();
 
