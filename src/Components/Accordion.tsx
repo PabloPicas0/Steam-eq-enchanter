@@ -1,11 +1,11 @@
 import { ReactNode, useState } from "react";
 
-function Accordion(props: { children: ReactNode, title: string }) {
+function Accordion(props: { children: ReactNode; title: string }) {
   const { children, title } = props;
   const [isClicked, setIsClicked] = useState(false);
 
   return (
-    <div>
+    <div style={{ margin: "0.5rem 0rem" }}>
       <div
         onClick={() => setIsClicked((prev) => !prev)}
         style={{ display: "flex", justifyContent: "space-between", userSelect: "none" }}>
@@ -21,7 +21,14 @@ function Accordion(props: { children: ReactNode, title: string }) {
         </svg>
       </div>
 
-      <div style={{ maxHeight: isClicked ? 400 : 0, overflow: "hidden", transition: "all 250ms", overflowY: "auto", scrollbarWidth: "none" }}>
+      <div
+        style={{
+          maxHeight: isClicked ? 400 : 0,
+          overflow: "hidden",
+          transition: "all 250ms",
+          overflowY: "auto",
+          scrollbarWidth: "none",
+        }}>
         {children}
       </div>
     </div>
