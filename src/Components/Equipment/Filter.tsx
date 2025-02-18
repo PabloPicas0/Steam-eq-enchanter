@@ -13,7 +13,7 @@ const itemsTypes: [string, string[]][] = [
     ),
   ],
   [
-    "Pistols",
+    "Pistol",
     "CZ75 , Deagle , Berettas , Five-SeveN , Glock-18 , P2000 , P250 , Revolver , Tec-9 , USP-S".split(","),
   ],
   ["Heavy", "MAG-7 , Nova , Sawed-Off , XM1014, M249 , Negev".split(",")],
@@ -35,8 +35,8 @@ const itemQualityTypes = [
 
 type FilterProps = {
   setQualityFilter: React.Dispatch<React.SetStateAction<string>>;
-  setWeaponFilter: React.Dispatch<React.SetStateAction<string[]>>;
-  weaponFilter: string[];
+  setWeaponFilter: React.Dispatch<React.SetStateAction<string[][]>>;
+  weaponFilter: string[][];
   qualityFilter: string;
 };
 
@@ -48,12 +48,12 @@ function deleteQuality(prevState: string, currentQualityType: string) {
   return prevState.replace(currentQualityType, "");
 }
 
-function additem(prevState: string[], currentItem: string) {
-  return [...prevState, currentItem];
+function additem(prevState: string[][], currentItem: string, itemType: string) {
+  return [...prevState, [currentItem, itemType]];
 }
 
-function deleteItem(prevState: string[], itemToDelete: string) {
-  return prevState.filter((item) => item !== itemToDelete);
+function deleteItem(prevState: string[][], itemToDelete: string) {
+  return prevState.filter((item) => item[0] !== itemToDelete);
 }
 
 function Filter(props: FilterProps) {
@@ -106,7 +106,7 @@ function Filter(props: FilterProps) {
               <Accordion title={typeName} key={typeName}>
                 {items.map((item) => {
                   const itemName = item.trim();
-                  const isSelected = weaponFilter.includes(itemName);
+                  const isSelected = weaponFilter.some((weapon) => weapon.includes(itemName));
                   const handleQuality = isSelected ? deleteItem : additem;
 
                   return (
@@ -115,7 +115,7 @@ function Filter(props: FilterProps) {
                         type="checkbox"
                         id={itemName}
                         checked={isSelected}
-                        onChange={() => setWeaponFilter((prev) => handleQuality(prev, itemName))}
+                        onChange={() => setWeaponFilter((prev) => handleQuality(prev, itemName, typeName))}
                       />
                       <label htmlFor={itemName}>{itemName}</label>
                     </div>
