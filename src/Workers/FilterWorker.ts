@@ -4,21 +4,28 @@ type MessageEventData = {
   search: string;
   qualityFilter: string;
   sortAscending: boolean;
-  weaponFilter: string[];
+  weaponFilter: string[][];
   items: EquipmentModel;
 };
+
+type ItemType = MessageEventData["items"]["assets"][0];
 
 self.onmessage = (event: MessageEvent<MessageEventData>) => {
   const { search, qualityFilter, sortAscending, weaponFilter, items } = event.data;
 
-  const nameRegex = new RegExp(search, "gmi");
-  const qualityRegex = new RegExp(`[${qualityFilter}]`);
-  const weaponRegex = new RegExp(weaponFilter.join("|"));
+  const weaponTypes = weaponFilter.map((weapon) => weapon[1]).join("|");
+  const weaponNames = weaponFilter.map((weapon) => weapon[0]).join("|");
+
+  const filters = {
+    name: (item: ItemType) => new RegExp(search, "gmi").test(item.name),
+    quality: (item: ItemType) => new RegExp(`[${qualityFilter}]`).test(item.quality.toString()),
+    weapon: (item: ItemType) => new RegExp(weaponNames).test(item.name),
+    weaponType: (item: ItemType) => new RegExp(weaponTypes).test(item.type),
+  };
+  const filtersFn = Object.values(filters);
 
   const filteredItems = items.assets
-    .filter((item) => nameRegex.test(item.name))
-    .filter((item) => qualityRegex.test(item.quality.toString()))
-    .filter((item) => weaponRegex.test(item.name) && !item.name.includes("Case"))
+    .filter((item) => filtersFn.every((fn) => fn(item)))
     .sort((a, b) => (sortAscending ? a.quality - b.quality : b.quality - a.quality));
 
   postMessage(filteredItems);
