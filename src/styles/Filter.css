@@ -15,6 +15,9 @@
 
 .filter-quality-options-wrapper {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   background: #2e2e2e;
   padding: 0.5rem;
   left: -15px;
@@ -56,13 +59,28 @@
   display: flex;
   justify-content: space-between;
   gap: 20px;
-  margin: 0.5rem 0rem
 }
 
 .filter-unclick-area {
   position: fixed;
   inset: 0;
   z-index: 1;
+}
+
+.accordion-title {
+  display: flex;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.accordion-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow: hidden;
+  transition: all 250ms;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 
 @media (width < 1250px) {
@@ -79,8 +97,8 @@
   }
 }
 
-@media (width = 380px) or (444px <= width < 470px)  {
-   .filter-favourite-options-wrapper {
+@media (width = 380px) or (444px <= width < 470px) {
+  .filter-favourite-options-wrapper {
     right: 0;
     left: -130px;
   }

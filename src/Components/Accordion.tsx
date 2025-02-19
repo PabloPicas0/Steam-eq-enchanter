@@ -4,11 +4,12 @@ function Accordion(props: { children: ReactNode; title: string }) {
   const { children, title } = props;
   const [isClicked, setIsClicked] = useState(false);
 
+  const maxHeight = isClicked ? 400 : 0;
+  const marginTop = isClicked ? "0.5rem" : 0;
+
   return (
-    <div style={{ margin: "0.5rem 0rem" }}>
-      <div
-        onClick={() => setIsClicked((prev) => !prev)}
-        style={{ display: "flex", justifyContent: "space-between", userSelect: "none" }}>
+    <div className="accordion">
+      <div onClick={() => setIsClicked((prev) => !prev)} className="accordion-title">
         <span>{title}</span>
         <svg
           className="carret"
@@ -21,14 +22,7 @@ function Accordion(props: { children: ReactNode; title: string }) {
         </svg>
       </div>
 
-      <div
-        style={{
-          maxHeight: isClicked ? 400 : 0,
-          overflow: "hidden",
-          transition: "all 250ms",
-          overflowY: "auto",
-          scrollbarWidth: "none",
-        }}>
+      <div style={{ maxHeight: maxHeight, marginTop: marginTop }} className="accordion-content">
         {children}
       </div>
     </div>
