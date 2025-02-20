@@ -4,7 +4,8 @@ function Accordion(props: { children: ReactNode; title: string }) {
   const { children, title } = props;
   const [isClicked, setIsClicked] = useState(false);
 
-  const maxHeight = isClicked ? 400 : 0;
+  // consider add calc-size() in future
+  const maxHeight = isClicked ? "1fr" : "0fr";
   const marginTop = isClicked ? "0.5rem" : 0;
 
   return (
@@ -22,8 +23,8 @@ function Accordion(props: { children: ReactNode; title: string }) {
         </svg>
       </div>
 
-      <div style={{ maxHeight: maxHeight, marginTop: marginTop }} className="accordion-content">
-        {children}
+      <div style={{ gridTemplateRows: maxHeight, marginTop: marginTop }} className="accordion-content-wrapper">
+        <div className="accordion-content">{children}</div>
       </div>
     </div>
   );

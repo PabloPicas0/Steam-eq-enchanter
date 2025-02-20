@@ -24,6 +24,9 @@
   top: 45px;
   border-radius: 8px;
   transition: visibility 100ms linear, opacity 100ms linear;
+  max-height: 328px;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 
 .filter-favourite-options-wrapper {
@@ -73,14 +76,16 @@
   user-select: none;
 }
 
+.accordion-content-wrapper {
+  display: grid;
+  transition: all 250ms;
+  min-width: max-content;
+}
+
 .accordion-content {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 0.5rem;
   overflow: hidden;
-  transition: all 250ms;
-  overflow-y: auto;
-  scrollbar-width: none;
 }
 
 @media (width < 1250px) {
