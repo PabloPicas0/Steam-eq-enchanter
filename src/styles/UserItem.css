@@ -4,6 +4,11 @@
   border-radius: 10px;
   padding: 10px 20px;
 }
+
+.scale-up {
+  animation: scale-up 250ms;
+}
+
 .item-ammount {
   display: flex;
   align-items: center;
@@ -55,11 +60,11 @@
 }
 
 .item-price-summary-header {
-  cursor: pointer
+  cursor: pointer;
 }
 
 .item-price-summary {
-   margin: 0.5rem 0rem
+  margin: 0.5rem 0rem;
 }
 
 .item-price-summary-input {
@@ -77,4 +82,14 @@
 .item-price-summary-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+@keyframes scale-up {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
 }

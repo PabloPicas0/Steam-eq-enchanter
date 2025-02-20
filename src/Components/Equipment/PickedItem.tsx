@@ -24,7 +24,6 @@ function PickedItem(props: { item: ItemModel }) {
     market_price,
   });
 
-
   const setNewPrice = useCallback((e: number) => {
     if (e < 0) {
       setTargetPrice(0.03);
@@ -35,10 +34,10 @@ function PickedItem(props: { item: ItemModel }) {
     }
 
     saveToStorage(classid, e);
-  }, [])
+  }, []);
 
   return (
-    <li className="item" style={{ borderColor: `#${color}` }}>
+    <li className="item scale-up" style={{ borderColor: `#${color}` }}>
       <UserItem item={item} isSelected={true} />
 
       <Price price={market_price} fallback={<div className="skeleton-text" />}>
@@ -58,4 +57,4 @@ function PickedItem(props: { item: ItemModel }) {
   );
 }
 
-export default memo(PickedItem)
+export default memo(PickedItem);
