@@ -43,6 +43,7 @@ function FilterSettings(props: { items: EquipmentModel }) {
       <Search search={search} setSearch={setSearch} />
       <Sort sortAscending={sortAscending} setSortAscending={setSortAscending} />
       <Filter
+        items={items}
         qualityFilter={qualityFilter}
         weaponFilter={weaponFilter}
         setQualityFilter={setQualityFilter}
