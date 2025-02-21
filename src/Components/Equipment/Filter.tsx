@@ -1,25 +1,32 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import FilterIcon from "../../Icons/FilterIcon.svg";
 
 import "../../styles/Filter.css";
 import Accordion from "../Accordion";
+import { EquipmentModel } from "../../models/EquipmentModel";
 
-const itemsTypes: [string, string[]][] = [
+enum ItemTypesHierarchy {
+  "Knife",
+  "Pistol",
+  "Heavy",
+  "SMG",
+  "Rifle",
+  "Sniper",
+}
+
+type TypesHierarchy = keyof typeof ItemTypesHierarchy;
+
+const itemsTypes: [string, string][] = [
   [
     "Knife",
-    "Bayonet, Bowie, Butterfly, Classic, Falchion, Flip, Gut, Huntsman, Karambit, Kukri, Navaja, Nomad, Paracord, Daggers, Skeleton, Stiletto, Survival, Talon, Ursus".split(
-      ","
-    ),
+    "Bayonet, Bowie, Butterfly, Classic, Falchion, Flip, Gut, Huntsman, Karambit, Kukri, Navaja, Nomad, Paracord, Daggers, Skeleton, Stiletto, Survival, Talon, Ursus,",
   ],
-  [
-    "Pistol",
-    "CZ75 , Deagle , Berettas , Five-SeveN , Glock-18 , P2000 , P250 , Revolver , Tec-9 , USP-S".split(","),
-  ],
-  ["Heavy", "MAG-7 , Nova , Sawed-Off , XM1014, M249 , Negev".split(",")],
-  ["SMG", "MAC-10 , MP5-SD , MP7 , MP9 , P90 , PP-Bizon , UMP-45".split(",")],
-  ["Rifle", "AK-47 , AUG , FAMAS , Galil AR , M4A1-S , M4A4 , SG 553".split(",")],
-  ["Sniper", "AWP , G3SG1 , SCAR-20 , SSG 08".split(",")],
+  ["Pistol", "CZ75 , Deagle , Berettas , Five-SeveN , Glock-18 , P2000 , P250 , Revolver , Tec-9 , USP-S,"],
+  ["Heavy", "MAG-7 , Nova , Sawed-Off , XM1014, M249 , Negev,"],
+  ["SMG", "MAC-10 , MP5-SD , MP7 , MP9 , P90 , PP-Bizon , UMP-45,"],
+  ["Rifle", "AK-47 , AUG , FAMAS , Galil AR , M4A1-S , M4A4 , SG 553,"],
+  ["Sniper", "AWP , G3SG1 , SCAR-20 , SSG 08"],
 ];
 
 const itemQualityTypes = [
@@ -36,6 +43,7 @@ const itemQualityTypes = [
 type FilterProps = {
   setQualityFilter: React.Dispatch<React.SetStateAction<string>>;
   setWeaponFilter: React.Dispatch<React.SetStateAction<string[][]>>;
+  items: EquipmentModel;
   weaponFilter: string[][];
   qualityFilter: string;
 };
@@ -57,13 +65,50 @@ function deleteItem(prevState: string[][], itemToDelete: string) {
 }
 
 function Filter(props: FilterProps) {
-  const { qualityFilter, weaponFilter, setWeaponFilter, setQualityFilter } = props;
+  const { qualityFilter, weaponFilter, items, setWeaponFilter, setQualityFilter } = props;
 
   const [isClicked, setIsClicked] = useState(false);
 
   const visibilityState = isClicked ? "visible" : "hidden";
   const opacityState = isClicked ? 1 : 0;
   const zIndexState = isClicked ? 2 : "auto";
+
+  const types = useMemo(() => {
+    const typesRegex = new RegExp(itemsTypes.map((type) => type[0]).join("|"), "i");
+    const itemsRegex = new RegExp(
+      itemsTypes
+        .map((type) => type[1])
+        .join("")
+        .split(",")
+        .map((weapon) => weapon.trim())
+        .join("|"),
+      "i"
+    );
+
+    const itemsOfType = items.assets.reduce((acc, asset) => {
+      const assetType = asset.type.match(typesRegex);
+      const assetName = asset.name.match(itemsRegex);
+
+      if (!assetType || !assetName) return acc;
+
+      const [type, name] = [assetType[0], assetName[0]];
+
+      if (!acc[type]) {
+        acc[type] = [name];
+      } else {
+        acc[type].push(name);
+      }
+
+      return acc;
+    }, {} as { [key: string]: string[] });
+
+    // Remove duplicate items 
+    Object.keys(itemsOfType).forEach((key) => (itemsOfType[key] = [...new Set(itemsOfType[key])]));
+
+    return Object.entries(itemsOfType).sort(
+      (a, b) => ItemTypesHierarchy[a[0] as TypesHierarchy] - ItemTypesHierarchy[b[0] as TypesHierarchy]
+    );
+  }, []);
 
   return (
     <div className="filter">
@@ -99,7 +144,7 @@ function Filter(props: FilterProps) {
         </Accordion>
 
         <Accordion title="Weapons">
-          {itemsTypes.map((type) => {
+          {types.map((type) => {
             const [typeName, items] = type;
 
             return (
