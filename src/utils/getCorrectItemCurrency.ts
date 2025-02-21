@@ -8,7 +8,6 @@ type CurrencyDataType =
     }
   | undefined;
 
-// TODO: shift this work to other thread
 function getCorrectItemCurrency(items: ItemModel[], currencyData: CurrencyDataType) {
   return items.map((item) => {
     const newItem = structuredClone(item);
