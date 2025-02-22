@@ -1,5 +1,5 @@
 function GoToTopIcon(props: { width?: string; height?: string; fill?: string }) {
-  const { width, height, fill } = props;
+  const { width, height } = props;
 
   return (
     <svg
