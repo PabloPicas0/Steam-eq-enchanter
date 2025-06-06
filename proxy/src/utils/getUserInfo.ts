@@ -1,13 +1,15 @@
 import { UserInfoType } from "../models/UserInfoModel.js";
 
 async function getUserInfo(key: string, id: string) {
-    const user = await fetch(
-      `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${key}&steamids=${id}`
-    );
+  const user = await fetch(
+    `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${key}&steamids=${id}`
+  );
 
-    const userData: UserInfoType = await user.json()
+  if (!user.ok) throw new Error(`Unable to fetch user. Reason: ${user.statusText}, Code: ${user.status}`);
 
-    return userData;
+  const userData: UserInfoType = await user.json();
+
+  return userData;
 }
 
-export default getUserInfo
+export default getUserInfo;
