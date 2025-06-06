@@ -47,6 +47,7 @@ function PickedItem(props: { item: ItemModel }) {
           buyProfit={buyProfit}
           sellProfit={sellProfit}
           iGetFromCurrentPrice={iGetFromCurrentMarketPrice}
+          ammount={item.amount}
         />
       </Price>
 
