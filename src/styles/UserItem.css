@@ -59,10 +59,6 @@
   outline: none;
 }
 
-.item-price-summary-header {
-  cursor: pointer;
-}
-
 .item-price-summary {
   margin: 0.5rem 0rem;
 }

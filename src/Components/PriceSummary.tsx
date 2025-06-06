@@ -6,7 +6,7 @@ type PriceSummaryProps = {
   sellProfit: number;
   buyProfit: number;
   iGetFromCurrentPrice: number;
-  ammount: number
+  ammount: number;
 };
 
 function PriceSummary(props: PriceSummaryProps) {
@@ -23,9 +23,7 @@ function PriceSummary(props: PriceSummaryProps) {
   return (
     <>
       <div>
-        <h2 className="item-price-summary-header item-price-summary">
-          Calculations
-        </h2>
+        <h2 className="item-price-summary">Calculations</h2>
 
         <div style={{ display: "flex", gap: 5 }}>
           <p className="item-price-summary">Amount:</p>
@@ -52,11 +50,9 @@ function PriceSummary(props: PriceSummaryProps) {
           Spend for buy: {spend} {priceSuffix}
         </p>
       </div>
-      
+
       <div>
-        <h2 className="item-price-summary-header item-price-summary">
-          Investing
-        </h2>
+        <h2 className="item-price-summary">Investing</h2>
 
         <p className="item-price-summary">
           Current price: {market_price} {priceSuffix}
