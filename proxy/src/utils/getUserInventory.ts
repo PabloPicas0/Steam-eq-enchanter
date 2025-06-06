@@ -1,11 +1,11 @@
 import { UserInventoryType } from "../models/UserInventoryModel.js";
 
 async function getUserInventory(id: string) {
-  const url = `http://steamcommunity.com/inventory/${id}/730/2?l=english&count=5000`;
+  const url = `http://steamcommunity.com/inventory/${id}/730/2?l=english&count=2000`;
 
   const inventory = await fetch(url);
 
-  if (!inventory.ok) throw new Error("Unable to fetch equipment");
+  if (!inventory.ok) throw new Error(`Unable to fetch equipment. Reason: ${inventory.statusText}, Code: ${inventory.status}` );
 
   const inventoryData: UserInventoryType = await inventory.json();
 
