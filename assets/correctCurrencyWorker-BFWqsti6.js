@@ -1,0 +1,1 @@
+(function(){"use strict";self.onmessage=t=>{const[a,s]=t.data,o=a.map(r=>{if(!r.market_price||!r.price_history||!s)return r;const{mid:c,code:n}=s,i=parseFloat(r.market_price.replace(",",".")),p=r.price_history.prices.map(e=>(e[1]=e[1]/c,e));return r.market_price=(i/c).toFixed(2),r.price_history.prices=p,r.price_history.price_suffix=n,r});postMessage(o)}})();
