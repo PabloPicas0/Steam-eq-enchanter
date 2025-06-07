@@ -21,7 +21,8 @@ router.get("/", async (req: Request<{ name: string }>, res) => {
 
     res.send(item);
   } catch (error) {
-    console.log(error);
-    res.sendStatus(404);
+    console.error(error);
+    res.statusMessage = error
+    res.sendStatus(404)
   }
 });

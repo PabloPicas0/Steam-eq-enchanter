@@ -8,8 +8,9 @@ async function getPriceOverview(market_hash_name: string) {
     "%26"
   )}`;
   const priceOverviewResponse = await fetch(url);
-
   const priceOverview = (await priceOverviewResponse.json()) as MarketModel;
+
+  if (!priceOverview.median_price) throw new Error(`Unable to fetch price overview.`);
 
   return priceOverview;
 }

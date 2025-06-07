@@ -9,6 +9,8 @@ async function getUserInfo(key: string, id: string) {
 
   const userData: UserInfoType = await user.json();
 
+  if (!userData.response.players.length) throw new Error(`User don't exists`);
+
   return userData;
 }
 

@@ -40,6 +40,7 @@ router.get("/", async (req, res) => {
     res.send([userInfo, userInventory]);
   } catch (error) {
     console.log(error);
+    res.statusMessage = error
     res.sendStatus(404);
   }
 });
@@ -76,6 +77,7 @@ router.post("/", async (req, res) => {
     res.send(finalPrice);
   } catch (error) {
     console.log(error);
+    res.statusMessage = error
     res.sendStatus(404);
   }
 });

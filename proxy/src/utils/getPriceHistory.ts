@@ -9,6 +9,9 @@ async function getPriceHistory(market_hash_name: string, options?: RequestInit) 
   )}`;
 
   const res = await fetch(url, options);
+
+  if (!res.ok) throw new Error(`Unable to fetch price history. Reason: ${res.statusText}, Code: ${res.status}`);
+
   const history: PriceHistoryModel = await res.json();
 
   return history;
