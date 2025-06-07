@@ -66,6 +66,7 @@ function MarketItem(props: { item: AdditionalItemModel }) {
             market_price={market_price}
             sellProfit={sellProfit}
             priceSuffix={priceSuffix}
+            ammount={1}
           />
         </Price>
       </div>
