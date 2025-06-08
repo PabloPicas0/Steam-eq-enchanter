@@ -8,7 +8,7 @@ import { ItemModel } from "../../models/ItemsModel";
 import PickedItem from "./PickedItem";
 import useWebWorker from "../../hooks/useWebWorker";
 
-const workerScript = new URL("../../Workers/correctCurrencyWorker.ts", import.meta.url);
+import CorrectCurrencyWorker from "../../Workers/correctCurrencyWorker?worker";
 
 function PickedItems() {
   const pickedItems = useAppSelector((state) => state.profile.pickedItems);
@@ -16,10 +16,10 @@ function PickedItems() {
   const currencies = useAppSelector((state) => state.profile.currencies);
 
   const pickedCurrencyData = currencies[0].rates.find((rate) => rate.code === currencyCode);
-  const { result, newTask } = useWebWorker<
-    [ItemModel[], CurrencyTableModel[0]["rates"][0] | undefined],
-    ItemModel[]
-  >(workerScript, []);
+  const { result, newTask } = useWebWorker<[ItemModel[], CurrencyTableModel[0]["rates"][0] | undefined], ItemModel[]>(
+    new CorrectCurrencyWorker(),
+    []
+  );
 
   useEffect(() => newTask([pickedItems, pickedCurrencyData]), [pickedItems, currencyCode]);
 

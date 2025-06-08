@@ -7,7 +7,7 @@ import Filter from "./Filter";
 import Sort from "./Sort";
 import Search from "./Search";
 
-const workerURL = new URL("../../Workers/FilterWorker.ts", import.meta.url);
+import FilterWorker from "../../Workers/FilterWorker?worker";
 
 // TODO: Consider to add only weapons in Eq to filter
 function FilterSettings(props: { items: EquipmentModel }) {
@@ -22,7 +22,7 @@ function FilterSettings(props: { items: EquipmentModel }) {
 
   useEffect(() => {
     // Initialize worker
-    const newWorker = new Worker(workerURL);
+    const newWorker = new FilterWorker();
 
     // Handle worker messages
     newWorker.onmessage = (event: MessageEvent<EquipmentModel["assets"]>) => {
