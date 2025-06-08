@@ -1,30 +1,32 @@
-# React + TypeScript + Vite
+# Anime-Xplorer-App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## About
+Steam equipment enchanter is my pet project for tracking and calculating prices for items in CS 2 that are in you'r account.
 
-Currently, two official plugins are available:
+## Features
+* See users CS 2 equipment
+* Pick skins that you want to track
+* Track how price changed through time with abar chart
+* Automatically track of skins price
+* Track prices form stram market
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation
+```bash
+# Clone the repo
+git clone https://github.com/PabloPicas0/Steam-eq-enchanter.git
 
-## Expanding the ESLint configuration
+# Install client dependencies
+cd Steam-eq-enchanter
+npm install
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+# Install server dependencies
+cd Steam-eq-enchanter/proxy
+npm install
 
-- Configure the top-level `parserOptions` property like this:
+# Start development servers
+cd ..
+npm run dev
+npm run proxy
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+The app should be running at: http://localhost:3000
 ```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
