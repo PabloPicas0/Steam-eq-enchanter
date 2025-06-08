@@ -51,9 +51,7 @@ function PickedItem(props: { item: ItemModel }) {
         />
       </Price>
 
-      {price_history ? (
-        <Area data={price_history.prices} setNewPrice={setNewPrice} targetPrice={targetPrice} />
-      ) : null}
+      {price_history ? <Area data={price_history.prices} setNewPrice={setNewPrice} targetPrice={targetPrice} /> : null}
     </li>
   );
 }
