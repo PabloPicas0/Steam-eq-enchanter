@@ -1,5 +1,3 @@
-# Anime-Xplorer-App
-
 ## About
 Steam equipment enchanter is my pet project for tracking and calculating prices for items in CS 2 that are in you'r account.
 
