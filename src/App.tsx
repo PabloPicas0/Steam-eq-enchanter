@@ -6,7 +6,6 @@ import AsyncSuspense from "./Components/AsyncSuspense";
 import Mode from "./Components/Mode";
 import ScrollToTop from "./Components/ScrollToTop";
 
-// TODO: Better error handling when fetching price data
 function App() {
   const currentYear = new Date().getFullYear();
   

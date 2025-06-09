@@ -9,7 +9,6 @@ import Search from "./Search";
 
 import FilterWorker from "../../Workers/FilterWorker?worker";
 
-// TODO: Consider to add only weapons in Eq to filter
 function FilterSettings(props: { items: EquipmentModel }) {
   const { items } = props;
 
